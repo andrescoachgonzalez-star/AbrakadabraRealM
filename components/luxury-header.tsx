@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react"
 import { Menu, X, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
+import Image from "next/image"
+
 
 const navLinks = [
   { name: "HOME", href: "/" },
@@ -120,7 +122,13 @@ export function LuxuryHeader() {
                 "opacity-0 rotate-[180deg] scale-50"
               )}
             >
-              <LogoIcon className="h-8 w-8 text-background" />
+              <Image
+                src="/Logo.png"
+                alt="Logo"
+                width={32}
+                height={32}
+                className="h-8 w-8 object-contain"
+              />
             </div>
 
             {/* ABRAKADABRA Text */}
@@ -300,7 +308,13 @@ export function LuxuryHeader() {
             logoPhase === "spinning-in" ? "opacity-100 rotate-[360deg] scale-100" :
             "opacity-0 rotate-[180deg] scale-50"
           )}>
-            <LogoIcon className="h-5 w-5" />
+            <Image
+              src="/Logo.png"
+              alt="Logo"
+              width={20}
+              height={20}
+              className="h-5 w-5 object-contain"
+            />
           </div>
           <div className={cn(
             "transition-all duration-500 ease-in-out absolute whitespace-nowrap",
