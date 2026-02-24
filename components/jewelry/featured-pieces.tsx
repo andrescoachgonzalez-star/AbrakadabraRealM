@@ -4,7 +4,7 @@ import Image from "next/image"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
-import { Heart, Eye } from "lucide-react"
+import { Eye } from "lucide-react"
 
 type FeaturedPiece = {
   id: number
@@ -35,13 +35,9 @@ const featuredPieces: FeaturedPiece[] = [
     currency: "USD",
     stone: "Green Stone",
     material: "Gold",
-    imageSrc: "/jewelry/magic-ring.webp", // ✅ public/jewelry/magic-ring.webp
+    imageSrc: "/jewelry/magic-ring.webp",
     imageAlt: "Magic Ring",
   },
-
-  // ⚠️ IMPORTANTE:
-  // Estos 5 están con placeholders de ruta.
-  // Debes poner los archivos en public/jewelry/ y cambiar imageSrc a la ruta real.
   {
     id: 2,
     name: "TEAR RING",
@@ -129,13 +125,6 @@ function formatPrice(value: number, currency: "USD") {
 
 export function FeaturedPieces() {
   const [hoveredId, setHoveredId] = useState<number | null>(null)
-  const [likedIds, setLikedIds] = useState<number[]>([])
-
-  const toggleLike = (id: number) => {
-    setLikedIds((prev) =>
-      prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
-    )
-  }
 
   return (
     <section className="py-32 bg-background relative overflow-hidden">
@@ -191,7 +180,7 @@ export function FeaturedPieces() {
                     </div>
                   )}
 
-                  {/* ACTIONS */}
+                  {/* ACTIONS (solo "ver") */}
                   <div
                     className={cn(
                       "absolute top-4 right-4 flex flex-col gap-2 transition-all duration-300",
@@ -200,29 +189,8 @@ export function FeaturedPieces() {
                         : "opacity-0 translate-x-4"
                     )}
                   >
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        toggleLike(piece.id)
-                      }}
-                      className={cn(
-                        "w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300",
-                        likedIds.includes(piece.id)
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-card/80 backdrop-blur-sm text-foreground hover:bg-card"
-                      )}
-                      aria-label="Like"
-                    >
-                      <Heart
-                        className={cn(
-                          "w-4 h-4",
-                          likedIds.includes(piece.id) && "fill-current"
-                        )}
-                      />
-                    </button>
-
                     <a
-                      href={`/jewelry/shop/${piece.slug}`}
+                      href={`/jewelry/shop/${piece.id}`}
                       className="w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm flex items-center justify-center text-foreground hover:bg-card transition-colors"
                       aria-label="View"
                       onClick={(e) => e.stopPropagation()}
@@ -262,7 +230,7 @@ export function FeaturedPieces() {
                     </div>
 
                     <a
-                      href={`/jewelry/shop/${piece.slug}`}
+                      href={`/jewelry/shop/${piece.id}`}
                       className="text-sm font-medium text-primary hover:text-primary/80 transition-colors flex items-center gap-1 group/btn"
                     >
                       View Details
