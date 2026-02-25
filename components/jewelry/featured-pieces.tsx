@@ -3,14 +3,16 @@
 import Image from "next/image"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { cn } from "@/lib/utils"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Eye } from "lucide-react"
+
+// ✅ Fuente única de productos (MISMA que usa /shop y /shop/[id])
+import { allProducts } from "../../app/jewelry/data/jewelry-products"
 
 type FeaturedPiece = {
   id: number
   name: string
-  slug: string
-  category: "Ring" | "Necklace" | "Pendant" | "Charm"
+  category: "Ring" | "Necklace" | "Pendant" | "Charm" | "Bracelet" | "Earring" | "Chain"
   collection: string
   badge?: "FREE SHIPPING" | "NEW" | "SALE"
   price: number
@@ -22,99 +24,6 @@ type FeaturedPiece = {
   imageAlt: string
 }
 
-const featuredPieces: FeaturedPiece[] = [
-  {
-    id: 1,
-    name: "Magic Ring",
-    slug: "magic-ring",
-    category: "Ring",
-    collection: "Signature",
-    badge: "FREE SHIPPING",
-    price: 580,
-    compareAtPrice: 700,
-    currency: "USD",
-    stone: "Green Stone",
-    material: "Gold",
-    imageSrc: "/jewelry/magic-ring.webp",
-    imageAlt: "Magic Ring",
-  },
-  {
-    id: 2,
-    name: "TEAR RING",
-    slug: "tear-ring",
-    category: "Ring",
-    collection: "Tear",
-    badge: "FREE SHIPPING",
-    price: 724,
-    compareAtPrice: 820,
-    currency: "USD",
-    stone: "Green Stone",
-    material: "Gold",
-    imageSrc: "/jewelry/tear-ring.webp",
-    imageAlt: "Tear Ring",
-  },
-  {
-    id: 3,
-    name: "MINI CROSS CHARM",
-    slug: "mini-cross-charm",
-    category: "Charm",
-    collection: "Cross Collection",
-    badge: "FREE SHIPPING",
-    price: 424,
-    compareAtPrice: 600,
-    currency: "USD",
-    stone: "Green Stone",
-    material: "Gold",
-    imageSrc: "/jewelry/mini-cross-charm.png",
-    imageAlt: "Mini Cross Charm",
-  },
-  {
-    id: 4,
-    name: "I SAID BIG TEAR",
-    slug: "i-said-big-tear",
-    category: "Pendant",
-    collection: "SAID",
-    badge: "FREE SHIPPING",
-    price: 1000,
-    compareAtPrice: 1200,
-    currency: "USD",
-    stone: "Green Stone",
-    material: "Gold",
-    imageSrc: "/jewelry/i-said-big-tear.webp",
-    imageAlt: "I SAID BIG TEAR",
-  },
-  {
-    id: 5,
-    name: "DIAMOND PENDANT",
-    slug: "diamond-pendant",
-    category: "Pendant",
-    collection: "Signature",
-    badge: "FREE SHIPPING",
-    price: 379,
-    compareAtPrice: 420,
-    currency: "USD",
-    stone: "Diamonds",
-    material: "Gold",
-    imageSrc: "/jewelry/diamond-pendant.webp",
-    imageAlt: "Diamond Pendant",
-  },
-  {
-    id: 6,
-    name: "SAID FLOWER",
-    slug: "said-flower",
-    category: "Pendant",
-    collection: "SAID",
-    badge: "FREE SHIPPING",
-    price: 580,
-    compareAtPrice: 700,
-    currency: "USD",
-    stone: "Green Stones",
-    material: "Gold",
-    imageSrc: "/jewelry/said-flower.webp",
-    imageAlt: "SAID FLOWER",
-  },
-]
-
 function formatPrice(value: number, currency: "USD") {
   return new Intl.NumberFormat("en-US", {
     style: "currency",
@@ -123,8 +32,59 @@ function formatPrice(value: number, currency: "USD") {
   }).format(value)
 }
 
+// Mapea el "type" interno a la etiqueta bonita que ya usas en UI
+function mapTypeToCategory(type: string): FeaturedPiece["category"] {
+  switch (type) {
+    case "rings":
+      return "Ring"
+    case "necklaces":
+      return "Necklace"
+    case "pendants":
+      return "Pendant"
+    case "charms":
+      return "Charm"
+    case "bracelets":
+      return "Bracelet"
+    case "earrings":
+      return "Earring"
+    case "chains":
+      return "Chain"
+    default:
+      return "Ring"
+  }
+}
+
 export function FeaturedPieces() {
   const [hoveredId, setHoveredId] = useState<number | null>(null)
+
+  // ✅ Selección destacada SIN duplicar data:
+  // - Prioriza isNew si existe
+  // - Si no hay suficientes, completa con los primeros
+  // - Deja exactamente 6 como tu layout original
+  const featuredPieces: FeaturedPiece[] = useMemo(() => {
+    const normalized = allProducts.map((p) => ({
+      id: p.id,
+      name: p.name,
+      category: mapTypeToCategory(p.type),
+      collection: p.collection ?? "Collection",
+      badge: (p as any).badge
+        ? ((p as any).badge as FeaturedPiece["badge"])
+        : (p.isNew ? "NEW" : "FREE SHIPPING"),
+      price: p.price,
+      compareAtPrice: (p as any).compareAtPrice,
+      currency: "USD" as const,
+      stone: (p as any).stone,
+      material: p.material ? p.material.charAt(0).toUpperCase() + p.material.slice(1) : undefined,
+      imageSrc: p.image,
+      imageAlt: p.name,
+    }))
+
+    const news = normalized.filter((p) => p.badge === "NEW")
+    const rest = normalized.filter((p) => p.badge !== "NEW")
+
+    const selected = [...news, ...rest].slice(0, 6)
+    return selected
+  }, [])
 
   return (
     <section className="py-32 bg-background relative overflow-hidden">
@@ -143,7 +103,7 @@ export function FeaturedPieces() {
               </h2>
             </div>
             <p className="text-muted-foreground max-w-md leading-relaxed">
-              Productos destacados del inicio (estáticos). Luego puedes ampliar con categorías y filtros.
+              Productos destacados del inicio (desde tu data real). Luego puedes ampliar con categorías y filtros.
             </p>
           </div>
         </ScrollReveal>
@@ -184,9 +144,7 @@ export function FeaturedPieces() {
                   <div
                     className={cn(
                       "absolute top-4 right-4 flex flex-col gap-2 transition-all duration-300",
-                      hoveredId === piece.id
-                        ? "opacity-100 translate-x-0"
-                        : "opacity-0 translate-x-4"
+                      hoveredId === piece.id ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
                     )}
                   >
                     <a
@@ -206,9 +164,7 @@ export function FeaturedPieces() {
                     {piece.collection} • {piece.category}
                   </p>
 
-                  <h3 className="font-serif text-lg font-bold text-foreground mt-1">
-                    {piece.name}
-                  </h3>
+                  <h3 className="font-serif text-lg font-bold text-foreground mt-1">{piece.name}</h3>
 
                   <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground">
                     <span>{piece.material ?? "—"}</span>
@@ -269,12 +225,7 @@ export function FeaturedPieces() {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M17 8l4 4m0 0l-4 4m4-4H3"
-                />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
           </div>
