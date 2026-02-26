@@ -1,12 +1,12 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useParams } from "next/navigation"
 import { cn } from "@/lib/utils"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { LuxuryFooter } from "@/components/luxury-footer"
 
-// ✅ IMPORTA la fuente única de productos (la que ya tienes en jewelry/data)
+// ✅ Fuente única de productos
 import { allProducts } from "../../data/jewelry-products"
 
 const materialColors: Record<string, string> = {
@@ -25,7 +25,13 @@ const materialLabels: Record<string, string> = {
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
-  const product = allProducts.find((p) => p.id === Number(id))
+  const productId = Number(id)
+
+  const product = useMemo(
+    () => allProducts.find((p) => p.id === productId),
+    [productId]
+  )
+
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
   const [activeTab, setActiveTab] = useState<"details" | "shipping" | "care">(
@@ -35,6 +41,11 @@ export default function ProductDetailPage() {
   useEffect(() => {
     setIsLoaded(true)
   }, [])
+
+  // ✅ si cambias de producto, vuelve a la primera imagen
+  useEffect(() => {
+    setSelectedImageIndex(0)
+  }, [productId])
 
   if (!product) {
     return (
@@ -51,21 +62,35 @@ export default function ProductDetailPage() {
     )
   }
 
-  // Generate gallery images (same image with different crops for demo)
-  const galleryImages = [
-    product.image,
-    typeof product.image === "string"
-      ? product.image.replace("w=800", "w=801")
-      : product.image,
-    typeof product.image === "string"
-      ? product.image.replace("w=800", "w=802")
-      : product.image,
-  ]
+  // ✅ GALERÍA REAL: usa product.images si viene, si no usa product.image
+  const galleryImages = useMemo(() => {
+    const fromArray =
+      Array.isArray((product as any).images) && (product as any).images.length > 0
+        ? ((product as any).images as string[])
+        : []
 
-  // Related products (same material, different piece)
-  const relatedProducts = allProducts
-    .filter((p) => p.material === product.material && p.id !== product.id)
-    .slice(0, 4)
+    const main =
+      typeof (product as any).image === "string" ? ((product as any).image as string) : ""
+
+    // Si hay images, úsalo. Si no, usa la principal. Si no hay nada, placeholder.
+    const resolved =
+      fromArray.length > 0 ? fromArray : main ? [main] : ["/placeholder.svg"]
+
+    // Quita duplicados por si el array repite la principal
+    return Array.from(new Set(resolved))
+  }, [product])
+
+  // ✅ evita crashear si el index quedó fuera
+  const safeIndex =
+    selectedImageIndex >= 0 && selectedImageIndex < galleryImages.length
+      ? selectedImageIndex
+      : 0
+
+  const relatedProducts = useMemo(() => {
+    return allProducts
+      .filter((p) => p.material === product.material && p.id !== product.id)
+      .slice(0, 4)
+  }, [product])
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -77,10 +102,7 @@ export default function ProductDetailPage() {
               Jewelry
             </a>
             <span>/</span>
-            <a
-              href="/jewelry/shop"
-              className="hover:text-primary transition-colors"
-            >
+            <a href="/jewelry/shop" className="hover:text-primary transition-colors">
               Shop
             </a>
             <span>/</span>
@@ -103,15 +125,13 @@ export default function ProductDetailPage() {
           <div
             className={cn(
               "transition-all duration-1000",
-              isLoaded
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 -translate-x-8"
+              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-8"
             )}
           >
             {/* Main Image */}
             <div className="relative aspect-square overflow-hidden rounded-2xl bg-secondary mb-4 group">
               <img
-                src={galleryImages[selectedImageIndex] || "/placeholder.svg"}
+                src={galleryImages[safeIndex] || "/placeholder.svg"}
                 alt={product.name}
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
@@ -127,14 +147,14 @@ export default function ProductDetailPage() {
             </div>
 
             {/* Thumbnails */}
-            <div className="flex gap-3">
+            <div className="flex gap-3 flex-wrap">
               {galleryImages.map((img, index) => (
                 <button
-                  key={index}
+                  key={img + index}
                   onClick={() => setSelectedImageIndex(index)}
                   className={cn(
                     "relative w-20 h-20 rounded-xl overflow-hidden border-2 transition-all duration-300",
-                    selectedImageIndex === index
+                    safeIndex === index
                       ? "border-primary shadow-lg scale-105"
                       : "border-border hover:border-primary/50 opacity-70 hover:opacity-100"
                   )}
@@ -153,9 +173,7 @@ export default function ProductDetailPage() {
           <div
             className={cn(
               "transition-all duration-1000 delay-200",
-              isLoaded
-                ? "opacity-100 translate-x-0"
-                : "opacity-0 translate-x-8"
+              isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
             )}
           >
             {/* Collection & Material */}
@@ -240,24 +258,13 @@ export default function ProductDetailPage() {
                   <div className="space-y-6">
                     <div className="flex gap-4">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <svg
-                          className="w-5 h-5 text-primary"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
-                          />
+                        <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                            d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                         </svg>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-foreground mb-1">
-                          Delivery
-                        </h4>
+                        <h4 className="font-semibold text-foreground mb-1">Delivery</h4>
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           Estimated delivery time is 12 business days. Professional
                           packaging with tracking number provided.
@@ -267,24 +274,13 @@ export default function ProductDetailPage() {
 
                     <div className="flex gap-4">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <svg
-                          className="w-5 h-5 text-primary"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
-                          />
+                        <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-foreground mb-1">
-                          Warranty
-                        </h4>
+                        <h4 className="font-semibold text-foreground mb-1">Warranty</h4>
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           Covered by warranty for maintenance and repair at no additional
                           cost in the event of verified damage during transport.
@@ -294,24 +290,13 @@ export default function ProductDetailPage() {
 
                     <div className="flex gap-4">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <svg
-                          className="w-5 h-5 text-primary"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                          />
+                        <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                         </svg>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-foreground mb-1">
-                          Certificate
-                        </h4>
+                        <h4 className="font-semibold text-foreground mb-1">Certificate</h4>
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           Includes a certificate of authenticity issued by a professional
                           gemological laboratory, validating genuineness and quality.
@@ -327,24 +312,13 @@ export default function ProductDetailPage() {
                   <div className="space-y-6">
                     <div className="flex gap-4">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <svg
-                          className="w-5 h-5 text-primary"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                          />
+                        <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                            d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
                         </svg>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-foreground mb-1">
-                          Cleaning
-                        </h4>
+                        <h4 className="font-semibold text-foreground mb-1">Cleaning</h4>
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           Gently clean with a soft, lint-free cloth. For deeper cleaning,
                           use warm water with mild soap and a soft brush.
@@ -354,24 +328,13 @@ export default function ProductDetailPage() {
 
                     <div className="flex gap-4">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <svg
-                          className="w-5 h-5 text-primary"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
-                          />
+                        <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                            d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                         </svg>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-foreground mb-1">
-                          Storage
-                        </h4>
+                        <h4 className="font-semibold text-foreground mb-1">Storage</h4>
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           Store each piece separately in the provided luxury case. Avoid
                           contact with perfumes, chemicals, and extreme temperatures.
@@ -381,24 +344,13 @@ export default function ProductDetailPage() {
 
                     <div className="flex gap-4">
                       <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
-                        <svg
-                          className="w-5 h-5 text-primary"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={1.5}
-                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
+                        <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5}
+                            d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                       </div>
                       <div>
-                        <h4 className="font-semibold text-foreground mb-1">
-                          Maintenance
-                        </h4>
+                        <h4 className="font-semibold text-foreground mb-1">Maintenance</h4>
                         <p className="text-sm text-muted-foreground leading-relaxed">
                           We recommend professional inspection and cleaning every 12 months
                           to maintain the piece&apos;s brilliance and structural integrity.
@@ -410,7 +362,7 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* Interested Section */}
+            {/* Interested Section (igual que tu código) */}
             <div className="mt-10 bg-secondary/50 rounded-2xl p-6 border border-border">
               <p className="text-xs font-semibold tracking-[0.2em] text-primary uppercase mb-2">
                 Made to Order
@@ -431,14 +383,7 @@ export default function ProductDetailPage() {
                 rel="noopener noreferrer"
                 className="group w-full flex items-center justify-center gap-3 py-4 bg-[#25D366] text-white rounded-full font-semibold tracking-wider text-sm hover:bg-[#1da851] transition-all duration-300 hover:shadow-xl mb-3"
               >
-                <svg
-                  className="w-5 h-5 transition-transform duration-300 group-hover:scale-110"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
-                </svg>
-                ORDER VIA WHATSAPP
+                <span>ORDER VIA WHATSAPP</span>
               </a>
 
               <div className="flex items-center gap-4 my-4">
@@ -455,19 +400,7 @@ export default function ProductDetailPage() {
                   className="flex items-center gap-2.5 p-3 rounded-xl border border-border hover:border-primary/30 hover:bg-background transition-all duration-300 group"
                 >
                   <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
-                    <svg
-                      className="w-4 h-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
-                      />
-                    </svg>
+                    <span className="text-primary text-sm">📞</span>
                   </div>
                   <div>
                     <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
@@ -484,19 +417,7 @@ export default function ProductDetailPage() {
                   className="flex items-center gap-2.5 p-3 rounded-xl border border-border hover:border-primary/30 hover:bg-background transition-all duration-300 group"
                 >
                   <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
-                    <svg
-                      className="w-4 h-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                      />
-                    </svg>
+                    <span className="text-primary text-sm">✉️</span>
                   </div>
                   <div>
                     <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
