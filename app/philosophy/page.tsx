@@ -599,6 +599,7 @@ function ShowcaseSection() {
 
 const team = [
   { name: "Andres Henao", role: "Founder & Visionary", country: "Colombia", flag: "CO", instagram: "@abrakadabrarealm" },
+  { name: "Paula Suarez", role: "Founder & Artist", country: "Miami", flag: "US", instagram: "@abrakadabrarealm" },
   { name: "Sandra Henao", role: "USA Operations", country: "USA", flag: "US", instagram: "@abrakadabrarealm" },
   { name: "Adriana Henao", role: "Artist & Creator", country: "Spain", flag: "ES", instagram: "@abrakadabrarealm" },
 ]
