@@ -26,9 +26,9 @@ const materials: Material[] = [
     description:
       "Sourced from the finest Colombian mines, our emeralds display a deep, vivid green that has captivated royalty for centuries. Each stone is carefully selected for its color saturation and transparency, ensuring every piece tells a story of natural magnificence.",
     image:
-      "https://images.unsplash.com/photo-1551028150-64b9f398f678?q=80&w=2070&auto=format&fit=crop",
+      "/jewelry/emerald-cross3.png",
     secondaryImage:
-      "https://images.unsplash.com/photo-1608042314453-ae338d80c427?q=80&w=2070&auto=format&fit=crop",
+      "/jewelry/emerald-and-diamond-earrings.png",
     features: ["Colombian Origin", "Vivid Green", "Natural Beauty"],
     accentColor: "from-emerald-500/20 to-green-500/10",
     textAccent: "text-emerald-600",
@@ -43,7 +43,7 @@ const materials: Material[] = [
     description:
       "GIA certified diamonds of exceptional clarity and cut. Each stone is selected for its fire, brilliance, and scintillation. Our master craftsmen set each diamond to maximize its natural beauty, creating pieces that capture light and hearts in equal measure.",
     image:
-      "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?q=80&w=2070&auto=format&fit=crop",
+      "/jewelry/diamond-pendant-port.png",
     secondaryImage:
       "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=2070&auto=format&fit=crop",
     features: ["GIA Certified", "VS1+ Clarity", "Conflict-Free"],
