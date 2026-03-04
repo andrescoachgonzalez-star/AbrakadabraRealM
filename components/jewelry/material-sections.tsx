@@ -60,9 +60,9 @@ const materials: Material[] = [
     description:
       "Handcrafted from the finest gold, each piece radiates warmth and luxury. Our gold collection embodies timeless sophistication, featuring pieces that have been treasured across generations. From delicate chains to statement rings, every creation celebrates the enduring beauty of this precious metal.",
     image:
-      "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=2070&auto=format&fit=crop",
+      "/jewelry/oro-portada-principal.png",
     secondaryImage:
-      "https://images.unsplash.com/photo-1602173574767-37ac01994b2a?q=80&w=2070&auto=format&fit=crop",
+      "/jewelry/oro-portada-secu.png",
     features: ["24K Pure Gold", "Certified Authenticity", "Lifetime Warranty"],
     accentColor: "from-amber-500/20 to-yellow-500/10",
     textAccent: "text-amber-600",
