@@ -78,9 +78,9 @@ const materials: Material[] = [
     description:
       "The king of gemstones. Our rubies possess the coveted pigeon blood red color, symbolizing passion and power. Sourced from the most prestigious mines, each ruby undergoes rigorous selection to ensure only the most exceptional stones grace our collections.",
     image:
-      "https://images.unsplash.com/photo-1600003014755-ba31aa59c4b6?q=80&w=2070&auto=format&fit=crop",
+      "/jewelry/portada-rubi-prin.png",
     secondaryImage:
-      "https://images.unsplash.com/photo-1583937443566-6d671c6a5e32?q=80&w=2070&auto=format&fit=crop",
+      "/jewelry/portada-rubi-secu.png",
     features: ["Pigeon Blood Red", "Premium Grade", "Certified Genuine"],
     accentColor: "from-red-500/20 to-rose-500/10",
     textAccent: "text-red-600",

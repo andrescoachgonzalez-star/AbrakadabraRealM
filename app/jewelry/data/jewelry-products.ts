@@ -508,4 +508,97 @@ Its clean, geometric silhouette reflects modern elegance, while the emerald — 
       style: "Cross",
     },
   },
+  {
+    id: 23,
+    name: "Turkish Bracelet",
+    price: 320,
+    material: "emeralds",
+    type: "bracelets",
+    image: "/jewelry/turkish-bracelet.webp",
+    images: [
+      "/jewelry/turkish-bracelet.webp",
+      "/jewelry/turkish-bracelet3.webp",
+      "/jewelry/turkish-bracelet4.webp",
+    ],
+    collection: "Bracelets",
+    isNew: true,
+    description: `This elegant bead bracelet beautifully combines tradition with timeless sophistication. Crafted with 18K gold beads, the design features a central round natural emerald, carefully selected from the legendary mines of Boyacá, Colombia, and shaped with artisanal precision.`,
+    specs: {
+      stone: "Natural emerald",
+      metal: "18K gold",
+      finish: "Polished",
+      style: "Minimal",
+    },
+  },
+
+  {
+    id: 24,
+    name: "Thai Bracelet",
+    price: 650,
+    material: "emeralds",
+    type: "bracelets",
+    image: "/jewelry/thai-bracelet.webp",
+    images: [
+      "/jewelry/thai-bracelet.webp",
+      "/jewelry/thai-bracelet2.webp",
+      "/jewelry/thai-bracelet3.webp",
+      "/jewelry/thai-bracelet4.webp",
+    ],
+    collection: "Bracelets",
+    isNew: true,
+    description: `This exceptional bracelet embodies the essence of haute jewelry, blending luxury and elegance with a refined Thai-inspired design that radiates sophistication and timeless class. Crafted in 18K gold, the piece is adorned with natural round emeralds and brilliant diamonds, achieving a harmonious balance between brilliance and delicate refinement.`,
+    specs: {
+      stone: "Emerald stones",
+      metal: "18K gold",
+      finish: "Polished",
+      style: "Classic",
+    },
+  },
+
+  {
+    id: 25,
+    name: "Emerald Bracelet",
+    price: 471,
+    material: "emeralds",
+    type: "bracelets",
+    image: "/jewelry/emerald-bracelet.webp",
+    images: [
+      "/jewelry/emerald-bracelet.webp",
+      "/jewelry/emerald-bracelet2.webp",
+      "/jewelry/emerald-bracelet3.webp",
+    ],
+    collection: "Bracelets",
+    description: `This elegant bracelet showcases a unique and sophisticated design, crafted in 18K gold and centered around a dazzling natural emerald carefully selected from the prestigious mines of Boyacá, Colombia. The round-cut emerald adds a distinctive brilliance, enhancing the timeless beauty and refined character of this exceptional jewel.`,
+    specs: {
+      stone: "Green emerald",
+      metal: "18K gold",
+      finish: "Polished",
+      style: "Minimal",
+    },
+  },
+
+  {
+    id: 26,
+    name: "Emerald Tennis Bracelet",
+    price: 3695,
+    material: "emeralds",
+    type: "bracelets",
+    image: "/jewelry/emerald-tennis-bracelet.webp",
+    images: [
+      "/jewelry/emerald-tennis-bracelet.webp",
+    //   "/jewelry/emerald-tennis-bracelet2.webp",
+    //   "/jewelry/emerald-tennis-bracelet3.webp",
+    //   "/jewelry/emerald-tennis-bracelet4.webp",
+    ],
+    collection: "Bracelets",
+    description: `This exquisite emerald tennis bracelet showcases the harmony between refined craftsmanship and natural beauty. Each 18K gold link holds a perfectly cut and polished emerald, carefully sourced from the legendary mines of Boyacá, Colombia.
+
+The vibrant green brilliance of the emeralds contrasts beautifully with the warm glow of gold, creating a jewel that embodies both delicacy and strength.`,
+    specs: {
+      stone: "Emerald row",
+      metal: "18K gold",
+      finish: "Polished",
+      style: "Tennis",
+    },
+  }
 ]
