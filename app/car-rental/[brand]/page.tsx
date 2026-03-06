@@ -108,7 +108,7 @@ const brandsData: Record<string, Brand> = {
         image: "/Marcas/Lamborguini/Lamborghini-Huracan-Evo-Spyder.webp",
       },
       {
-        id: "lamborghini-huracan-orange",
+        id: "lamborghini-huracan-Gray",
         name: "Lamborghini Huracan",
         price: "999,00",
         image: "/Marcas/Lamborguini/HuracanGray.webp",
@@ -180,7 +180,7 @@ const brandsData: Record<string, Brand> = {
         id: "bentley-azure-bentayga",
         name: "Bentley Azure Bentayga",
         price: "1.100,00",
-        image: "/Marcas/Bentley/Bentley-Azure-Bentayga.webp",
+        image: "/Marcas/Bentley/Bentley-Azzure-Bentayga.webp",
       },
       {
         id: "bentley-continental-gt",
