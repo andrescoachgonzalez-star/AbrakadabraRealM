@@ -13,7 +13,8 @@ export default function Home() {
       <LuxuryHeader />
       <HeroSection />
       <CategoriesSection />
-      <SubscribeSection />
+      {/* cambiar cuando ya se tenga back para hacer la suscripcion */}
+      {/* <SubscribeSection /> */}
       <RentalSection />
       <TeamSection />
       <FaqSection />

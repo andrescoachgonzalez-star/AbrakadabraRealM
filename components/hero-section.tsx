@@ -11,15 +11,15 @@ const slides = [
     subtitle: "Art within everyone's reach",
     description: "Digital and physical masterpieces",
     cta: "SHOP NOW",
-    image: "/placeholder-art.jpg",
+    image: "/home/arte-home2.png",
   },
   {
     id: 2,
-    title: "Emeralds",
+    title: "Jewelry",
     subtitle: "Colombian treasures",
     description: "Exclusive certified gemstones",
     cta: "DISCOVER",
-    image: "/placeholder-emerald.jpg",
+    image: "/home/gema-home.png",
   },
   {
     id: 3,
@@ -27,7 +27,7 @@ const slides = [
     subtitle: "Exclusive limited editions",
     description: "Oversize t-shirts and designer hats",
     cta: "EXPLORE",
-    image: "/placeholder-clothing.jpg",
+    image: "/home/ropa-home.png",
   },
   {
     id: 4,
@@ -35,7 +35,7 @@ const slides = [
     subtitle: "Miami luxury experience",
     description: "Premium vehicles for unforgettable moments",
     cta: "RENT NOW",
-    image: "/placeholder-car.jpg",
+    image: "/home/carro-home.webp",
   },
 ]
 
@@ -64,61 +64,51 @@ export function HeroSection() {
 
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden bg-background">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-[0.02]">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
-          backgroundSize: '40px 40px'
-        }} />
-      </div>
 
-      {/* Luxury Experience Badge */}
+      {/* Badge */}
       <div className="absolute top-32 left-1/2 -translate-x-1/2 z-10">
-        <p className="text-sm font-medium tracking-[0.3em] text-muted-foreground animate-fade-in">
+        <p className="text-sm font-medium tracking-[0.3em] text-muted-foreground">
           LUXURY EXPERIENCE
         </p>
       </div>
 
-      {/* Main Content */}
       <div className="relative flex min-h-screen items-center">
         <div className="container mx-auto grid gap-8 px-4 pt-40 pb-20 lg:grid-cols-2 lg:gap-12 lg:pt-32">
-          {/* Image Side */}
-          <div className="relative order-1 flex items-center justify-center lg:order-1">
+          
+          {/* IMAGE SIDE */}
+          <div className="relative flex items-center justify-center">
             <div className="relative">
-              {/* Decorative Frame */}
-              <div className="absolute -inset-4 rounded-lg border border-primary/20 animate-fade-in animation-delay-200" />
-              <div className="absolute -inset-8 rounded-lg border border-primary/10 animate-fade-in animation-delay-300" />
-              
-              {/* Image Container */}
-              <div className="relative aspect-[3/4] w-72 overflow-hidden rounded-lg bg-muted sm:w-80 md:w-96 animate-scale-in">
+
+              {/* Image container */}
+              <div className="relative w-[420px] sm:w-[480px] md:w-[560px] lg:w-[640px]">
                 {slides.map((slide, index) => (
                   <div
                     key={slide.id}
                     className={cn(
-                      "absolute inset-0 flex items-center justify-center transition-all duration-700",
+                      "absolute inset-0 transition-all duration-700 flex items-center justify-center",
                       currentSlide === index
                         ? "opacity-100 scale-100"
                         : "opacity-0 scale-95"
                     )}
                   >
-                    <div className="flex h-full w-full flex-col items-center justify-center bg-gradient-to-br from-muted to-secondary p-8 text-center">
-                      <div className="mb-4 h-32 w-32 rounded-full bg-primary/10 animate-float" />
-                      <p className="text-xs font-medium tracking-wider text-muted-foreground">
-                        {slide.subtitle}
-                      </p>
-                    </div>
+                    <img
+                      src={slide.image}
+                      alt={slide.title}
+                      className="w-full h-auto object-contain"
+                    />
                   </div>
                 ))}
               </div>
 
-              {/* Floating Elements */}
-              <div className="absolute -right-4 -top-4 h-16 w-16 rounded-full bg-primary/10 animate-float" />
-              <div className="absolute -left-8 bottom-1/4 h-12 w-12 rounded-full bg-primary/5 animate-float animation-delay-500" />
+              {/* Floating bubbles */}
+              <div className="absolute -right-6 -top-6 h-16 w-16 rounded-full bg-primary/10 animate-float" />
+              <div className="absolute -left-10 bottom-1/4 h-12 w-12 rounded-full bg-primary/10 animate-float" />
+              <div className="absolute left-10 -bottom-6 h-10 w-10 rounded-full bg-primary/10 animate-float" />
             </div>
           </div>
 
-          {/* Content Side */}
-          <div className="order-2 flex flex-col justify-center lg:order-2 relative h-[300px] lg:h-[400px]">
+          {/* CONTENT SIDE */}
+          <div className="relative flex flex-col justify-center h-[300px] lg:h-[400px]">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
@@ -129,60 +119,55 @@ export function HeroSection() {
                     : "opacity-0 translate-y-8 pointer-events-none"
                 )}
               >
-                <h1 className="font-serif text-5xl font-bold tracking-tight text-foreground sm:text-6xl md:text-7xl lg:text-8xl">
-                  <span className="text-balance">{slide.title}</span>
+                <h1 className="font-serif text-5xl font-bold sm:text-6xl md:text-7xl lg:text-8xl">
+                  {slide.title}
                 </h1>
-                <p className="mt-4 text-lg text-muted-foreground sm:text-xl">
+
+                <p className="mt-4 text-lg text-muted-foreground">
                   {slide.subtitle}
                 </p>
+
                 <p className="mt-2 text-sm text-muted-foreground/70">
                   {slide.description}
                 </p>
-                <button className="group mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg hover:shadow-primary/25">
+
+                <button className="group mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg">
                   {slide.cta}
-                  <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </button>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Navigation Arrows */}
+        {/* Navigation arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full p-3 text-foreground/50 transition-all duration-300 hover:bg-foreground/5 hover:text-foreground"
-          aria-label="Previous slide"
+          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full p-3 text-foreground/50 hover:bg-foreground/5"
         >
           <ChevronLeft className="h-8 w-8" />
         </button>
+
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-3 text-foreground/50 transition-all duration-300 hover:bg-foreground/5 hover:text-foreground"
-          aria-label="Next slide"
+          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-3 text-foreground/50 hover:bg-foreground/5"
         >
           <ChevronRight className="h-8 w-8" />
         </button>
       </div>
 
-      {/* Slide Indicators */}
+      {/* Indicators */}
       <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-3">
         {slides.map((_, index) => (
           <button
             key={index}
-            onClick={() => {
-              if (!isAnimating) {
-                setIsAnimating(true)
-                setCurrentSlide(index)
-                setTimeout(() => setIsAnimating(false), 800)
-              }
-            }}
+            onClick={() => setCurrentSlide(index)}
             className={cn(
               "h-2 rounded-full transition-all duration-500",
               currentSlide === index
                 ? "w-8 bg-primary"
-                : "w-2 bg-foreground/20 hover:bg-foreground/40"
+                : "w-2 bg-foreground/20"
             )}
-            aria-label={`Go to slide ${index + 1}`}
           />
         ))}
       </div>
