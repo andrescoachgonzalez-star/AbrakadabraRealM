@@ -23,16 +23,16 @@ const bentoItems = [
     href: "/artists/paula-suarez",
     image: "/home/paula-home.webp"
   },
-  { title: "OUR BRAND", span: "col-span-1 row-span-1", href: "/clothing" },
-  { title: "ART", span: "col-span-1 row-span-1", href: "/art" },
-  { title: "JEWELRY", span: "col-span-1 row-span-1", href: "/jewelry" },
-  { title: "MODELS", span: "col-span-1 row-span-1", href: "/artists/models" },
-  { title: "DJ / PRODUCERS", span: "col-span-2 md:col-span-1 row-span-1", href: "/artists/dj-producers" },
-  { title: "RENTAL MIAMI", span: "col-span-1 row-span-1", href: "/car-rental" },
-  { title: "JOIN US", span: "col-span-1 row-span-1", href: "/join-us" },
-  { title: "NEWS", span: "col-span-1 row-span-1", href: "/news" },
-  { title: "OUR MUSIC", span: "col-span-1 row-span-1", href: "/our-music" },
-  { title: "EVENTS", span: "col-span-2 md:col-span-1 row-span-1", href: "/events" },
+  { title: "OUR BRAND", span: "col-span-1 row-span-1", href: "/clothing", image:"/home/brand-home.png" },
+  { title: "ART", span: "col-span-1 row-span-1", href: "/art", image:"/home/art-home.webp"  },
+  { title: "JEWELRY", span: "col-span-1 row-span-1", href: "/jewelry", image:"/home/erings-home.webp" },
+  { title: "MODELS", span: "col-span-1 row-span-1", href: "/artists/models", image:"/home/models-home.webp" },
+  { title: "DJ / PRODUCERS", span: "col-span-2 md:col-span-1 row-span-1", href: "/artists/dj-producers", image: "/home/producer-home.webp" },
+  { title: "RENTAL MIAMI", span: "col-span-1 row-span-1", href: "/car-rental", image:"/home/car-rental-home.webp"},
+  { title: "JOIN US", span: "col-span-1 row-span-1", href: "/join-us", image:"/home/joinus-home.webp"},
+  { title: "NEWS", span: "col-span-1 row-span-1", href: "/news", image:"/home/news-home.webp" },
+  { title: "OUR MUSIC", span: "col-span-1 row-span-1", href: "/our-music", image:"/home/ourmusic-home.webp" },
+  { title: "EVENTS", span: "col-span-2 md:col-span-1 row-span-1", href: "/events", image:"/home/events-home.webp"},
 ]
 
 export function CategoriesSection() {
