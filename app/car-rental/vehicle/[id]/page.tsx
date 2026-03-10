@@ -1,8 +1,8 @@
 "use client"
 
-import { motion, AnimatePresence } from "framer-motion"
+import { motion } from "framer-motion"
 import { useParams } from "next/navigation"
-import { useState, useCallback } from "react"
+import { useEffect, useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { LuxuryHeader } from "@/components/luxury-header"
@@ -14,14 +14,10 @@ import {
   Gauge,
   Cog,
   Zap,
-  ChevronLeft,
-  ChevronRight,
   Check,
   Phone,
   CreditCard,
   FileText,
-  Star,
-  Sparkles,
 } from "lucide-react"
 
 /* ── Vehicle Data ──────────────────────────────── */
@@ -62,10 +58,38 @@ const vehiclesData: Record<string, any> = {
       },
     ],
     alternativeBrands: [
-      { name: "rolls-royce-dawn", displayName: "Rolls Royce Dawn", category: "Luxury Convertible", power: "563 HP", price: "$899/day", color: "bg-purple-500" },
-      { name: "lamborghini-urus-green", displayName: "Lamborghini Urus", category: "Super SUV", power: "770 HP", price: "$999/day", color: "bg-green-500" },
-      { name: "bentley-continental-gt", displayName: "Bentley Continental", category: "Luxury Coupe", power: "626 HP", price: "$899/day", color: "bg-blue-600" },
-      { name: "ferrari-f8-spider", displayName: "Ferrari F8", category: "Hybrid Supercar", power: "819 HP", price: "$2,999/day", color: "bg-yellow-500" },
+      {
+        name: "rolls-royce-dawn",
+        displayName: "Rolls Royce Dawn",
+        category: "Luxury Convertible",
+        power: "563 HP",
+        price: "$899/day",
+        color: "bg-purple-500",
+      },
+      {
+        name: "lamborghini-urus-green",
+        displayName: "Lamborghini Urus",
+        category: "Super SUV",
+        power: "770 HP",
+        price: "$999/day",
+        color: "bg-green-500",
+      },
+      {
+        name: "bentley-continental-gt",
+        displayName: "Bentley Continental",
+        category: "Luxury Coupe",
+        power: "626 HP",
+        price: "$899/day",
+        color: "bg-blue-600",
+      },
+      {
+        name: "ferrari-f8-spider",
+        displayName: "Ferrari F8",
+        category: "Hybrid Supercar",
+        power: "819 HP",
+        price: "$2,999/day",
+        color: "bg-yellow-500",
+      },
     ],
   },
 
@@ -83,16 +107,60 @@ const vehiclesData: Record<string, any> = {
       { id: 4, label: "Dashboard" },
     ],
     specs: [
-      { title: "SAFETY", description: "Anti-lock brakes, stability control, and six different airbags keep occupants safe in the Lamborghini Huracan." },
-      { title: "TRANSMISSION", description: "7-speed dual-clutch transmission (LDF) for fast and smooth shifts." },
-      { title: "ENGINE", description: "V10 engine delivering thrilling performance and an iconic sound." },
-      { title: "PERFORMANCE", description: "Supercar acceleration and top speed with razor-sharp handling." },
+      {
+        title: "SAFETY",
+        description:
+          "Anti-lock brakes, stability control, and six different airbags keep occupants safe in the Lamborghini Huracan.",
+      },
+      {
+        title: "TRANSMISSION",
+        description:
+          "7-speed dual-clutch transmission (LDF) for fast and smooth shifts.",
+      },
+      {
+        title: "ENGINE",
+        description:
+          "V10 engine delivering thrilling performance and an iconic sound.",
+      },
+      {
+        title: "PERFORMANCE",
+        description:
+          "Supercar acceleration and top speed with razor-sharp handling.",
+      },
     ],
     alternativeBrands: [
-      { name: "rolls-royce-dawn", displayName: "Rolls Royce Dawn", category: "Luxury Convertible", power: "563 HP", price: "$899/day", color: "bg-purple-500" },
-      { name: "ferrari-f8-spider", displayName: "Ferrari F8", category: "Hybrid Supercar", power: "819 HP", price: "$2,999/day", color: "bg-red-500" },
-      { name: "bentley-continental-gt", displayName: "Bentley Continental", category: "Luxury Coupe", power: "626 HP", price: "$899/day", color: "bg-blue-600" },
-      { name: "mclaren-gt", displayName: "McLaren GT", category: "Sports Car", power: "640 HP", price: "$699/day", color: "bg-yellow-500" },
+      {
+        name: "rolls-royce-dawn",
+        displayName: "Rolls Royce Dawn",
+        category: "Luxury Convertible",
+        power: "563 HP",
+        price: "$899/day",
+        color: "bg-purple-500",
+      },
+      {
+        name: "ferrari-f8-spider",
+        displayName: "Ferrari F8",
+        category: "Hybrid Supercar",
+        power: "819 HP",
+        price: "$2,999/day",
+        color: "bg-red-500",
+      },
+      {
+        name: "bentley-continental-gt",
+        displayName: "Bentley Continental",
+        category: "Luxury Coupe",
+        power: "626 HP",
+        price: "$899/day",
+        color: "bg-blue-600",
+      },
+      {
+        name: "mclaren-gt",
+        displayName: "McLaren GT",
+        category: "Sports Car",
+        power: "640 HP",
+        price: "$699/day",
+        color: "bg-yellow-500",
+      },
     ],
   },
 
@@ -109,330 +177,60 @@ const vehiclesData: Record<string, any> = {
       { id: 4, label: "Dashboard" },
     ],
     specs: [
-      { title: "SAFETY", description: "Anti-lock brakes, stability control, and multiple airbags for protection." },
-      { title: "TRANSMISSION", description: "7-speed dual-clutch transmission for instant response." },
-      { title: "ENGINE", description: "High-revving V10 for pure supercar emotion." },
-      { title: "PERFORMANCE", description: "Rapid acceleration with signature Lamborghini handling." },
+      {
+        title: "SAFETY",
+        description:
+          "Anti-lock brakes, stability control, and multiple airbags for protection.",
+      },
+      {
+        title: "TRANSMISSION",
+        description:
+          "7-speed dual-clutch transmission for instant response.",
+      },
+      {
+        title: "ENGINE",
+        description:
+          "High-revving V10 for pure supercar emotion.",
+      },
+      {
+        title: "PERFORMANCE",
+        description:
+          "Rapid acceleration with signature Lamborghini handling.",
+      },
     ],
     alternativeBrands: [
-      { name: "lamborghini-huracan", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$799/day", color: "bg-red-500" },
-      { name: "lamborghini-huracan-gris", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$999/day", color: "bg-slate-500" },
-      { name: "lamborghini-evo-sto-yellow", displayName: "Lamborghini EVO STO", category: "Track", power: "V10", price: "$1,999/day", color: "bg-yellow-500" },
-      { name: "lamborghini-urus-white", displayName: "Lamborghini Urus", category: "SUV", power: "Twin-Turbo", price: "$899/day", color: "bg-neutral-300" },
-    ],
-  },
-
-  "lamborghini-huracan-gris": {
-    name: "LAMBORGHINI HURACAN",
-    price: "999,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Huracan is a supercar with a V10 engine and a futuristic style. It was introduced in 2014 at the Geneva Motor Show and is named after the Spanish word for hurricane.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Advanced stability control, ABS, and airbags." },
-      { title: "TRANSMISSION", description: "7-speed dual-clutch transmission." },
-      { title: "ENGINE", description: "Naturally aspirated V10 power." },
-      { title: "PERFORMANCE", description: "Supercar performance with daily comfort." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-huracan-rojo", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$799/day", color: "bg-red-500" },
-      { name: "lamborghini-huracan-evo-black", displayName: "Huracan EVO", category: "Supercar", power: "V10", price: "$999/day", color: "bg-neutral-900" },
-      { name: "lamborghini-evo-spyder-blue", displayName: "Evo Spyder", category: "Convertible", power: "V10", price: "$899/day", color: "bg-sky-500" },
-      { name: "lamborghini-urus-s-green", displayName: "Urus S", category: "SUV", power: "Twin-Turbo", price: "$999/day", color: "bg-green-500" },
-    ],
-  },
-
-  // ✅ si en tu app todavía existe la ruta /vehicle/lamborghini-huracan-white
-  "lamborghini-huracan-white": {
-    name: "LAMBORGHINI HURACAN",
-    price: "999,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Huracan is a supercar with a V10 engine and a futuristic style. It was introduced in 2014 at the Geneva Motor Show and is named after the Spanish word for hurricane.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Advanced stability control, ABS, and airbags." },
-      { title: "TRANSMISSION", description: "7-speed dual-clutch transmission." },
-      { title: "ENGINE", description: "Naturally aspirated V10 power." },
-      { title: "PERFORMANCE", description: "Supercar performance with daily comfort." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-huracan", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$799/day", color: "bg-red-500" },
-      { name: "lamborghini-huracan-gris", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$999/day", color: "bg-slate-500" },
-      { name: "lamborghini-huracan-evo-green", displayName: "Huracan EVO", category: "Supercar", power: "V10", price: "$999/day", color: "bg-green-500" },
-      { name: "lamborghini-urus-white", displayName: "Lamborghini Urus", category: "SUV", power: "Twin-Turbo", price: "$899/day", color: "bg-neutral-300" },
-    ],
-  },
-
-  "lamborghini-evo-spyder-blue": {
-    name: "LAMBORGHINI EVO SPYDER",
-    price: "899,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Evo Spyder combines open-top driving with supercar performance and unmistakable Lamborghini design.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Advanced safety systems and stability control." },
-      { title: "TRANSMISSION", description: "7-speed dual-clutch transmission for fast shifts." },
-      { title: "ENGINE", description: "High-performance engine tuned for supercar thrills." },
-      { title: "PERFORMANCE", description: "Exhilarating acceleration with open-top freedom." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-huracan", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$799/day", color: "bg-red-500" },
-      { name: "lamborghini-evo-sto-yellow", displayName: "Lamborghini EVO STO", category: "Track", power: "V10", price: "$1,999/day", color: "bg-yellow-500" },
-      { name: "mclaren-gt", displayName: "McLaren GT", category: "Sports Car", power: "640 HP", price: "$699/day", color: "bg-yellow-500" },
-      { name: "ferrari-f8-spider", displayName: "Ferrari F8", category: "Supercar", power: "710 HP", price: "$2,999/day", color: "bg-red-500" },
-    ],
-  },
-
-  "lamborghini-evo-sto-yellow": {
-    name: "LAMBORGHINI EVO STO",
-    price: "1.999,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini EVO STO is a track-focused supercar built for maximum performance, aero efficiency, and pure driving excitement.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "High-performance braking and stability systems." },
-      { title: "TRANSMISSION", description: "Lightning-fast dual-clutch transmission." },
-      { title: "ENGINE", description: "V10 power optimized for track dominance." },
-      { title: "PERFORMANCE", description: "Extreme handling and acceleration with race-ready aero." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-huracan", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$799/day", color: "bg-red-500" },
-      { name: "lamborghini-huracan-evo-black", displayName: "Huracan EVO", category: "Supercar", power: "V10", price: "$999/day", color: "bg-neutral-900" },
-      { name: "ferrari-f8-spider", displayName: "Ferrari F8", category: "Supercar", power: "710 HP", price: "$2,999/day", color: "bg-red-500" },
-      { name: "mclaren-gt", displayName: "McLaren GT", category: "Sports Car", power: "640 HP", price: "$699/day", color: "bg-yellow-500" },
-    ],
-  },
-
-  "lamborghini-huracan-evo-black": {
-    name: "LAMBORGHINI HURACAN EVO",
-    price: "999,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Huracan EVO blends extreme performance with refined aerodynamics and cutting-edge driving technology.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Stability control, ABS, and advanced braking." },
-      { title: "TRANSMISSION", description: "Dual-clutch transmission for seamless speed." },
-      { title: "ENGINE", description: "V10 performance with Lamborghini character." },
-      { title: "PERFORMANCE", description: "Sharp handling and aggressive acceleration." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-huracan", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$799/day", color: "bg-red-500" },
-      { name: "lamborghini-huracan-gris", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$999/day", color: "bg-slate-500" },
-      { name: "lamborghini-evo-sto-yellow", displayName: "EVO STO", category: "Track", power: "V10", price: "$1,999/day", color: "bg-yellow-500" },
-      { name: "lamborghini-urus-dark-grey", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$799/day", color: "bg-neutral-900" },
-    ],
-  },
-
-  "lamborghini-huracan-evo-green": {
-    name: "LAMBORGHINI HURACAN EVO",
-    price: "999,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Huracan EVO blends extreme performance with refined aerodynamics and cutting-edge driving technology.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Stability control, ABS, and advanced braking." },
-      { title: "TRANSMISSION", description: "Dual-clutch transmission for seamless speed." },
-      { title: "ENGINE", description: "V10 performance with Lamborghini character." },
-      { title: "PERFORMANCE", description: "Sharp handling and aggressive acceleration." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-huracan", displayName: "Lamborghini Huracan", category: "Supercar", power: "V10", price: "$799/day", color: "bg-red-500" },
-      { name: "lamborghini-urus-s-green", displayName: "Urus S", category: "SUV", power: "Twin-Turbo", price: "$999/day", color: "bg-green-500" },
-      { name: "lamborghini-evo-sto-yellow", displayName: "EVO STO", category: "Track", power: "V10", price: "$1,999/day", color: "bg-yellow-500" },
-      { name: "ferrari-f8-spider", displayName: "Ferrari F8", category: "Supercar", power: "710 HP", price: "$2,999/day", color: "bg-red-500" },
-    ],
-  },
-
-  "lamborghini-urus-dark-grey": {
-    name: "LAMBORGHINI URUS",
-    price: "799,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Urus is a super SUV that combines luxury, comfort and thrilling performance in a bold design.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Advanced driver assistance systems and stability control." },
-      { title: "TRANSMISSION", description: "Smooth automatic transmission designed for power delivery." },
-      { title: "ENGINE", description: "High-performance engine built for SUV dominance." },
-      { title: "PERFORMANCE", description: "Supercar-like acceleration in a luxury SUV." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-urus-white", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$899/day", color: "bg-neutral-300" },
-      { name: "lamborghini-urus-blue", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$1,199/day", color: "bg-blue-600" },
-      { name: "lamborghini-urus-s-green", displayName: "Urus S", category: "SUV", power: "Twin-Turbo", price: "$999/day", color: "bg-green-500" },
-      { name: "rolls-royce-cullinan-silver", displayName: "Cullinan", category: "Luxury SUV", power: "V12", price: "$999/day", color: "bg-slate-500" },
-    ],
-  },
-
-  "lamborghini-urus-white": {
-    name: "LAMBORGHINI URUS",
-    price: "899,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Urus is a super SUV that combines luxury, comfort and thrilling performance in a bold design.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Advanced driver assistance systems and stability control." },
-      { title: "TRANSMISSION", description: "Smooth automatic transmission designed for power delivery." },
-      { title: "ENGINE", description: "High-performance engine built for SUV dominance." },
-      { title: "PERFORMANCE", description: "Supercar-like acceleration in a luxury SUV." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-urus-dark-grey", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$799/day", color: "bg-neutral-900" },
-      { name: "lamborghini-urus-blue", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$1,199/day", color: "bg-blue-600" },
-      { name: "lamborghini-urus-s-green", displayName: "Urus S", category: "SUV", power: "Twin-Turbo", price: "$999/day", color: "bg-green-500" },
-      { name: "rolls-royce-cullinan-white", displayName: "Cullinan", category: "Luxury SUV", power: "V12", price: "$999/day", color: "bg-neutral-300" },
-    ],
-  },
-
-  "lamborghini-urus-grey": {
-    name: "LAMBORGHINI URUS",
-    price: "899,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Urus is a super SUV that combines luxury, comfort and thrilling performance in a bold design.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Advanced driver assistance systems and stability control." },
-      { title: "TRANSMISSION", description: "Smooth automatic transmission designed for power delivery." },
-      { title: "ENGINE", description: "High-performance engine built for SUV dominance." },
-      { title: "PERFORMANCE", description: "Supercar-like acceleration in a luxury SUV." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-urus-dark-grey", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$799/day", color: "bg-neutral-900" },
-      { name: "lamborghini-urus-white", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$899/day", color: "bg-neutral-300" },
-      { name: "lamborghini-urus-s-green", displayName: "Urus S", category: "SUV", power: "Twin-Turbo", price: "$999/day", color: "bg-green-500" },
-      { name: "bentley-azure-bentayga", displayName: "Bentayga", category: "Luxury SUV", power: "542 HP", price: "$899/day", color: "bg-blue-600" },
-    ],
-  },
-
-  "lamborghini-urus-blue": {
-    name: "LAMBORGHINI URUS",
-    price: "1.199,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Urus is a super SUV that combines luxury, comfort and thrilling performance in a bold design.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Advanced driver assistance systems and stability control." },
-      { title: "TRANSMISSION", description: "Smooth automatic transmission designed for power delivery." },
-      { title: "ENGINE", description: "High-performance engine built for SUV dominance." },
-      { title: "PERFORMANCE", description: "Supercar-like acceleration in a luxury SUV." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-urus-dark-grey", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$799/day", color: "bg-neutral-900" },
-      { name: "lamborghini-urus-white", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$899/day", color: "bg-neutral-300" },
-      { name: "lamborghini-urus-s-green", displayName: "Urus S", category: "SUV", power: "Twin-Turbo", price: "$999/day", color: "bg-green-500" },
-      { name: "rolls-royce-cullinan-silver", displayName: "Cullinan", category: "Luxury SUV", power: "V12", price: "$999/day", color: "bg-slate-500" },
-    ],
-  },
-
-  "lamborghini-urus-s-green": {
-    name: "LAMBORGHINI URUS S",
-    price: "999,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Urus S is the refined evolution of the super SUV, combining luxury, technology, and exhilarating performance.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Advanced driver assistance systems and stability control." },
-      { title: "TRANSMISSION", description: "Smooth automatic transmission designed for power delivery." },
-      { title: "ENGINE", description: "High-performance engine built for SUV dominance." },
-      { title: "PERFORMANCE", description: "Supercar-like acceleration in a luxury SUV." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-urus-dark-grey", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$799/day", color: "bg-neutral-900" },
-      { name: "lamborghini-urus-white", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$899/day", color: "bg-neutral-300" },
-      { name: "lamborghini-urus-blue", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$1,199/day", color: "bg-blue-600" },
-      { name: "bentley-azure-bentayga", displayName: "Bentayga", category: "Luxury SUV", power: "542 HP", price: "$899/day", color: "bg-blue-600" },
-    ],
-  },
-
-  // ✅ alias por si en tu sistema aún usas este id
-  "lamborghini-urus-green": {
-    name: "LAMBORGHINI URUS S",
-    price: "999,00",
-    brand: "LAMBORGHINI",
-    description:
-      "The Lamborghini Urus S is the refined evolution of the super SUV, combining luxury, technology, and exhilarating performance.",
-    gallery: [
-      { id: 1, label: "Side View" },
-      { id: 2, label: "Front View" },
-      { id: 3, label: "Interior" },
-      { id: 4, label: "Dashboard" },
-    ],
-    specs: [
-      { title: "SAFETY", description: "Advanced driver assistance systems and stability control." },
-      { title: "TRANSMISSION", description: "Smooth automatic transmission designed for power delivery." },
-      { title: "ENGINE", description: "High-performance engine built for SUV dominance." },
-      { title: "PERFORMANCE", description: "Supercar-like acceleration in a luxury SUV." },
-    ],
-    alternativeBrands: [
-      { name: "lamborghini-urus-dark-grey", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$799/day", color: "bg-neutral-900" },
-      { name: "lamborghini-urus-white", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$899/day", color: "bg-neutral-300" },
-      { name: "lamborghini-urus-blue", displayName: "Urus", category: "SUV", power: "Twin-Turbo", price: "$1,199/day", color: "bg-blue-600" },
-      { name: "bentley-azure-bentayga", displayName: "Bentayga", category: "Luxury SUV", power: "542 HP", price: "$899/day", color: "bg-blue-600" },
+      {
+        name: "lamborghini-huracan",
+        displayName: "Lamborghini Huracan",
+        category: "Supercar",
+        power: "V10",
+        price: "$799/day",
+        color: "bg-red-500",
+      },
+      {
+        name: "lamborghini-huracan-gris",
+        displayName: "Lamborghini Huracan",
+        category: "Supercar",
+        power: "V10",
+        price: "$999/day",
+        color: "bg-slate-500",
+      },
+      {
+        name: "lamborghini-evo-sto-yellow",
+        displayName: "Lamborghini EVO STO",
+        category: "Track",
+        power: "V10",
+        price: "$1,999/day",
+        color: "bg-yellow-500",
+      },
+      {
+        name: "lamborghini-urus-white",
+        displayName: "Lamborghini Urus",
+        category: "SUV",
+        power: "Twin-Turbo",
+        price: "$899/day",
+        color: "bg-neutral-300",
+      },
     ],
   },
 }
@@ -515,7 +313,7 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Corvette-Carros/Corvette_C8_2024_Rojo/Corvette_C8_2024_Rojo-7.webp`,
     ],
   },
-  "corvette-c8-2024-Green": {
+  "corvette-c8-2024-mint": {
     hero: `${IMG}/Corvette-Carros/Corvette_C8_2024_Verde/Corvette_C8_2024_Verde.webp`,
     images: [
       `${IMG}/Corvette-Carros/Corvette_C8_2024_Verde/Corvette_C8_2024_Verde.webp`,
@@ -601,19 +399,18 @@ const imgByVehicleId: Record<string, ImgConfig> = {
     ],
   },
 
-  // ✅ ── Lamborghini (solo esta parte fue corregida) ──────────────
+  // ── Lamborghini  ──────────────
   "lamborghini-evo-spyder-blue": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_Evo_Spyder/Lamborghini-Azul.webp`,
     images: [
       `${IMG}/Lamborguini-Carros/Lamborghini_Evo_Spyder/Lamborghini-Azul.webp`,
+      `${IMG}/Lamborguini-Carros/Lamborghini_Evo_Spyder/Blue-1.webp`,
     ],
   },
-
   "lamborghini-evo-sto-yellow": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_EVO_STO/Lamborghini-EVO-STO-Yellow.webp`,
     images: [
       `${IMG}/Lamborguini-Carros/Lamborghini_EVO_STO/Lamborghini-EVO-STO-Yellow.webp`,
-      `${IMG}/Lamborguini-Carros/Lamborghini_EVO_STO/Yellow.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_EVO_STO/Yellow-1.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_EVO_STO/Yellow-2.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_EVO_STO/Yellow-3.webp`,
@@ -626,24 +423,13 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Lamborguini-Carros/Lamborghini_EVO_STO/Yellow-10.webp`,
     ],
   },
-
-  // Huracan principal (ROJO) → para que el card de 799 quede bien
-  "lamborghini-huracan": {
+  "lamborghini-huracan-red": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Rojo/Lamborghini-Rojo.webp`,
     images: [
       `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Rojo/Lamborghini-Rojo.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Rojo/Rojo-1.webp`,
     ],
   },
-  "lamborghini-huracan-rojo": {
-    hero: `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Rojo/Lamborghini-Rojo.webp`,
-    images: [
-      `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Rojo/Lamborghini-Rojo.webp`,
-      `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Rojo/Rojo-1.webp`,
-    ],
-  },
-
-  // Huracan “white” en tu sistema → lo mapeamos a la carpeta Gris
   "lamborghini-huracan-white": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Gris/HuracanGray.webp`,
     images: [
@@ -653,16 +439,6 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Gris/Grey-3.webp`,
     ],
   },
-  "lamborghini-huracan-gris": {
-    hero: `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Gris/HuracanGray.webp`,
-    images: [
-      `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Gris/HuracanGray.webp`,
-      `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Gris/Grey-1.webp`,
-      `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Gris/Grey-2.webp`,
-      `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_Gris/Grey-3.webp`,
-    ],
-  },
-
   "lamborghini-huracan-evo-black": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_EVO_Negro/Lamborghini-Huracan-EVO-Negro.webp`,
     images: [
@@ -671,7 +447,6 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_EVO_Negro/Negro-2.webp`,
     ],
   },
-
   "lamborghini-huracan-evo-green": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_EVO_Verde/Lamborghini-Huracan-EVO-Verde.webp`,
     images: [
@@ -683,17 +458,14 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_EVO_Verde/Verde-5.webp`,
     ],
   },
-
-  "lamborghini-urus-grey": {
-    hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Lamborghini-Urus-1.webp`,
-    images: [
-      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Lamborghini-Urus-1.webp`,
-      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Lamborghini-Urus-1-1.webp`,
-      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Urus-1-Negro.webp`,
-      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Urus-2-Negro.webp`,
-    ],
-  },
-
+"lamborghini-urus-black": {
+  hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Lamborghini-Urus-1.webp`,
+  images: [
+    `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Lamborghini-Urus-1.webp`,
+    `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Urus-1-Negro.webp`,
+    `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Urus-2-Negro.webp`,
+  ],
+},
   "lamborghini-urus-blue": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_Azul/Lamborghini-Urus-Azul.webp`,
     images: [
@@ -703,7 +475,6 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_Azul/Urus-Azul-3.webp`,
     ],
   },
-
   "lamborghini-urus-white": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_Blanco/Lamborghini-URUS-white.webp`,
     images: [
@@ -715,8 +486,7 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_Blanco/White-5.webp`,
     ],
   },
-
-  "lamborghini-urus-dark-grey": {
+  "lamborghini-urus-dark-black": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_Negro/Urus-Negro.webp`,
     images: [
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_Negro/Urus-Negro.webp`,
@@ -726,11 +496,10 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_Negro/Urus-Negro-4.webp`,
     ],
   },
-
   "lamborghini-urus-s-green": {
-    hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Lamborghini-Urus_S_Verde.webp`,
+    hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Lamborghini_Urus_S_Verde.webp`,
     images: [
-      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Lamborghini-Urus_S_Verde.webp`,
+      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Lamborghini_Urus_S_Verde.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Green-1.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Green-2.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Green-3.webp`,
@@ -738,11 +507,11 @@ const imgByVehicleId: Record<string, ImgConfig> = {
     ],
   },
 
-  // alias
+  // ✅ FIX (You Can Also Rent): este id se usa en alternativeBrands
   "lamborghini-urus-green": {
-    hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Lamborghini-Urus_S_Verde.webp`,
+    hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Lamborghini_Urus_S_Verde.webp`,
     images: [
-      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Lamborghini-Urus_S_Verde.webp`,
+      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Lamborghini_Urus_S_Verde.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Green-1.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Green-2.webp`,
       `${IMG}/Lamborguini-Carros/Lamborghini_Urus_S_Verde/Green-3.webp`,
@@ -829,6 +598,23 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Rolls-Royce-Carros/Rolls_Royce_Wraith/RollsRoyceWraith-4.webp`,
     ],
   },
+}
+
+/* ── BACK TO FLEET (redirige por marca) ───────────────────── */
+
+const getBrandFleetHref = (vehicleId: string) => {
+  const id = (vehicleId || "").toLowerCase()
+
+  if (id.startsWith("mercedes-benz")) return "/car-rental/mercedes-benz"
+  if (id.startsWith("rolls-royce")) return "/car-rental/rolls-royce"
+  if (id.startsWith("bentley")) return "/car-rental/bentley"
+  if (id.startsWith("bmw")) return "/car-rental/bmw"
+  if (id.startsWith("corvette")) return "/car-rental/corvette"
+  if (id.startsWith("ferrari")) return "/car-rental/ferrari"
+  if (id.startsWith("mclaren")) return "/car-rental/mclaren"
+  if (id.startsWith("lamborghini")) return "/car-rental/lamborghini"
+
+  return "/car-rental"
 }
 
 /* ── helpers ─────────────────────────────── */
@@ -918,8 +704,6 @@ const conditionIcons = [
   <svg key={11} className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}><path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>,
 ]
 
-/* ── Flip Card Component ─────────────────────── */
-
 function FlipCard({ cond, index }: { cond: any; index: number }) {
   const [isFlipped, setIsFlipped] = useState(false)
 
@@ -935,7 +719,6 @@ function FlipCard({ cond, index }: { cond: any; index: number }) {
         animate={{ rotateY: isFlipped ? 180 : 0 }}
         transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
       >
-        {/* Front */}
         <div
           className="absolute inset-0 rounded-2xl border border-border bg-card p-6 flex flex-col items-center text-center"
           style={{ backfaceVisibility: "hidden" }}
@@ -950,7 +733,6 @@ function FlipCard({ cond, index }: { cond: any; index: number }) {
           <p className="text-primary text-sm mt-auto">Click to learn more</p>
         </div>
 
-        {/* Back */}
         <div
           className={`absolute inset-0 rounded-2xl ${cond.color} p-6 flex flex-col items-center text-center text-white overflow-y-auto`}
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
@@ -971,8 +753,6 @@ function FlipCard({ cond, index }: { cond: any; index: number }) {
   )
 }
 
-/* ── Satisfaction Points ───────────────────────── */
-
 const satisfactionPoints = [
   "Immaculate fleet of luxury vehicles",
   "Exceptional customer service 24/7",
@@ -980,15 +760,20 @@ const satisfactionPoints = [
   "Unforgettable Miami experience",
 ]
 
-/* ── Main Page Component ─────────────────────── */
-
 export default function VehicleDetailsPage() {
   const params = useParams()
-  const vehicleId = params.id as string
+
+  const rawId = params.id as string
+  const vehicleId = decodeURIComponent(rawId).toLowerCase()
+
   const vehicleData = getVehicleData(vehicleId)
 
   const [selectedImage, setSelectedImage] = useState(0)
   const [hoveredSpec, setHoveredSpec] = useState<number | null>(null)
+
+  useEffect(() => {
+    setSelectedImage(0)
+  }, [vehicleId])
 
   const selectedSrc = vehicleData.gallery?.[selectedImage]?._src || vehicleData._hero
 
@@ -996,17 +781,15 @@ export default function VehicleDetailsPage() {
     <main className="min-h-screen bg-[#f5f5f5] overflow-x-hidden">
       <LuxuryHeader />
 
-      {/* Hero Section */}
       <section className="container mx-auto px-6 pt-32 pb-12">
         <Link
-          href="/car-rental"
+          href={getBrandFleetHref(vehicleId)}
           className="inline-flex items-center gap-2 text-foreground/50 hover:text-primary text-sm tracking-wide mb-8 transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back to Fleet
         </Link>
 
-        {/* Vehicle Title and Price */}
         <div className="mb-10">
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
@@ -1026,7 +809,6 @@ export default function VehicleDetailsPage() {
           </motion.p>
         </div>
 
-        {/* Description */}
         <div className="mb-8">
           <motion.p
             initial={{ opacity: 0, y: 15 }}
@@ -1038,14 +820,12 @@ export default function VehicleDetailsPage() {
           </motion.p>
         </div>
 
-        {/* Car Image with Brand Watermark */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8, delay: 0.3 }}
           className="relative w-full max-w-5xl mx-auto mb-8"
         >
-          {/* Brand Watermark */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none overflow-hidden">
             <motion.span
               initial={{ opacity: 0, scale: 0.8 }}
@@ -1057,7 +837,6 @@ export default function VehicleDetailsPage() {
             </motion.span>
           </div>
 
-          {/* Main Car Image */}
           <div className="relative aspect-[16/7] z-10">
             <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[70%] h-8 bg-foreground/25 blur-2xl rounded-full" />
             <div className="absolute inset-0 flex items-center justify-center">
@@ -1081,7 +860,6 @@ export default function VehicleDetailsPage() {
           </div>
         </motion.div>
 
-        {/* Gallery Thumbnails */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -1127,23 +905,12 @@ export default function VehicleDetailsPage() {
           ))}
         </motion.div>
 
-        {/* Action Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="px-10 py-4 bg-transparent border-2 border-foreground text-foreground font-semibold rounded-full hover:bg-foreground hover:text-background transition-all duration-300 min-w-[200px]"
-          >
-            <span className="flex items-center justify-center gap-2">
-              <FileText className="h-5 w-5" />
-              SEE CONDITIONS
-            </span>
-          </motion.button>
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
@@ -1170,7 +937,6 @@ export default function VehicleDetailsPage() {
         </motion.div>
       </section>
 
-      {/* Vehicle Specifications */}
       <section className="py-12 bg-card border-t border-border">
         <div className="container mx-auto px-6">
           <motion.div
@@ -1246,7 +1012,6 @@ export default function VehicleDetailsPage() {
         </div>
       </section>
 
-      {/* Rental Conditions */}
       <section className="py-24 px-6 bg-background">
         <div className="container mx-auto">
           <ScrollReveal>
@@ -1275,7 +1040,6 @@ export default function VehicleDetailsPage() {
         </div>
       </section>
 
-      {/* You Can Also Rent */}
       <section className="py-24 px-6 bg-muted/30">
         <div className="container mx-auto">
           <ScrollReveal>
@@ -1351,7 +1115,6 @@ export default function VehicleDetailsPage() {
         </div>
       </section>
 
-      {/* Satisfaction Guarantee */}
       <section className="py-24 px-6 bg-background">
         <div className="container mx-auto">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -1395,14 +1158,18 @@ export default function VehicleDetailsPage() {
               </div>
             </div>
 
+            {/* ✅ OUR PROMISE IMAGE (FIX) */}
             <ScrollReveal direction="left" delay={200}>
               <div className="relative">
                 <div className="relative aspect-[3/4] bg-muted rounded-2xl overflow-hidden">
-                  <div className="absolute inset-4 bg-background rounded-xl shadow-inner flex flex-col items-center justify-center">
-                    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-0.5 h-full bg-primary/20" />
-                    <div className="w-32 h-32 bg-muted rounded-lg flex items-center justify-center">
-                      <span className="text-muted-foreground/40 text-xs tracking-widest">IMAGE</span>
-                    </div>
+                  <div className="absolute inset-4 bg-background rounded-xl shadow-inner overflow-hidden">
+                    <Image
+                      src="/Image-Car-Rental/Satisfaction.png"
+                      alt="Satisfaction"
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 600px"
+                      className="object-contain p-10"
+                    />
                   </div>
                 </div>
                 <div className="absolute -top-4 -right-4 w-24 h-24 border border-muted-foreground/10 rounded-full" />
