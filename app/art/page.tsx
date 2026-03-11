@@ -51,31 +51,31 @@ function ScrollReveal({
 
 // Art pieces data - exact names and prices from the original page
 const artPieces = [
-  { id: 1, title: "THE LION", originalPrice: 14388, price: 7194, image: "https://images.unsplash.com/photo-1579783902614-a3fb3927b6a5?w=800&q=80" },
-  { id: 2, title: "BREATH OF LIFE", price: 10000, image: "https://images.unsplash.com/photo-1549887534-1541e9326642?w=800&q=80" },
-  { id: 3, title: "THE FOUR ELEMENTS", price: 2000, image: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=800&q=80" },
-  { id: 4, title: "ETER", price: 1200, image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=800&q=80" },
-  { id: 5, title: "WATER OF LIFE", price: 4000, image: "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=800&q=80" },
-  { id: 6, title: "XCHEL", price: 1200, image: "https://images.unsplash.com/photo-1573521193826-58c7dc2e13e3?w=800&q=80" },
-  { id: 7, title: "FEELING", price: 4000, image: "https://images.unsplash.com/photo-1578301978018-3005759f48f7?w=800&q=80" },
-  { id: 8, title: "EMOTIONAL LIPS", originalPrice: 17536, price: 8768, image: "https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=800&q=80" },
+  { id: 1, title: "THE LION", originalPrice: 14388, price: 7194, image: "/art/thelion-art.webp" },
+  { id: 2, title: "BREATH OF LIFE", price: 10000, image: "/art/breath-art.webp" },
+  { id: 3, title: "THE FOUR ELEMENTS", price: 2000, image: "/art/fourelements-art.webp" },
+  { id: 4, title: "ETER", price: 1200, image: "/art/eter-art.webp" },
+  { id: 5, title: "WATER OF LIFE", price: 4000, image: "/art/wateroflife-art.webp" },
+  { id: 6, title: "XCHEL", price: 1200, image: "/art/xchel-art.webp" },
+  { id: 7, title: "FEELING", price: 4000, image: "/art/feeling-art.webp" },
+  { id: 8, title: "EMOTIONAL LIPS", originalPrice: 17536, price: 8768, image: "/art/emotionallips-art.webp" },
 ]
 
 const downloadableArt = [
-  { id: 1, title: "TORBELLINO DE EMOCIONES", originalPrice: 5, price: 2.5, image: "https://images.unsplash.com/photo-1541367777708-7905fe3296c0?w=600&q=80" },
-  { id: 2, title: "GARDEN OF SERENITY", originalPrice: 5, price: 2.5, image: "https://images.unsplash.com/photo-1549887534-1541e9326642?w=600&q=80" },
-  { id: 3, title: "COLORS OF LIFE", originalPrice: 5, price: 2.5, image: "https://images.unsplash.com/photo-1578301978693-85fa9c0320b9?w=600&q=80" },
-  { id: 4, title: "INNER SERENITY", originalPrice: 5, price: 2.5, image: "https://images.unsplash.com/photo-1544967082-d9d25d867d66?w=600&q=80" },
-  { id: 5, title: "SYMPHONY OF COLOR", originalPrice: 5, price: 2.5, image: "https://images.unsplash.com/photo-1549490349-8643362247b5?w=600&q=80" },
-  { id: 6, title: "ENERGY GARDEN", originalPrice: 5, price: 2.5, image: "https://images.unsplash.com/photo-1573521193826-58c7dc2e13e3?w=600&q=80" },
-  { id: 7, title: "ABSTRACT BLUE", originalPrice: 5, price: 2.5, image: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&q=80" },
-  { id: 8, title: "NEON LIFE", originalPrice: 5, price: 2.5, image: "https://images.unsplash.com/photo-1547826039-bfc35e0f1ea8?w=600&q=80" },
+  { id: 1, title: "TORBELLINO DE EMOCIONES", originalPrice: 5, price: 2.5, image: "/art/torbellino-art.webp" },
+  { id: 2, title: "GARDEN OF SERENITY", originalPrice: 5, price: 2.5, image: "/art/garden-art.webp" },
+  { id: 3, title: "COLORS OF LIFE", originalPrice: 5, price: 2.5, image: "/art/colorsoflife-art.webp" },
+  { id: 4, title: "INNER SERENITY", originalPrice: 5, price: 2.5, image: "/art/inner-art.webp" },
+  { id: 5, title: "SYMPHONY OF COLOR", originalPrice: 5, price: 2.5, image: "/art/symphony-art.webp" },
+  { id: 6, title: "ENERGY GARDEN", originalPrice: 5, price: 2.5, image: "/art/energy-art.webp" },
+  { id: 7, title: "ABSTRACT BLUE", originalPrice: 5, price: 2.5, image: "/art/abstract-art.webp" },
+  { id: 8, title: "NEON LIFE", originalPrice: 5, price: 2.5, image: "/art/neonlife-art.webp" },
 ]
 
 const hireCategories = [
-  { title: "Art Exhibitions", image: "https://images.unsplash.com/photo-1594608661623-aa0bd3a69d98?w=600&q=80" },
-  { title: "Murals & Live Art", image: "https://images.unsplash.com/photo-1561214115-f2f134cc4912?w=600&q=80" },
-  { title: "Fairs & Cultural Events", image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80" },
+  { title: "Art Exhibitions", image: "/art/artexhibition-art.webp" },
+  { title: "Murals & Live Art", image: "/art/murals-art.webp" },
+  { title: "Fairs & Cultural Events", image: "/art/culturalevents-art.webp" },
 ]
 
 export default function ArtPage() {
@@ -127,7 +127,7 @@ export default function ArtPage() {
             </h3>
             
             <a 
-              href="https://instagram.com/abrakadabrarealm" 
+              href="https://www.instagram.com/adrianahenaoart/" 
               target="_blank" 
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm tracking-wider hover:bg-white/20 transition-all duration-300"
@@ -456,12 +456,12 @@ export default function ArtPage() {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-20 lg:py-32 bg-muted/30">
+      {/* <section className="py-20 lg:py-32 bg-muted/30">
         <div className="container mx-auto px-4">
           <ScrollReveal>
             <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
               <div className="grid lg:grid-cols-2">
-                {/* Image Side */}
+
                 <div className="relative min-h-[400px] lg:min-h-full">
                   <img
                     src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80"
@@ -470,7 +470,7 @@ export default function ArtPage() {
                   />
                 </div>
 
-                {/* Form Side */}
+
                 <div className="p-8 lg:p-12">
                   <h3 className="text-2xl font-bold text-foreground text-center mb-2">Complete the form</h3>
                   <p className="text-muted-foreground text-center mb-8">to hire Adriana Henao</p>
@@ -549,7 +549,7 @@ export default function ArtPage() {
             </div>
           </ScrollReveal>
         </div>
-      </section>
+      </section> */}
 
       <LuxuryFooter />
     </main>
