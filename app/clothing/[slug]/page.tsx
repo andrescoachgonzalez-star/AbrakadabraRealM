@@ -7,19 +7,22 @@ import Link from "next/link"
 import { ArrowLeft, Minus, Plus, ChevronRight, Truck, Shield, Star } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
 
-const allProducts: Record<string, {
-  name: string
-  category: string
-  categorySlug: string
-  originalPrice: string
-  salePrice: string
-  onSale: boolean
-  images: string[]
-  description: string[]
-  sizes: string[]
-  material: string
-  limitedEdition: boolean
-}> = {
+const allProducts: Record<
+  string,
+  {
+    name: string
+    category: string
+    categorySlug: string
+    originalPrice: string
+    salePrice: string
+    onSale: boolean
+    images: string[]
+    description: string[]
+    sizes: string[]
+    material: string
+    limitedEdition: boolean
+  }
+> = {
   "oversize-abrakadabra-realm-black": {
     name: "OVERSIZE ABRAKADABRA REALM BLACK",
     category: "T-Shirt & Caps",
@@ -28,9 +31,15 @@ const allProducts: Record<string, {
     salePrice: "30,00",
     onSale: true,
     images: [
-      "/clothing/tshirt-black.jpg",
-      "/clothing/tshirt-black-back.jpg",
-      "/clothing/tshirt-black-detail.jpg",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-1.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-2.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-3.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-4.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-5.jpg",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-6.jpg",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-7.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-8.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -51,9 +60,15 @@ const allProducts: Record<string, {
     salePrice: "30,00",
     onSale: true,
     images: [
-      "/clothing/tshirt-white.jpg",
-      "/clothing/tshirt-white-back.jpg",
-      "/clothing/tshirt-white-detail.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca.webp",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-2.webp",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-3.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-4.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-5.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-6.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-7.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-8.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-9.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -73,10 +88,7 @@ const allProducts: Record<string, {
     originalPrice: "20,00",
     salePrice: "10,00",
     onSale: true,
-    images: [
-      "/clothing/cap-white.jpg",
-      "/clothing/cap-white-detail.jpg",
-    ],
+    images: ["/Clothes/Gorra-1/Foto-gorra-1.webp"],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
       "LIMITED EDITION",
@@ -95,10 +107,7 @@ const allProducts: Record<string, {
     originalPrice: "20,00",
     salePrice: "10,00",
     onSale: true,
-    images: [
-      "/clothing/cap-black.jpg",
-      "/clothing/cap-black-detail.jpg",
-    ],
+    images: ["/Clothes/Gorra-2/Foto-gorra-2.webp"],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
       "LIMITED EDITION",
@@ -118,9 +127,11 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/tshirt-universe-black.jpg",
-      "/clothing/tshirt-black-back.jpg",
-      "/clothing/tshirt-black-detail.jpg",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-1.webp",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-2.webp",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-3.webp",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-4.webp",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-5.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -141,9 +152,10 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/tshirt-beige.jpg",
-      "/clothing/tshirt-white-back.jpg",
-      "/clothing/tshirt-white-detail.jpg",
+      "/Clothes/Camisa-2-Blanca/Camisa2-white-1.webp",
+      "/Clothes/Camisa-2-Blanca/Camisa2-white-2.webp",
+      "/Clothes/Camisa-2-Blanca/Camisa2-white-3.webp",
+      "/Clothes/Camisa-2-Blanca/Camisa2-white-4.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -164,8 +176,12 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/swimsuit-blue.jpg",
-      "/clothing/swimsuit-blue-detail.jpg",
+      "/Clothes/Bikini-1/Bikini-blue.webp",
+      "/Clothes/Bikini-1/Bikini-blue-1.webp",
+      "/Clothes/Bikini-1/Bikini-blue-2.webp",
+      "/Clothes/Bikini-1/Bikini-blue-3.webp",
+      "/Clothes/Bikini-1/Bikini-blue-4.webp",
+      "/Clothes/Bikini-1/Bikini-blue-5.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -186,8 +202,11 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/swimsuit-green.jpg",
-      "/clothing/swimsuit-green-detail.jpg",
+      "/Clothes/Bikini-2/Bikini-green.webp",
+      "/Clothes/Bikini-2/Bikini-green-1.webp",
+      "/Clothes/Bikini-2/Bikini-green-2.webp",
+      "/Clothes/Bikini-2/Bikini-green-3.webp",
+      "/Clothes/Bikini-2/Bikini-green-4.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -208,8 +227,14 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/swimsuit-fuchsia.jpg",
-      "/clothing/swimsuit-fuchsia-detail.jpg",
+      "/Clothes/Bikini-3/Bikini-rose.webp",
+      "/Clothes/Bikini-3/Bikini-rose-1.webp",
+      "/Clothes/Bikini-3/Bikini-rose-2.webp",
+      "/Clothes/Bikini-3/Bikini-rose-3.webp",
+      "/Clothes/Bikini-3/Bikini-rose-4.webp",
+      "/Clothes/Bikini-3/Bikini-rose-5.webp",
+      "/Clothes/Bikini-3/Bikini-rose-7.webp",
+      "/Clothes/Bikini-3/Bikini-rose-8.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -276,7 +301,6 @@ export default function ProductDetailPage() {
       <section className="pb-20">
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-
             {/* Left: Gallery */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
@@ -308,7 +332,7 @@ export default function ProductDetailPage() {
                 </AnimatePresence>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap">
                 {product.images.map((img, i) => (
                   <motion.button
                     key={i}
@@ -377,9 +401,7 @@ export default function ProductDetailPage() {
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key)}
                     className={`relative px-5 py-3 text-sm tracking-wide transition-colors ${
-                      activeTab === tab.key
-                        ? "text-white"
-                        : "text-white/40 hover:text-white/60"
+                      activeTab === tab.key ? "text-white" : "text-white/40 hover:text-white/60"
                     }`}
                   >
                     {tab.label}
@@ -471,7 +493,7 @@ export default function ProductDetailPage() {
                 className="mb-6"
               >
                 <p className="text-white/50 text-xs tracking-widest uppercase mb-3">Size</p>
-                <div className="flex gap-2">
+                <div className="flex gap-2 flex-wrap">
                   {product.sizes.map((size) => (
                     <button
                       key={size}
@@ -488,7 +510,7 @@ export default function ProductDetailPage() {
                 </div>
               </motion.div>
 
-              {/* Quantity + Add to Cart */}
+              {/* Quantity + WhatsApp */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -513,13 +535,16 @@ export default function ProductDetailPage() {
                   </button>
                 </div>
 
-                <motion.button
+                <motion.a
+                  href="https://wa.me/573103920569"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 h-11 bg-[#c41e3a] text-white text-sm font-bold tracking-widest hover:bg-[#a01830] transition-colors"
+                  className="flex-1 h-11 bg-[#c41e3a] text-white text-sm font-bold tracking-widest hover:bg-[#a01830] transition-colors flex items-center justify-center"
                 >
-                  ADD TO CART
-                </motion.button>
+                  BOOK IN WHATSAPP
+                </motion.a>
               </motion.div>
 
               {/* Category */}
@@ -617,7 +642,9 @@ export default function ProductDetailPage() {
                       </h3>
                       <div className="flex items-center gap-2 mt-1">
                         {relatedProduct.onSale && (
-                          <span className="text-white/40 text-xs line-through">{relatedProduct.originalPrice} USD</span>
+                          <span className="text-white/40 text-xs line-through">
+                            {relatedProduct.originalPrice} USD
+                          </span>
                         )}
                         <span className="text-white text-xs font-semibold">{relatedProduct.salePrice} USD</span>
                       </div>
@@ -632,11 +659,7 @@ export default function ProductDetailPage() {
       {/* Back to collection */}
       <section className="pb-16">
         <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <Link
               href="/clothing"
               className="inline-flex items-center gap-2 text-[#c4a882] text-sm tracking-widest hover:text-white transition-colors group"
@@ -651,7 +674,7 @@ export default function ProductDetailPage() {
       {/* Footer */}
       <footer className="bg-[#0a0a0a] py-12 border-t border-white/10">
         <div className="container mx-auto px-6 text-center">
-          <p className="text-white/40 text-sm tracking-widest">{"ABRAKADABRA REALM \u2013 LUXURY MARKETPLACE"}</p>
+          <p className="text-white/40 text-sm tracking-widest">{"ABRAKADABRA REALM – LUXURY MARKETPLACE"}</p>
           <p className="text-white/30 text-xs mt-2">All rights reserved 2024</p>
         </div>
       </footer>
