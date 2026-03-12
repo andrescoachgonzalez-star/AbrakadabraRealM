@@ -3,7 +3,7 @@
 import React from "react"
 
 import { useState, useEffect, useRef } from "react"
-import { Heart, Plus, Search, ChevronDown } from "lucide-react"
+import { Search, ChevronDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
@@ -78,6 +78,21 @@ const hireCategories = [
   { title: "Fairs & Cultural Events", image: "/art/culturalevents-art.webp" },
 ]
 
+const galleryImages = [
+  { id: 1, image: "/art/gallery/gallery1.webp" },
+  { id: 2, image: "/art/gallery/gallery2.webp" },
+  { id: 3, image: "/art/gallery/gallery3.webp" },
+  { id: 4, image: "/art/gallery/gallery4.webp" },
+  { id: 5, image: "/art/gallery/gallery5.webp" },
+  { id: 6, image: "/art/gallery/gallery6.webp" },
+  { id: 7, image: "/art/gallery/gallery7.webp" },
+  { id: 8, image: "/art/gallery/gallery8.webp" },
+  { id: 9, image: "/art/gallery/gallery9.webp" },
+  { id: 10, image: "/art/gallery/gallery10.webp" },
+  { id: 11, image: "/art/gallery/gallery11.webp" },
+  { id: 12, image: "/art/gallery/gallery12.webp" },
+]
+
 export default function ArtPage() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [hoveredPiece, setHoveredPiece] = useState<number | null>(null)
@@ -93,6 +108,11 @@ export default function ArtPage() {
       [id]: isHovered
     }))
   }
+
+  const [hoveredGallery, setHoveredGallery] = useState<number | null>(null)
+
+  const CO_WA_NUMBER = "573103920569"
+  const CO_SMS_NUMBER = "+573103920569"
 
   return (
     <main className="bg-background overflow-x-hidden">
@@ -200,27 +220,6 @@ export default function ArtPage() {
                             hoveredPiece === piece.id && "translate-x-full"
                           )} />
                           
-                          {/* Quick View Button */}
-                          <div className={cn(
-                            "absolute inset-0 bg-black/30 flex items-center justify-center transition-all duration-500",
-                            hoveredPiece === piece.id ? "opacity-100" : "opacity-0"
-                          )}>
-                            <button className={cn(
-                              "w-14 h-14 rounded-full bg-primary text-primary-foreground flex items-center justify-center transition-all duration-500 shadow-lg",
-                              hoveredPiece === piece.id ? "scale-100 rotate-0" : "scale-0 rotate-180"
-                            )}>
-                              <Plus className="w-6 h-6" />
-                            </button>
-                          </div>
-
-                          {/* Favorite Button */}
-                          <button className={cn(
-                            "absolute top-3 right-3 w-10 h-10 rounded-full bg-white/95 flex items-center justify-center transition-all duration-500 hover:bg-primary hover:text-white shadow-lg",
-                            hoveredPiece === piece.id ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
-                          )}>
-                            <Heart className="w-5 h-5" />
-                          </button>
-
                           {/* Sale Badge */}
                           {piece.originalPrice && (
                             <div className={cn(
@@ -304,27 +303,6 @@ export default function ArtPage() {
                             "absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full transition-transform duration-1000",
                             downloadableHoveredPieces[piece.id] && "translate-x-full"
                           )} />
-                          
-                          {/* Quick View Button */}
-                          <div className={cn(
-                            "absolute inset-0 bg-black/30 flex items-center justify-center transition-all duration-500",
-                            downloadableHoveredPieces[piece.id] ? "opacity-100" : "opacity-0"
-                          )}>
-                            <button className={cn(
-                              "w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center transition-all duration-500 shadow-lg",
-                              downloadableHoveredPieces[piece.id] ? "scale-100 rotate-0" : "scale-0 rotate-180"
-                            )}>
-                              <Plus className="w-5 h-5" />
-                            </button>
-                          </div>
-
-                          {/* Favorite Button */}
-                          <button className={cn(
-                            "absolute top-2 right-2 w-8 h-8 rounded-full bg-white/95 flex items-center justify-center transition-all duration-500 hover:bg-primary hover:text-white shadow-lg",
-                            downloadableHoveredPieces[piece.id] ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
-                          )}>
-                            <Heart className="w-4 h-4" />
-                          </button>
 
                           {/* Sale Badge */}
                           <div className={cn(
@@ -420,13 +398,13 @@ export default function ArtPage() {
                         {/* Animated Line */}
                         <div className="h-0.5 bg-gradient-to-r from-primary via-primary to-transparent w-0 group-hover:w-full transition-all duration-700" />
                         
-                        {/* Arrow Icon */}
+                        {/* Arrow Icon
                         <div className="mt-4 flex items-center gap-2 text-white/80 text-sm font-medium opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-200">
                           <span>Learn more</span>
                           <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                           </svg>
-                        </div>
+                        </div> */}
                       </div>
                     </div>
                   </div>
@@ -438,118 +416,126 @@ export default function ArtPage() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <ScrollReveal delay={400}>
-            <div className="text-center">
-              <a 
-                href="#contact-form"
-                className="group inline-flex items-center gap-4 px-10 py-5 bg-primary text-primary-foreground rounded-full font-semibold tracking-wider text-lg shadow-xl hover:shadow-2xl transition-all duration-500 hover:gap-6"
-              >
-                <span>HIRE ADRIANA NOW</span>
-                <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </a>
-            </div>
-          </ScrollReveal>
+          {/* CTA Buttons */}
+<ScrollReveal delay={400}>
+  <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+
+    {/* WhatsApp Button */}
+    <a 
+      href={`https://wa.me/${CO_WA_NUMBER}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group inline-flex items-center gap-4 px-10 py-5 bg-primary text-primary-foreground rounded-full font-semibold tracking-wider text-lg shadow-xl hover:shadow-2xl transition-all duration-500 hover:gap-6"
+    >
+      <span>CONTACT VIA WHATSAPP</span>
+
+      <svg 
+        className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg>
+    </a>
+
+    {/* SMS Button */}
+    <a 
+      href={`sms:${CO_SMS_NUMBER}`}
+      className="group inline-flex items-center gap-4 px-10 py-5 bg-black text-white rounded-full font-semibold tracking-wider text-lg shadow-xl hover:shadow-2xl transition-all duration-500 hover:gap-6"
+    >
+      <span>SEND TEXT MESSAGE</span>
+
+      <svg 
+        className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+      </svg>
+    </a>
+
+  </div>
+</ScrollReveal>
         </div>
       </section>
 
-      {/* Contact Form Section */}
-      {/* <section className="py-20 lg:py-32 bg-muted/30">
-        <div className="container mx-auto px-4">
-          <ScrollReveal>
-            <div className="max-w-6xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
-              <div className="grid lg:grid-cols-2">
+      {/* Gallery Section */}
+<section className="py-20 lg:py-32 bg-background">
+  <div className="container mx-auto px-4">
 
-                <div className="relative min-h-[400px] lg:min-h-full">
-                  <img
-                    src="https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&q=80"
-                    alt="Artist at work"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                </div>
+    <ScrollReveal>
+      <div className="text-center mb-16">
+        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground italic">
+          Art <span className="text-primary">Gallery</span>
+        </h2>
 
+        <p className="mt-6 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          Explore a curated gallery of Adriana Henao’s abstract creations,
+          where colors, textures and emotions merge to create a unique visual experience.
+        </p>
+      </div>
+    </ScrollReveal>
 
-                <div className="p-8 lg:p-12">
-                  <h3 className="text-2xl font-bold text-foreground text-center mb-2">Complete the form</h3>
-                  <p className="text-muted-foreground text-center mb-8">to hire Adriana Henao</p>
+    {/* Gallery Grid */}
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
 
-                  <form className="space-y-4">
-                    <input
-                      type="text"
-                      placeholder="First Name"
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Last Name"
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors"
-                    />
-                    <input
-                      type="email"
-                      placeholder="Email Address"
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors"
-                    />
-                    <div className="grid grid-cols-2 gap-4">
-                      <select className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors text-muted-foreground">
-                        <option>Select Country</option>
-                        <option>United States</option>
-                        <option>Colombia</option>
-                        <option>Mexico</option>
-                        <option>Spain</option>
-                      </select>
-                      <input
-                        type="tel"
-                        placeholder="Phone"
-                        className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors"
-                      />
-                    </div>
-                    <input
-                      type="text"
-                      placeholder="Event Type"
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors"
+      {galleryImages.map((img, index) => (
+        <ScrollReveal key={img.id} delay={index * 80}>
+          <div
+            className="group relative cursor-pointer"
+            onMouseEnter={() => setHoveredGallery(img.id)}
+            onMouseLeave={() => setHoveredGallery(null)}
+          >
+
+            {/* Frame */}
+            <div className="relative transition-all duration-700 group-hover:-translate-y-3 group-hover:shadow-2xl">
+
+              {/* Outer Frame */}
+              <div className="bg-gradient-to-br from-neutral-800 via-neutral-700 to-neutral-900 p-3 rounded-sm shadow-xl">
+
+                {/* Inner Frame */}
+                <div className="bg-gradient-to-br from-neutral-100 to-white p-2">
+
+                  <div className="relative aspect-square overflow-hidden">
+
+                    <img
+                      src={img.image}
+                      alt="Gallery artwork"
+                      className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
                     />
 
-                    <div className="py-4">
-                      <p className="text-sm text-foreground mb-3">
-                        How many hours do you want to hire the artist? <span className="text-primary">*</span>
-                      </p>
-                      <div className="space-y-2">
-                        <label className="flex items-center gap-3 cursor-pointer">
-                          <input type="radio" name="hours" className="w-4 h-4 text-primary" />
-                          <span className="text-sm text-muted-foreground">less than 2 hours</span>
-                        </label>
-                        <label className="flex items-center gap-3 cursor-pointer">
-                          <input type="radio" name="hours" className="w-4 h-4 text-primary" />
-                          <span className="text-sm text-muted-foreground">4 hours</span>
-                        </label>
-                        <label className="flex items-center gap-3 cursor-pointer">
-                          <input type="radio" name="hours" className="w-4 h-4 text-primary" />
-                          <span className="text-sm text-muted-foreground">more than 6 hours</span>
-                        </label>
-                      </div>
-                    </div>
-
-                    <textarea
-                      placeholder="Tell us more about your event, location, number of guests, what do you have in mind?"
-                      rows={4}
-                      className="w-full px-4 py-3 border border-border rounded-lg focus:outline-none focus:border-primary transition-colors resize-none"
+                    {/* Shimmer Effect */}
+                    <div
+                      className={cn(
+                        "absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full transition-transform duration-1000",
+                        hoveredGallery === img.id && "translate-x-full"
+                      )}
                     />
 
-                    <button
-                      type="submit"
-                      className="w-full py-4 bg-primary text-primary-foreground font-semibold tracking-wider rounded-lg hover:opacity-90 transition-all duration-300"
-                    >
-                      Submit Form
-                    </button>
-                  </form>
+                    {/* Hover Overlay */}
+                    <div
+                      className={cn(
+                        "absolute inset-0 bg-black/20 transition-opacity duration-500",
+                        hoveredGallery === img.id ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+
+                  </div>
+
                 </div>
               </div>
+
             </div>
-          </ScrollReveal>
-        </div>
-      </section> */}
+
+          </div>
+        </ScrollReveal>
+      ))}
+
+    </div>
+  </div>
+</section>
 
       <LuxuryFooter />
     </main>
