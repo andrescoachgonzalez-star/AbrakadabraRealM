@@ -4,7 +4,7 @@ import { useState } from "react"
 import { useParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { ArrowLeft, Minus, Plus, ChevronRight, Truck, Shield, Star } from "lucide-react"
+import { ArrowLeft, ChevronRight, Truck, Shield, Star } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
 
 const allProducts: Record<
@@ -255,9 +255,7 @@ export default function ProductDetailPage() {
   const product = allProducts[slug]
 
   const [selectedImage, setSelectedImage] = useState(0)
-  const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState<"description" | "details" | "shipping">("description")
-  const [selectedSize, setSelectedSize] = useState<string | null>(null)
 
   if (!product) {
     return (
@@ -318,6 +316,15 @@ export default function ProductDetailPage() {
                     SALE
                   </motion.div>
                 )}
+
+                <Link
+                  href="/clothing"
+                  className="absolute top-5 right-5 z-10 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/45 backdrop-blur-md px-4 py-2 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/90 shadow-lg transition-all duration-300 hover:border-[#c4a882]/70 hover:bg-black/65 hover:text-[#c4a882]"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  EXIT
+                </Link>
+
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={selectedImage}
@@ -485,63 +492,20 @@ export default function ProductDetailPage() {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Size Selection */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45 }}
-                className="mb-6"
-              >
-                <p className="text-white/50 text-xs tracking-widest uppercase mb-3">Size</p>
-                <div className="flex gap-2 flex-wrap">
-                  {product.sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`min-w-[48px] h-10 px-3 text-sm tracking-wide border transition-all duration-300 ${
-                        selectedSize === size
-                          ? "border-[#c4a882] bg-[#c4a882]/10 text-[#c4a882]"
-                          : "border-white/15 text-white/50 hover:border-white/30 hover:text-white/70"
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Quantity + WhatsApp */}
+              {/* WhatsApp */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="flex items-center gap-4 mb-8"
+                className="mb-8"
               >
-                <div className="flex items-center border border-white/15">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-10 h-11 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="w-12 h-11 flex items-center justify-center text-white text-sm border-x border-white/15">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-10 h-11 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-
                 <motion.a
                   href="https://wa.me/573103920569"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 h-11 bg-[#c41e3a] text-white text-sm font-bold tracking-widest hover:bg-[#a01830] transition-colors flex items-center justify-center"
+                  className="w-full h-11 bg-[#c41e3a] text-white text-sm font-bold tracking-widest hover:bg-[#a01830] transition-colors flex items-center justify-center"
                 >
                   BOOK IN WHATSAPP
                 </motion.a>

@@ -911,16 +911,17 @@ export default function VehicleDetailsPage() {
           transition={{ duration: 0.6, delay: 0.6 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
-          <motion.button
-            whileHover={{ scale: 1.03 }}
-            whileTap={{ scale: 0.97 }}
-            className="px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 min-w-[200px]"
-          >
-            <span className="flex items-center justify-center gap-2">
-              <CreditCard className="h-5 w-5" />
-              {"BOOK & PAY NOW"}
-            </span>
-          </motion.button>
+          <motion.a
+          href="sms:+573103920569"
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          className="px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 min-w-[200px] text-center"
+>
+          <span className="flex items-center justify-center gap-2">
+          <CreditCard className="h-5 w-5" />
+           {"BOOK IN SMS"}
+           </span>
+           </motion.a>
           <motion.a
             href="https://wa.me/13053109327"
             target="_blank"
