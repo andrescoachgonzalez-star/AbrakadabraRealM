@@ -1,22 +1,21 @@
 "use client"
 
-import React from "react"
-
-import { useState, useEffect, useRef } from "react"
-import { Search, ChevronDown } from "lucide-react"
+import React, { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
+import { getAllArtProducts } from "./data/art-products"
 
 // ScrollReveal Component
-function ScrollReveal({ 
-  children, 
-  delay = 0, 
-  className 
-}: { 
+function ScrollReveal({
+  children,
+  delay = 0,
+  className,
+}: {
   children: React.ReactNode
   delay?: number
-  className?: string 
+  className?: string
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
@@ -32,6 +31,7 @@ function ScrollReveal({
     )
 
     if (ref.current) observer.observe(ref.current)
+
     return () => observer.disconnect()
   }, [delay])
 
@@ -49,18 +49,6 @@ function ScrollReveal({
   )
 }
 
-// Art pieces data - exact names and prices from the original page
-const artPieces = [
-  { id: 1, title: "THE LION", originalPrice: 14388, price: 7194, image: "/art/thelion-art.webp" },
-  { id: 2, title: "BREATH OF LIFE", price: 10000, image: "/art/breath-art.webp" },
-  { id: 3, title: "THE FOUR ELEMENTS", price: 2000, image: "/art/fourelements-art.webp" },
-  { id: 4, title: "ETER", price: 1200, image: "/art/eter-art.webp" },
-  { id: 5, title: "WATER OF LIFE", price: 4000, image: "/art/wateroflife-art.webp" },
-  { id: 6, title: "XCHEL", price: 1200, image: "/art/xchel-art.webp" },
-  { id: 7, title: "FEELING", price: 4000, image: "/art/feeling-art.webp" },
-  { id: 8, title: "EMOTIONAL LIPS", originalPrice: 17536, price: 8768, image: "/art/emotionallips-art.webp" },
-]
-
 const downloadableArt = [
   { id: 1, title: "TORBELLINO DE EMOCIONES", originalPrice: 5, price: 2.5, image: "/art/torbellino-art.webp" },
   { id: 2, title: "GARDEN OF SERENITY", originalPrice: 5, price: 2.5, image: "/art/garden-art.webp" },
@@ -73,9 +61,9 @@ const downloadableArt = [
 ]
 
 const hireCategories = [
-  { title: "Art Exhibitions", image: "/art/artexhibition-art.webp" },
-  { title: "Murals & Live Art", image: "/art/murals-art.webp" },
-  { title: "Fairs & Cultural Events", image: "/art/culturalevents-art.webp" },
+  { id: 1, title: "Art Exhibitions", image: "/art/artexhibition-art.webp" },
+  { id: 2, title: "Murals & Live Art", image: "/art/murals-art.webp" },
+  { id: 3, title: "Fairs & Cultural Events", image: "/art/culturalevents-art.webp" },
 ]
 
 const galleryImages = [
@@ -97,27 +85,28 @@ export default function ArtPage() {
   const [isLoaded, setIsLoaded] = useState(false)
   const [hoveredPiece, setHoveredPiece] = useState<number | null>(null)
   const [downloadableHoveredPieces, setDownloadableHoveredPieces] = useState<{ [key: number]: boolean }>({})
+  const [hoveredGallery, setHoveredGallery] = useState<number | null>(null)
+
+  const CO_WA_NUMBER = "573103920569"
+  const CO_SMS_NUMBER = "+573103920569"
+
+  const artPieces = getAllArtProducts()
 
   useEffect(() => {
     setIsLoaded(true)
   }, [])
 
   const handleDownloadableHover = (id: number, isHovered: boolean) => {
-    setDownloadableHoveredPieces(prev => ({
+    setDownloadableHoveredPieces((prev) => ({
       ...prev,
-      [id]: isHovered
+      [id]: isHovered,
     }))
   }
-
-  const [hoveredGallery, setHoveredGallery] = useState<number | null>(null)
-
-  const CO_WA_NUMBER = "573103920569"
-  const CO_SMS_NUMBER = "+573103920569"
 
   return (
     <main className="bg-background overflow-x-hidden">
       <LuxuryHeader />
-      
+
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">
         {/* Background Image */}
@@ -132,10 +121,12 @@ export default function ArtPage() {
 
         {/* Content */}
         <div className="relative z-10 container mx-auto px-4 text-center">
-          <div className={cn(
-            "transition-all duration-1000 delay-300",
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-          )}>
+          <div
+            className={cn(
+              "transition-all duration-1000 delay-300",
+              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+            )}
+          >
             <h1 className="font-serif text-6xl md:text-8xl lg:text-9xl text-white mb-4">
               art,
             </h1>
@@ -145,24 +136,25 @@ export default function ArtPage() {
             <h3 className="font-serif text-4xl md:text-6xl lg:text-7xl text-white mb-8">
               & invest.
             </h3>
-            
-            <a 
-              href="https://www.instagram.com/adrianahenaoart/" 
-              target="_blank" 
+
+            <a
+              href="https://www.instagram.com/adrianahenaoart/"
+              target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-6 py-3 bg-white/10 backdrop-blur-sm rounded-full text-white text-sm tracking-wider hover:bg-white/20 transition-all duration-300"
             >
               Follow on Instagram
             </a>
           </div>
-
-          </div>
+        </div>
 
         {/* Scroll Indicator */}
-        <div className={cn(
-          "absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-all duration-1000 delay-700",
-          isLoaded ? "opacity-100" : "opacity-0"
-        )}>
+        <div
+          className={cn(
+            "absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 transition-all duration-1000 delay-700",
+            isLoaded ? "opacity-100" : "opacity-0"
+          )}
+        >
           <span className="text-xs tracking-[0.2em] text-white/60 uppercase">Discover</span>
           <div className="w-px h-12 bg-gradient-to-b from-white/50 to-transparent animate-pulse" />
         </div>
@@ -172,7 +164,8 @@ export default function ArtPage() {
       <div className="bg-primary/10 py-4">
         <div className="container mx-auto px-4 text-center">
           <p className="text-sm text-foreground">
-            <span className="font-bold text-primary">IMPORTANT:</span> NO PAINTING INCLUDES SHIPPING COSTS; SHIPMENTS ARE MADE FROM NEW YORK CITY, UNITED STATES.
+            <span className="font-bold text-primary">IMPORTANT:</span> NO PAINTING INCLUDES
+            SHIPPING COSTS; SHIPMENTS ARE MADE FROM NEW YORK CITY, UNITED STATES.
           </p>
         </div>
       </div>
@@ -183,10 +176,18 @@ export default function ArtPage() {
           <ScrollReveal>
             <div className="grid lg:grid-cols-2 gap-12 items-start mb-20">
               <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight">
-                Art as a form of<br />investment
+                Art as a form of
+                <br />
+                investment
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Investing in art not only beautifies your space, it can also increase its value over time. Throughout history, art has proven to be a solid investment, capable of withstanding economic fluctuations. Acquiring a unique piece is not just having something decorative, but a tangible asset that can multiply its value. Discover the work of Adriana Henao, whose abstract and spiritual art is destined to transcend. By purchasing one of her pieces, you are investing in beauty and a financial legacy.
+                Investing in art not only beautifies your space, it can also increase its value
+                over time. Throughout history, art has proven to be a solid investment, capable of
+                withstanding economic fluctuations. Acquiring a unique piece is not just having
+                something decorative, but a tangible asset that can multiply its value. Discover
+                the work of Adriana Henao, whose abstract and spiritual art is destined to
+                transcend. By purchasing one of her pieces, you are investing in beauty and a
+                financial legacy.
               </p>
             </div>
           </ScrollReveal>
@@ -195,66 +196,54 @@ export default function ArtPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-10">
             {artPieces.map((piece, index) => (
               <ScrollReveal key={piece.id} delay={index * 100}>
-                <div 
-                  className="group relative cursor-pointer"
-                  onMouseEnter={() => setHoveredPiece(piece.id)}
-                  onMouseLeave={() => setHoveredPiece(null)}
-                >
-                  {/* Frame Container with elegant shadow */}
-                  <div className="relative transition-all duration-700 group-hover:-translate-y-3 group-hover:shadow-2xl">
-                    {/* Outer Frame */}
-                    <div className="bg-gradient-to-br from-neutral-800 via-neutral-700 to-neutral-900 p-4 rounded-sm shadow-xl">
-                      {/* Inner Frame */}
-                      <div className="bg-gradient-to-br from-neutral-100 to-white p-3">
-                        {/* Image */}
-                        <div className="relative aspect-[4/5] overflow-hidden">
-                          <img
-                            src={piece.image || "/placeholder.svg"}
-                            alt={piece.title}
-                            className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
-                          />
-                          
-                          {/* Shimmer Effect on Hover */}
-                          <div className={cn(
-                            "absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full transition-transform duration-1000",
-                            hoveredPiece === piece.id && "translate-x-full"
-                          )} />
-                          
-                          {/* Sale Badge */}
-                          {piece.originalPrice && (
-                            <div className={cn(
-                              "absolute top-3 left-3 px-3 py-1 bg-primary text-primary-foreground text-xs font-bold tracking-wider rounded-full shadow-lg transition-all duration-500",
-                              hoveredPiece === piece.id ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
-                            )}>
-                              50% OFF
-                            </div>
-                          )}
+                <Link href={`/art/${piece.slug}`}>
+                  <div
+                    className="group relative cursor-pointer"
+                    onMouseEnter={() => setHoveredPiece(index)}
+                    onMouseLeave={() => setHoveredPiece(null)}
+                  >
+                    <div className="relative transition-all duration-700 group-hover:-translate-y-3 group-hover:shadow-2xl">
+                      <div className="bg-gradient-to-br from-neutral-800 via-neutral-700 to-neutral-900 p-4 rounded-sm shadow-xl">
+                        <div className="bg-gradient-to-br from-neutral-100 to-white p-3">
+                          <div className="relative aspect-[4/5] overflow-hidden">
+                            <img
+                              src={piece.images?.[0] || "/placeholder.svg"}
+                              alt={piece.title}
+                              className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
+                            />
+
+                            <div
+                              className={cn(
+                                "absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full transition-transform duration-1000",
+                                hoveredPiece === index && "translate-x-full"
+                              )}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Info with elegant animation */}
-                  <div className="mt-6 transition-all duration-500 group-hover:translate-x-2">
-                    <h3 className="font-bold text-foreground tracking-wider text-lg">{piece.title}</h3>
-                    <div className="flex items-center gap-3 mt-2">
-                      {piece.originalPrice && (
-                        <span className="text-muted-foreground line-through text-sm">
-                          {piece.originalPrice.toLocaleString()},00 USD
+                    <div className="mt-6 transition-all duration-500 group-hover:translate-x-2">
+                      <h3 className="font-bold text-foreground tracking-wider text-lg">
+                        {piece.title}
+                      </h3>
+
+                      <div className="flex items-center gap-3 mt-2">
+                        {piece.originalPrice && (
+                          <span className="text-muted-foreground line-through text-sm">
+                            {piece.originalPrice.toLocaleString()},00 USD
+                          </span>
+                        )}
+
+                        <span className="font-semibold text-lg text-primary">
+                          {piece.price.toLocaleString()},00 USD
                         </span>
-                      )}
-                      <span className={cn(
-                        "font-semibold text-lg",
-                        piece.originalPrice ? "text-primary" : "text-foreground"
-                      )}>
-                        {piece.price.toLocaleString()},00 USD
-                      </span>
+                      </div>
+
+                      <div className="mt-3 h-0.5 bg-gradient-to-r from-primary to-primary/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                     </div>
-                    
-                    {/* Animated underline */}
-                    <div className="mt-3 h-0.5 bg-gradient-to-r from-primary to-primary/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                   </div>
-                </div>
+                </Link>
               </ScrollReveal>
             ))}
           </div>
@@ -267,10 +256,19 @@ export default function ArtPage() {
           <ScrollReveal>
             <div className="grid lg:grid-cols-2 gap-12 items-start mb-16">
               <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground leading-tight">
-                Downloadable<br />Adriana art:
+                Downloadable
+                <br />
+                Adriana art:
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                Investing in downloadable art is a meaningful way to support an artist's creative journey while acquiring something unique and versatile. Adriana Henao's abstract and spiritual pieces are now available in digital format, perfect for use as wallpapers, elements to share, or even as a collectible that could grow in value over time. By purchasing her downloadable art, you're not just owning a piece of her vision—you're fostering her ability to continue inspiring others. Accessible, timeless, and full of meaning, these pieces are an investment in creativity and a legacy of inspiration.
+                Investing in downloadable art is a meaningful way to support an artist&apos;s
+                creative journey while acquiring something unique and versatile. Adriana Henao&apos;s
+                abstract and spiritual pieces are now available in digital format, perfect for use
+                as wallpapers, elements to share, or even as a collectible that could grow in value
+                over time. By purchasing her downloadable art, you&apos;re not just owning a piece
+                of her vision—you&apos;re fostering her ability to continue inspiring others.
+                Accessible, timeless, and full of meaning, these pieces are an investment in
+                creativity and a legacy of inspiration.
               </p>
             </div>
           </ScrollReveal>
@@ -279,36 +277,36 @@ export default function ArtPage() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
             {downloadableArt.map((piece, index) => (
               <ScrollReveal key={piece.id} delay={index * 80}>
-                <div 
+                <div
                   className="group cursor-pointer"
                   onMouseEnter={() => handleDownloadableHover(piece.id, true)}
                   onMouseLeave={() => handleDownloadableHover(piece.id, false)}
                 >
-                  {/* Frame Container with elegant shadow */}
                   <div className="relative transition-all duration-700 group-hover:-translate-y-3 group-hover:shadow-2xl">
-                    {/* Outer Frame */}
                     <div className="bg-gradient-to-br from-neutral-800 via-neutral-700 to-neutral-900 p-3 rounded-sm shadow-xl">
-                      {/* Inner Frame */}
                       <div className="bg-gradient-to-br from-neutral-100 to-white p-2">
-                        {/* Image */}
                         <div className="relative aspect-square overflow-hidden">
                           <img
                             src={piece.image || "/placeholder.svg"}
                             alt={piece.title}
                             className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
                           />
-                          
-                          {/* Shimmer Effect on Hover */}
-                          <div className={cn(
-                            "absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full transition-transform duration-1000",
-                            downloadableHoveredPieces[piece.id] && "translate-x-full"
-                          )} />
 
-                          {/* Sale Badge */}
-                          <div className={cn(
-                            "absolute top-2 left-2 px-2 py-1 bg-primary text-primary-foreground text-xs font-bold tracking-wider rounded-full shadow-lg transition-all duration-500",
-                            downloadableHoveredPieces[piece.id] ? "opacity-100 translate-x-0" : "opacity-0 -translate-x-4"
-                          )}>
+                          <div
+                            className={cn(
+                              "absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full transition-transform duration-1000",
+                              downloadableHoveredPieces[piece.id] && "translate-x-full"
+                            )}
+                          />
+
+                          <div
+                            className={cn(
+                              "absolute top-2 left-2 px-2 py-1 bg-primary text-primary-foreground text-xs font-bold tracking-wider rounded-full shadow-lg transition-all duration-500",
+                              downloadableHoveredPieces[piece.id]
+                                ? "opacity-100 translate-x-0"
+                                : "opacity-0 -translate-x-4"
+                            )}
+                          >
                             50% OFF
                           </div>
                         </div>
@@ -316,19 +314,19 @@ export default function ArtPage() {
                     </div>
                   </div>
 
-                  {/* Info with elegant animation */}
                   <div className="mt-5 transition-all duration-500 group-hover:translate-x-2">
-                    <h3 className="font-bold text-foreground text-sm tracking-wider">{piece.title}</h3>
+                    <h3 className="font-bold text-foreground text-sm tracking-wider">
+                      {piece.title}
+                    </h3>
                     <div className="flex items-center gap-2 mt-2">
                       <span className="text-muted-foreground line-through text-xs">
                         {piece.originalPrice},00 USD
                       </span>
                       <span className="text-primary font-semibold text-sm">
-                        {piece.price.toFixed(2).replace('.', ',')} USD
+                        {piece.price.toFixed(2).replace(".", ",")} USD
                       </span>
                     </div>
-                    
-                    {/* Animated underline */}
+
                     <div className="mt-3 h-0.5 bg-gradient-to-r from-primary to-primary/30 scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                   </div>
                 </div>
@@ -338,78 +336,65 @@ export default function ArtPage() {
         </div>
       </section>
 
-      {/* Where to Hire Section - Elegant Redesign */}
+      {/* Where to Hire Section */}
       <section className="py-20 lg:py-32 bg-gradient-to-b from-muted/30 via-background to-muted/50 relative overflow-hidden">
-        {/* Decorative Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
           <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         </div>
 
         <div className="container mx-auto px-4 relative z-10">
-          {/* Header with elegant animation */}
           <ScrollReveal>
             <div className="text-center mb-20">
               <span className="inline-block px-4 py-2 bg-primary/10 text-primary text-sm font-semibold tracking-widest rounded-full mb-6">
                 COLLABORATE WITH THE ARTIST
               </span>
               <h2 className="font-serif text-4xl md:text-5xl lg:text-7xl text-foreground italic leading-tight mb-6">
-                Where to hire<br />
+                Where to hire
+                <br />
                 <span className="text-primary">Adriana Henao?</span>
               </h2>
               <p className="max-w-3xl mx-auto text-muted-foreground leading-relaxed text-lg">
-                Adriana Henao is an artist whose abstract work goes beyond the visual, connecting deeply with emotions and spirituality. Her art creates a profound connection between the viewer and their own essence.
+                Adriana Henao is an artist whose abstract work goes beyond the visual, connecting
+                deeply with emotions and spirituality. Her art creates a profound connection
+                between the viewer and their own essence.
               </p>
             </div>
           </ScrollReveal>
 
-          {/* Hire Categories - Elegant Cards */}
+          {/* Hire Categories */}
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             {hireCategories.map((category, index) => (
-              <ScrollReveal key={category.title} delay={index * 150}>
-                <div className="group relative cursor-pointer">
-                  {/* Card Container */}
+              <ScrollReveal key={category.id} delay={index * 150}>
+                <div className="group relative">
                   <div className="relative bg-white rounded-3xl overflow-hidden shadow-xl transition-all duration-700 group-hover:-translate-y-4 group-hover:shadow-2xl">
-                    {/* Image Container */}
                     <div className="relative aspect-[4/5] overflow-hidden">
                       <img
                         src={category.image || "/placeholder.svg"}
                         alt={category.title}
                         className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
                       />
-                      
-                      {/* Gradient Overlay */}
+
                       <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-                      
-                      {/* Shimmer Effect */}
+
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-                      
-                      {/* Number Badge */}
+
                       <div className="absolute top-6 left-6 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20 transition-all duration-500 group-hover:bg-primary group-hover:border-primary">
-                        <span className="text-white font-serif text-xl">{String(index + 1).padStart(2, '0')}</span>
+                        <span className="text-white font-serif text-xl">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
                       </div>
-                      
-                      {/* Content at Bottom */}
+
                       <div className="absolute bottom-0 left-0 right-0 p-8">
                         <h3 className="text-white text-xl font-bold tracking-wider mb-3 transition-transform duration-500 group-hover:translate-x-2">
                           {category.title}
                         </h3>
-                        
-                        {/* Animated Line */}
+
                         <div className="h-0.5 bg-gradient-to-r from-primary via-primary to-transparent w-0 group-hover:w-full transition-all duration-700" />
-                        
-                        {/* Arrow Icon
-                        <div className="mt-4 flex items-center gap-2 text-white/80 text-sm font-medium opacity-0 -translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500 delay-200">
-                          <span>Learn more</span>
-                          <svg className="w-4 h-4 transform group-hover:translate-x-2 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                          </svg>
-                        </div> */}
                       </div>
                     </div>
                   </div>
-                  
-                  {/* Decorative shadow element */}
+
                   <div className="absolute -bottom-2 left-4 right-4 h-8 bg-primary/10 rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 </div>
               </ScrollReveal>
@@ -417,125 +402,113 @@ export default function ArtPage() {
           </div>
 
           {/* CTA Buttons */}
-<ScrollReveal delay={400}>
-  <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+          <ScrollReveal delay={400}>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-6">
+              <a
+                href={`https://wa.me/${CO_WA_NUMBER}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-4 px-10 py-5 bg-primary text-primary-foreground rounded-full font-semibold tracking-wider text-lg shadow-xl hover:shadow-2xl transition-all duration-500 hover:gap-6"
+              >
+                <span>CONTACT VIA WHATSAPP</span>
 
-    {/* WhatsApp Button */}
-    <a 
-      href={`https://wa.me/${CO_WA_NUMBER}`}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="group inline-flex items-center gap-4 px-10 py-5 bg-primary text-primary-foreground rounded-full font-semibold tracking-wider text-lg shadow-xl hover:shadow-2xl transition-all duration-500 hover:gap-6"
-    >
-      <span>CONTACT VIA WHATSAPP</span>
+                <svg
+                  className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </a>
 
-      <svg 
-        className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-      </svg>
-    </a>
+              <a
+                href={`sms:${CO_SMS_NUMBER}`}
+                className="group inline-flex items-center gap-4 px-10 py-5 bg-black text-white rounded-full font-semibold tracking-wider text-lg shadow-xl hover:shadow-2xl transition-all duration-500 hover:gap-6"
+              >
+                <span>SEND TEXT MESSAGE</span>
 
-    {/* SMS Button */}
-    <a 
-      href={`sms:${CO_SMS_NUMBER}`}
-      className="group inline-flex items-center gap-4 px-10 py-5 bg-black text-white rounded-full font-semibold tracking-wider text-lg shadow-xl hover:shadow-2xl transition-all duration-500 hover:gap-6"
-    >
-      <span>SEND TEXT MESSAGE</span>
-
-      <svg 
-        className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
-        fill="none"
-        viewBox="0 0 24 24"
-        stroke="currentColor"
-      >
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-      </svg>
-    </a>
-
-  </div>
-</ScrollReveal>
+                <svg
+                  className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
+              </a>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* Gallery Section */}
-<section className="py-20 lg:py-32 bg-background">
-  <div className="container mx-auto px-4">
+      <section className="py-20 lg:py-32 bg-background">
+        <div className="container mx-auto px-4">
+          <ScrollReveal>
+            <div className="text-center mb-16">
+              <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground italic">
+                Art <span className="text-primary">Gallery</span>
+              </h2>
 
-    <ScrollReveal>
-      <div className="text-center mb-16">
-        <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-foreground italic">
-          Art <span className="text-primary">Gallery</span>
-        </h2>
-
-        <p className="mt-6 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-          Explore a curated gallery of Adriana Henao’s abstract creations,
-          where colors, textures and emotions merge to create a unique visual experience.
-        </p>
-      </div>
-    </ScrollReveal>
-
-    {/* Gallery Grid */}
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-
-      {galleryImages.map((img, index) => (
-        <ScrollReveal key={img.id} delay={index * 80}>
-          <div
-            className="group relative cursor-pointer"
-            onMouseEnter={() => setHoveredGallery(img.id)}
-            onMouseLeave={() => setHoveredGallery(null)}
-          >
-
-            {/* Frame */}
-            <div className="relative transition-all duration-700 group-hover:-translate-y-3 group-hover:shadow-2xl">
-
-              {/* Outer Frame */}
-              <div className="bg-gradient-to-br from-neutral-800 via-neutral-700 to-neutral-900 p-3 rounded-sm shadow-xl">
-
-                {/* Inner Frame */}
-                <div className="bg-gradient-to-br from-neutral-100 to-white p-2">
-
-                  <div className="relative aspect-square overflow-hidden">
-
-                    <img
-                      src={img.image}
-                      alt="Gallery artwork"
-                      className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
-                    />
-
-                    {/* Shimmer Effect */}
-                    <div
-                      className={cn(
-                        "absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full transition-transform duration-1000",
-                        hoveredGallery === img.id && "translate-x-full"
-                      )}
-                    />
-
-                    {/* Hover Overlay */}
-                    <div
-                      className={cn(
-                        "absolute inset-0 bg-black/20 transition-opacity duration-500",
-                        hoveredGallery === img.id ? "opacity-100" : "opacity-0"
-                      )}
-                    />
-
-                  </div>
-
-                </div>
-              </div>
-
+              <p className="mt-6 text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+                Explore a curated gallery of Adriana Henao&apos;s abstract creations, where colors,
+                textures and emotions merge to create a unique visual experience.
+              </p>
             </div>
+          </ScrollReveal>
 
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            {galleryImages.map((img, index) => (
+              <ScrollReveal key={img.id} delay={index * 80}>
+                <div
+                  className="group relative cursor-pointer"
+                  onMouseEnter={() => setHoveredGallery(img.id)}
+                  onMouseLeave={() => setHoveredGallery(null)}
+                >
+                  <div className="relative transition-all duration-700 group-hover:-translate-y-3 group-hover:shadow-2xl">
+                    <div className="bg-gradient-to-br from-neutral-800 via-neutral-700 to-neutral-900 p-3 rounded-sm shadow-xl">
+                      <div className="bg-gradient-to-br from-neutral-100 to-white p-2">
+                        <div className="relative aspect-square overflow-hidden">
+                          <img
+                            src={img.image}
+                            alt="Gallery artwork"
+                            className="w-full h-full object-cover transition-all duration-1000 group-hover:scale-110"
+                          />
+
+                          <div
+                            className={cn(
+                              "absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full transition-transform duration-1000",
+                              hoveredGallery === img.id && "translate-x-full"
+                            )}
+                          />
+
+                          <div
+                            className={cn(
+                              "absolute inset-0 bg-black/20 transition-opacity duration-500",
+                              hoveredGallery === img.id ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            ))}
           </div>
-        </ScrollReveal>
-      ))}
-
-    </div>
-  </div>
-</section>
+        </div>
+      </section>
 
       <LuxuryFooter />
     </main>

@@ -22,8 +22,7 @@ export const artProducts: ArtProduct[] = [
     onSale: true,
     stock: 1,
     category: "ART",
-    description:
-      `"The Lion" is a work born on the island of Ibiza, Spain, a place that offers peace and a source of inspiration. The artist channels the energy of this paradise into her work, representing the lion as a symbol of improvement, courage and struggle.
+    description: `"The Lion" is a work born on the island of Ibiza, Spain, a place that offers peace and a source of inspiration. The artist channels the energy of this paradise into her work, representing the lion as a symbol of improvement, courage and struggle.
 
 The creation is a tribute to the beauty of Ibiza and a manifestation of the connection between the artist, the island and its passion for art.
 
@@ -34,7 +33,6 @@ The piece not only captures the majesty of the lion but also the determination o
       "/art/thelion-art.webp",
       "/art/thelion-1.webp",
       "/art/thelion-2.webp",
-      "/art/thelion-3.webp"
     ]
   },
 
@@ -45,8 +43,7 @@ The piece not only captures the majesty of the lion but also the determination o
     price: 10000,
     stock: 1,
     category: "ART",
-    description:
-      `"Breath of Life" captures universal creative spirit and the balance of the terrestrial world.
+    description: `"Breath of Life" captures universal creative spirit and the balance of the terrestrial world.
 
 The work fuses plants, animals and humans in a network of positive energy. This abstract painting symbolizes the creation and union of living beings connecting them in harmony.
 
@@ -55,7 +52,6 @@ The piece visualizes natural interaction between earth and the universe includin
       "/art/breath-art.webp",
       "/art/breath-1.webp",
       "/art/breath-2.webp",
-      "/art/breath-3.webp"
     ]
   },
 
@@ -66,8 +62,7 @@ The piece visualizes natural interaction between earth and the universe includin
     price: 2000,
     stock: 4,
     category: "ART",
-    description:
-      `"The Four Elements" reflects the cosmic conception of Mayan culture based on a triadic harmony.
+    description: `"The Four Elements" reflects the cosmic conception of Mayan culture based on a triadic harmony.
 
 The Mayan universe is composed of three planes: the sky, the earth and the underworld each extending in four directions.
 
@@ -87,8 +82,7 @@ The work abstracts this idea incorporating symbols such as ceibas, birds, types 
     price: 1200,
     stock: 1,
     category: "ART",
-    description:
-      `The energy of the ether is a constant current that springs from the depths of the universe establishing an essential union between humanity and the creative process of cosmos.
+    description: `The energy of the ether is a constant current that springs from the depths of the universe establishing an essential union between humanity and the creative process of cosmos.
 
 This intangible and powerful entity known as "ether" is considered the very soul of the world breathing life and meaning into everything that exists.
 
@@ -96,7 +90,6 @@ Each manifestation of life finds its origin in this primordial energy.`,
     images: [
       "/art/eter-art.webp",
       "/art/eter-1.webp",
-      "/art/eter-2.webp"
     ]
   },
 
@@ -107,8 +100,7 @@ Each manifestation of life finds its origin in this primordial energy.`,
     price: 4000,
     stock: 1,
     category: "ART",
-    description:
-      `This abstract work embodies the concept of water as a primary element of creation representing life and togetherness.
+    description: `This abstract work embodies the concept of water as a primary element of creation representing life and togetherness.
 
 Water transcends its chemical composition to become a symbol loaded with meaning connecting plants animals and people in one interconnected network.
 
@@ -116,7 +108,6 @@ The notion that water has perception and emotion is ingrained in this interpreta
     images: [
       "/art/wateroflife-art.webp",
       "/art/wateroflife-1.webp",
-      "/art/wateroflife-2.webp"
     ]
   },
 
@@ -127,8 +118,7 @@ The notion that water has perception and emotion is ingrained in this interpreta
     price: 1200,
     stock: 1,
     category: "ART",
-    description:
-      `"Ixchel" is a tribute to the Mayan goddess of the moon, love, pregnancy, medicine and textile work.
+    description: `"Ixchel" is a tribute to the Mayan goddess of the moon, love, pregnancy, medicine and textile work.
 
 The work summarizes the essence of Ixchel fusing spiritual history with powerful stones like obsidian which open paths towards abundance and absorb negative energies.
 
@@ -136,7 +126,7 @@ This artistic representation symbolizes the gestation of love and medicine revit
     images: [
       "/art/xchel-art.webp",
       "/art/xchel-1.webp",
-      "/art/xchel-2.webp"
+
     ]
   },
 
@@ -147,8 +137,7 @@ This artistic representation symbolizes the gestation of love and medicine revit
     price: 4000,
     stock: 1,
     category: "ART",
-    description:
-      `"Feeling" delves into the emotional nature of people and how art becomes a channel to express what words sometimes cannot.
+    description: `"Feeling" delves into the emotional nature of people and how art becomes a channel to express what words sometimes cannot.
 
 Emotions are often hidden and art becomes the ideal way to release them.
 
@@ -169,8 +158,7 @@ Each color and stroke in the work transmits joy sadness love balance and placidi
     onSale: true,
     stock: 1,
     category: "ART",
-    description:
-      `Through the lips I can understand the opening or narrow-mindedness what I want or do not want.
+    description: `Through the lips I can understand the opening or narrow-mindedness what I want or do not want.
 
 Lips can perceive tensions worries sorrows or fears.
 
@@ -178,7 +166,8 @@ The mouth is the manifestation of personality appetites desires hopes and charac
     images: [
       "/art/emotionallips-art.webp",
       "/art/emotionallips-1.webp",
-      "/art/emotionallips-2.webp"
+      "/art/emotionallips-2.webp",
+      "/art/emotionallips-3.webp",
     ]
   }
 
