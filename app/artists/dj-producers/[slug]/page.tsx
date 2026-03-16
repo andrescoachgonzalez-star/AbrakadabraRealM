@@ -26,7 +26,7 @@ const djData: Record<
 > = {
   mara: {
     name: "Dj Mara",
-    image: "/artists/dj-mara.jpg",
+    image: "/Image-DJs/mara.png",
     location: "Colombia",
     contracts: "50+ Contracts",
     instagramHandle: "@djmaranew",
@@ -35,14 +35,13 @@ const djData: Record<
       "An icon of Colombian electronic music in the world DJ Mara, stage name of Juan Carlos, is a Colombian DJ and music producer with a career of more than 30 years in the international electronic scene. Born in [DJ Mara's hometown], he was attracted to music from an early age, especially the electronic sounds he heard in clubs and radio stations. In the early 1990s, DJ Mara began playing local parties and events, quickly gaining recognition for his talent and infectious energy. His passion for music led him to explore different electronic genres, from techno and house to trance and ambient. In 1995, DJ Mara made the decision to take a step forward in his career and move to Manizales, where he immersed himself in the vibrant European electronic scene. There, he quickly discovered himself as one of the most respected and sought-after DJs, playing internationally renowned clubs and festivals.",
     pdfUrl: "/artists/pdfs/dj-mara-presskit.pdf",
     pdfLabel: "Download PDF Brochure",
-    spotifyUrl:
-      "https://open.spotify.com/intl-es/artist/1OUuxQNvF1uRYOtLgv9Ood",
+    spotifyUrl: "https://open.spotify.com/intl-es/artist/1OUuxQNvF1uRYOtLgv9Ood",
     youtubeUrl: "#",
     email: undefined,
   },
   mulan: {
     name: "Mulan",
-    image: "/artists/dj-mulan.jpg",
+    image: "/Image-DJs/mulan.png",
     location: "Miami",
     contracts: "22+ Contracts",
     instagramHandle: "@mulanvibes",
@@ -56,7 +55,7 @@ const djData: Record<
   },
   "joseph-ren": {
     name: "Joseph Ren",
-    image: "/artists/dj-joseph.jpg",
+    image: "/Image-DJs/josep.png",
     location: "Colombia",
     contracts: "12+ Contracts",
     instagramHandle: "@josephren__",
@@ -65,8 +64,7 @@ const djData: Record<
       "Juan Jose rivera rendon from Colombia also known as Joseph Ren, his passion for music has existed since childhood. At the age 17 (2017) he began his musical studies at the hand of Maurizio Ruggiero (engineer the Martinez Brothers, Marco Carola, Cedric Gervais and more). Later at 18 he made his first debut as a deejay for the label Ritmik Records, debuting in one of the best underground clubs in the city of Miami.",
     pdfUrl: "/artists/pdfs/joseph-ren-presskit.pdf",
     pdfLabel: "Download PDF Brochure",
-    spotifyUrl:
-      "https://open.spotify.com/artist/0TG7p0ATDDBfhBjl9EBvIb",
+    spotifyUrl: "https://open.spotify.com/artist/0TG7p0ATDDBfhBjl9EBvIb",
     youtubeUrl: "#",
     email: "infojosephren@gmail.com",
   },
@@ -130,7 +128,6 @@ export default function DJDetailPage() {
     <main className="min-h-screen bg-[#111] overflow-x-hidden">
       <LuxuryHeader />
 
-      {/* Back button */}
       <div className="container mx-auto px-6 pt-28 pb-4">
         <Link
           href="/artists/dj-producers"
@@ -141,23 +138,19 @@ export default function DJDetailPage() {
         </Link>
       </div>
 
-      {/* Hero: Image + Bio */}
       <section className="container mx-auto px-6 pb-16">
         <div className="bg-[#1a1a1a] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
           <div className="flex flex-col lg:flex-row">
-            {/* Left: Image with red triangle accents */}
             <div className="lg:w-1/2 relative aspect-square lg:aspect-auto lg:min-h-[600px]">
               <img
                 src={dj.image || "/placeholder.svg"}
                 alt={dj.name}
                 className="w-full h-full object-cover"
               />
-              {/* Red triangle accents */}
               <div className="absolute top-0 right-0 w-0 h-0 border-t-[200px] border-t-[oklch(0.55_0.18_20)] border-l-[200px] border-l-transparent opacity-80" />
               <div className="absolute bottom-0 right-0 w-0 h-0 border-b-[150px] border-b-[oklch(0.55_0.18_20)]/60 border-l-[150px] border-l-transparent" />
             </div>
 
-            {/* Right: Info */}
             <div className="lg:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center">
               <motion.p
                 initial={{ opacity: 0, y: 10 }}
@@ -167,6 +160,7 @@ export default function DJDetailPage() {
               >
                 {"Dj -- Producer"}
               </motion.p>
+
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -185,7 +179,6 @@ export default function DJDetailPage() {
                 {dj.fullBio}
               </motion.p>
 
-              {/* Info cards */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -196,6 +189,7 @@ export default function DJDetailPage() {
                   <MapPin className="w-4 h-4 text-[oklch(0.65_0.2_20)]" />
                   <span className="text-white text-sm">{dj.location}</span>
                 </div>
+
                 <a
                   href={dj.instagramUrl}
                   target="_blank"
@@ -207,13 +201,13 @@ export default function DJDetailPage() {
                     {dj.instagramHandle}
                   </span>
                 </a>
+
                 <div className="flex items-center gap-3 bg-[#222] rounded-lg px-5 py-3 border border-white/5">
                   <Music className="w-4 h-4 text-[oklch(0.65_0.2_20)]" />
                   <span className="text-white text-sm">{dj.contracts}</span>
                 </div>
               </motion.div>
 
-              {/* Music platforms */}
               {(dj.spotifyUrl || dj.youtubeUrl) && (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -232,10 +226,9 @@ export default function DJDetailPage() {
                       Spotify
                     </a>
                   )}
+
                   {dj.youtubeUrl && (
-                    <span
-                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF0000]/10 border border-[#FF0000]/30 rounded-full text-[#FF0000] text-xs font-medium hover:bg-[#FF0000]/20 transition-colors cursor-default"
-                    >
+                    <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#FF0000]/10 border border-[#FF0000]/30 rounded-full text-[#FF0000] text-xs font-medium hover:bg-[#FF0000]/20 transition-colors cursor-default">
                       <ExternalLink className="w-3 h-3" />
                       YouTube
                     </span>
@@ -243,7 +236,6 @@ export default function DJDetailPage() {
                 </motion.div>
               )}
 
-              {/* PDF Section */}
               {dj.pdfUrl ? (
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
@@ -254,6 +246,7 @@ export default function DJDetailPage() {
                   <p className="text-white/70 text-sm mb-4">
                     {"If you wanna see more, click on the PDF below:"}
                   </p>
+
                   <a
                     href={dj.pdfUrl}
                     target="_blank"
@@ -271,15 +264,12 @@ export default function DJDetailPage() {
                   transition={{ delay: 0.6 }}
                   className="bg-gradient-to-r from-[oklch(0.55_0.18_20)]/10 to-transparent border border-[oklch(0.55_0.18_20)]/20 rounded-xl p-6"
                 >
-                  <p className="text-white/50 text-sm">
-                    {dj.pdfLabel}
-                  </p>
+                  <p className="text-white/50 text-sm">{dj.pdfLabel}</p>
                 </motion.div>
               )}
             </div>
           </div>
 
-          {/* Hire button */}
           <Link href="/artists/dj-producers#hire-form">
             <motion.div
               whileHover={{ scale: 1.005 }}
@@ -292,7 +282,6 @@ export default function DJDetailPage() {
         </div>
       </section>
 
-      {/* Red gradient bottom bar */}
       <div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
     </main>
   )
