@@ -20,7 +20,9 @@ export const metadata: Metadata = {
   description:
     "More than a brand, we are a philosophy of life. Discover art, emeralds, exclusive clothing, and luxury car rentals.",
   icons: {
-    icon: "/jewelry/icon.png", 
+    icon: [{ url: "/Logo.png", type: "image/png" }],
+    shortcut: "/Logo.png",
+    apple: "/Logo.png",
   },
 }
 

@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import { ChevronDown, Bell, Sparkles, Mail, MessageCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { CONTACT_INFO } from "@/lib/contact-info"
 
 type ContactAnswer = {
   email: string
@@ -33,14 +34,14 @@ const faqs: FaqItem[] = [
     question: "If I encounter any issues when purchasing a product or artist, where can I contact you?",
     answerType: "contact",
     answer: {
-      email: "abrakadabrarealm@gmail.com",
+      email: CONTACT_INFO.email,
       whatsapp1: {
-        label: "+1 917 547 5787",
-        link: "https://wa.me/19175475787",
+        label: CONTACT_INFO.usa.display,
+        link: `https://wa.me/${CONTACT_INFO.usa.whatsappNumber}`,
       },
       whatsapp2: {
-        label: "+57 310 392 0569",
-        link: "https://wa.me/573103920569",
+        label: CONTACT_INFO.colombia.display,
+        link: `https://wa.me/${CONTACT_INFO.colombia.whatsappNumber}`,
       },
     },
   },

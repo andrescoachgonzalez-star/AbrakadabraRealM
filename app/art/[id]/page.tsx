@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { useParams } from "next/navigation"
@@ -13,7 +13,50 @@ import {
   Check,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { LuxuryHeader } from "@/components/luxury-header"
+import { LuxuryFooter } from "@/components/luxury-footer"
 import { getArtProduct, getAllArtProducts } from "../data/art-products"
+
+function ScrollReveal({
+  children,
+  delay = 0,
+  className,
+}: {
+  children: React.ReactNode
+  delay?: number
+  className?: string
+}) {
+  const ref = useRef<HTMLDivElement>(null)
+  const [isVisible, setIsVisible] = useState(false)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => setIsVisible(true), delay)
+        }
+      },
+      { threshold: 0.12 }
+    )
+
+    if (ref.current) observer.observe(ref.current)
+
+    return () => observer.disconnect()
+  }, [delay])
+
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "transition-all duration-700",
+        isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6",
+        className
+      )}
+    >
+      {children}
+    </div>
+  )
+}
 
 export default function ArtDetailPage() {
   const params = useParams()
@@ -90,158 +133,185 @@ export default function ArtDetailPage() {
   }
 
   return (
-    <main className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between h-16">
+    <main className="min-h-screen bg-background overflow-x-hidden">
+      <LuxuryHeader />
+
+      {/* Hero */}
+      <section className="relative min-h-[55vh] flex items-end pt-28 pb-16">
+        <div className="absolute inset-0">
+          <Image
+            src={artwork.images[0]}
+            alt={artwork.title}
+            fill
+            priority
+            className="object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/45 to-background" />
+        </div>
+
+        <div className="relative z-10 container mx-auto px-4">
+          <ScrollReveal>
             <Link
               href="/art"
-              className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              className="inline-flex items-center gap-2 text-sm tracking-widest uppercase text-white/80 hover:text-white transition"
             >
               <ArrowLeft className="h-4 w-4" />
-              Back to Gallery
+              Back to gallery
             </Link>
+          </ScrollReveal>
 
-            {/* <div className="flex items-center gap-3">
-              <button
-                onClick={() => setIsLiked(!isLiked)}
-                className={cn(
-                  "p-2 rounded-full transition-all duration-300",
-                  isLiked
-                    ? "bg-primary/10 text-primary"
-                    : "text-muted-foreground hover:text-foreground"
-                )}
-              >
-                <Heart className={cn("h-5 w-5", isLiked && "fill-current")} />
-              </button>
+          <ScrollReveal delay={120} className="mt-6">
+            <h1 className="font-serif text-4xl md:text-6xl lg:text-7xl text-white">
+              {artwork.title}
+            </h1>
 
-              <button
-                onClick={handleShare}
-                className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Share2 className="h-5 w-5" />
-              </button>
-            </div> */}
-          </div>
+            <div className="mt-4 flex items-center gap-4">
+              <span className="text-white/70 tracking-[0.2em] text-xs uppercase">
+                {artwork.category}
+              </span>
+              <div className="h-0.5 w-10 bg-white/50" />
+              <span className="text-white font-semibold text-2xl">
+                ${artwork.price.toLocaleString()} USD
+              </span>
+            </div>
+          </ScrollReveal>
         </div>
-      </header>
+      </section>
 
       {/* Main */}
-      <div className="pt-24 pb-20">
+      <section className="py-16 lg:py-24 bg-background">
         <div className="container mx-auto px-4">
-          <div className="grid gap-12 lg:grid-cols-2">
+          <div className="grid gap-14 lg:grid-cols-2 items-start">
             {/* Images */}
-            <div
-              className={cn(
-                "transition-all duration-700",
-                isLoaded
-                  ? "opacity-100 translate-x-0"
-                  : "opacity-0 -translate-x-8"
-              )}
-            >
+            <ScrollReveal>
               <div
-                className="relative aspect-[3/4] rounded-2xl overflow-hidden bg-muted cursor-zoom-in"
-                onClick={() => setShowZoom(true)}
+                className={cn(
+                  "relative transition-all duration-700",
+                  isLoaded
+                    ? "opacity-100 translate-x-0"
+                    : "opacity-0 -translate-x-8"
+                )}
               >
-                <Image
-                  src={artwork.images[currentImage]}
-                  alt={artwork.title}
-                  fill
-                  className="object-cover"
-                />
+                <div
+                  className="relative aspect-[3/4] rounded-3xl overflow-hidden cursor-zoom-in"
+                  onClick={() => setShowZoom(true)}
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-neutral-800 via-neutral-700 to-neutral-900 p-3">
+                    <div className="absolute inset-3 bg-gradient-to-br from-neutral-100 to-white" />
+                  </div>
+                  <div className="absolute inset-4 rounded-2xl overflow-hidden">
+                    <Image
+                      src={artwork.images[currentImage]}
+                      alt={artwork.title}
+                      fill
+                      className="object-cover transition duration-700"
+                    />
+                  </div>
 
+                  {artwork.images.length > 1 && (
+                    <>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          prevImage()
+                        }}
+                        className="absolute left-5 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full p-2 shadow-md transition"
+                      >
+                        <ChevronLeft className="h-5 w-5" />
+                      </button>
+
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          nextImage()
+                        }}
+                        className="absolute right-5 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full p-2 shadow-md transition"
+                      >
+                        <ChevronRight className="h-5 w-5" />
+                      </button>
+                    </>
+                  )}
+                </div>
+
+                {/* thumbnails */}
                 {artwork.images.length > 1 && (
-                  <>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        prevImage()
-                      }}
-                      className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full p-2 shadow-md transition"
-                    >
-                      <ChevronLeft className="h-5 w-5" />
-                    </button>
-
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation()
-                        nextImage()
-                      }}
-                      className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-black rounded-full p-2 shadow-md transition"
-                    >
-                      <ChevronRight className="h-5 w-5" />
-                    </button>
-                  </>
+                  <div className="flex gap-3 mt-5 flex-wrap">
+                    {artwork.images.map((img, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setCurrentImage(index)}
+                        className={cn(
+                          "relative h-16 w-16 rounded-lg overflow-hidden border-2 transition-all",
+                          currentImage === index
+                            ? "border-primary scale-105"
+                            : "border-transparent hover:border-border"
+                        )}
+                      >
+                        <Image src={img} alt="" fill className="object-cover" />
+                      </button>
+                    ))}
+                  </div>
                 )}
               </div>
-
-              {/* thumbnails */}
-              {artwork.images.length > 1 && (
-                <div className="flex gap-3 mt-4 flex-wrap">
-                  {artwork.images.map((img, index) => (
-                    <button
-                      key={index}
-                      onClick={() => setCurrentImage(index)}
-                      className={cn(
-                        "relative h-16 w-16 rounded-lg overflow-hidden border-2 transition",
-                        currentImage === index
-                          ? "border-primary"
-                          : "border-transparent hover:border-border"
-                      )}
-                    >
-                      <Image src={img} alt="" fill className="object-cover" />
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
+            </ScrollReveal>
 
             {/* Info */}
-            <div
-              className={cn(
-                "transition-all duration-700 delay-150",
-                isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
-              )}
-            >
-              <h1 className="text-4xl md:text-5xl font-serif font-bold">
-                {artwork.title}
-              </h1>
-
-              <p className="text-primary text-3xl mt-4">
-                ${artwork.price.toLocaleString()} USD
-              </p>
-
-              <p className="mt-6 text-muted-foreground leading-relaxed">
-                {artwork.description}
-              </p>
-
-              {/* Contact Buttons */}
-              <div className="mt-8 flex flex-col sm:flex-row gap-4">
-                <a
-                  href={whatsappHref}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full py-4 rounded-full bg-primary text-white flex items-center justify-center gap-2 font-medium transition hover:opacity-90"
-                >
-                  Contact via WhatsApp
-                </a>
-
-                <a
-                  href={smsHref}
-                  className="w-full py-4 rounded-full border border-border bg-background text-foreground flex items-center justify-center gap-2 font-medium transition hover:bg-muted"
-                >
-                  Send text message
-                </a>
-              </div>
-
-              {copiedMessage && (
-                <div className="mt-4 inline-flex items-center gap-2 text-sm text-primary">
-                  <Check className="h-4 w-4" />
-                  Link copied successfully
+            <ScrollReveal delay={120}>
+              <div
+                className={cn(
+                  "relative transition-all duration-700",
+                  isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
+                )}
+              >
+                <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary text-xs font-semibold tracking-widest rounded-full">
+                  UNIQUE PIECE
                 </div>
-              )}
-            </div>
+
+                <p className="mt-6 text-muted-foreground leading-relaxed text-lg">
+                  {artwork.description}
+                </p>
+
+                <div className="mt-10 grid gap-4 rounded-2xl border border-border bg-muted/30 p-6">
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Availability</span>
+                    <span className="font-semibold text-foreground">
+                      {artwork.stock > 0 ? `${artwork.stock} in stock` : "Sold out"}
+                    </span>
+                  </div>
+                  <div className="h-px bg-border" />
+                  <div className="flex items-center justify-between text-sm">
+                    <span className="text-muted-foreground">Originality</span>
+                    <span className="font-semibold text-foreground">Certificate included</span>
+                  </div>
+                </div>
+
+                {/* Contact Buttons */}
+                <div className="mt-8 flex flex-col sm:flex-row gap-4">
+                  <a
+                    href={whatsappHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 rounded-full bg-primary text-primary-foreground flex items-center justify-center gap-2 font-semibold tracking-wider transition-all duration-300 hover:opacity-90 hover:translate-y-[-2px]"
+                  >
+                    Contact via WhatsApp
+                  </a>
+
+                  <a
+                    href={smsHref}
+                    className="w-full py-4 rounded-full bg-black text-white flex items-center justify-center gap-2 font-semibold tracking-wider transition-all duration-300 hover:opacity-90 hover:translate-y-[-2px]"
+                  >
+                    Send text message
+                  </a>
+                </div>
+
+                {copiedMessage && (
+                  <div className="mt-4 inline-flex items-center gap-2 text-sm text-primary">
+                    <Check className="h-4 w-4" />
+                    Link copied successfully
+                  </div>
+                )}
+              </div>
+            </ScrollReveal>
           </div>
 
           {/* Zoom modal */}
@@ -267,34 +337,58 @@ export default function ArtDetailPage() {
               </div>
             </div>
           )}
+        </div>
+      </section>
 
-          {/* Related */}
-          <div className="mt-20">
-            <h2 className="text-2xl font-serif mb-8 text-center">
-              You May Also Like
-            </h2>
+      {/* Related */}
+      <section className="py-16 lg:py-24 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <ScrollReveal>
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-serif">
+                You May Also Like
+              </h2>
+              <p className="mt-3 text-muted-foreground max-w-2xl mx-auto">
+                A curated selection of other pieces from the collection.
+              </p>
+            </div>
+          </ScrollReveal>
 
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-              {relatedArtworks.map((art) => (
-                <Link key={art.id} href={`/art/${art.slug}`} className="block group">
-                  <div className="relative aspect-square rounded-xl overflow-hidden bg-muted">
-                    <Image
-                      src={art.images[0]}
-                      alt={art.title}
-                      fill
-                      className="object-cover transition duration-500 group-hover:scale-105"
-                    />
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {relatedArtworks.map((art, index) => (
+              <ScrollReveal key={art.id} delay={index * 80}>
+                <Link href={`/art/${art.slug}`} className="block group">
+                  <div className="relative transition-all duration-700 group-hover:-translate-y-2">
+                    <div className="bg-gradient-to-br from-neutral-800 via-neutral-700 to-neutral-900 p-3 rounded-sm shadow-xl">
+                      <div className="bg-gradient-to-br from-neutral-100 to-white p-2">
+                        <div className="relative aspect-square overflow-hidden">
+                          <Image
+                            src={art.images[0]}
+                            alt={art.title}
+                            fill
+                            className="object-cover transition duration-700 group-hover:scale-110"
+                          />
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <h3 className="mt-3 font-medium">{art.title}</h3>
-
-                  <p className="text-primary">${art.price.toLocaleString()}</p>
+                  <div className="mt-4 transition-all duration-500 group-hover:translate-x-1">
+                    <h3 className="font-bold tracking-wider text-sm text-foreground">
+                      {art.title}
+                    </h3>
+                    <p className="text-primary font-semibold">
+                      ${art.price.toLocaleString()}
+                    </p>
+                  </div>
                 </Link>
-              ))}
-            </div>
+              </ScrollReveal>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      <LuxuryFooter />
     </main>
   )
 }

@@ -297,7 +297,7 @@ export function LuxuryHeader() {
       >
         {/* Logo - Animated */}
         <a
-          href={logoPhase === "text" || logoPhase === "highlight" ? "/philosophy" : "/"}
+          href="/philosophy"
           className="flex items-center justify-center px-4 py-3 text-background transition-all duration-300 hover:opacity-80 relative overflow-hidden"
           style={{ minWidth: logoPhase === "text" || logoPhase === "highlight" ? "140px" : "48px", transition: "min-width 0.5s cubic-bezier(0.4, 0, 0.2, 1)" }}
         >

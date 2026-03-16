@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { useParams } from "next/navigation"
 import { cn } from "@/lib/utils"
+import { CONTACT_INFO } from "@/lib/contact-info"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { LuxuryFooter } from "@/components/luxury-footer"
 
@@ -91,6 +92,12 @@ export default function ProductDetailPage() {
       .filter((p) => p.material === product.material && p.id !== product.id)
       .slice(0, 4)
   }, [product])
+
+  const contactMessage = `Hi, I'm interested in the ${product.name} ($${product.price.toLocaleString()}) from the ${product.collection} Collection. Could you provide more details?`
+  const whatsappHref = `https://wa.me/${CONTACT_INFO.colombia.whatsappNumber}?text=${encodeURIComponent(
+    contactMessage
+  )}`
+  const smsHref = `${CONTACT_INFO.colombia.smsHref}?body=${encodeURIComponent(contactMessage)}`
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -376,9 +383,7 @@ export default function ProductDetailPage() {
               </p>
 
               <a
-                href={`https://wa.me/15551234567?text=${encodeURIComponent(
-                  `Hi, I'm interested in the ${product.name} ($${product.price.toLocaleString()}) from the ${product.collection} Collection. Could you provide more details?`
-                )}`}
+                href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group w-full flex items-center justify-center gap-3 py-4 bg-[#25D366] text-white rounded-full font-semibold tracking-wider text-sm hover:bg-[#1da851] transition-all duration-300 hover:shadow-xl mb-3"
@@ -396,7 +401,7 @@ export default function ProductDetailPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <a
-                  href="tel:+15551234567"
+                  href={CONTACT_INFO.colombia.phoneHref}
                   className="flex items-center gap-2.5 p-3 rounded-xl border border-border hover:border-primary/30 hover:bg-background transition-all duration-300 group"
                 >
                   <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
@@ -407,24 +412,24 @@ export default function ProductDetailPage() {
                       Phone
                     </p>
                     <p className="text-xs font-semibold text-foreground">
-                      +1 (555) 123-4567
+                      {CONTACT_INFO.colombia.display}
                     </p>
                   </div>
                 </a>
 
                 <a
-                  href="mailto:luxury@jewelry.com"
+                  href={smsHref}
                   className="flex items-center gap-2.5 p-3 rounded-xl border border-border hover:border-primary/30 hover:bg-background transition-all duration-300 group"
                 >
                   <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
-                    <span className="text-primary text-sm">✉️</span>
+                    <span className="text-primary text-sm">💬</span>
                   </div>
                   <div>
                     <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
-                      Email
+                      SMS
                     </p>
                     <p className="text-xs font-semibold text-foreground">
-                      luxury@jewelry.com
+                      {CONTACT_INFO.colombia.display}
                     </p>
                   </div>
                 </a>

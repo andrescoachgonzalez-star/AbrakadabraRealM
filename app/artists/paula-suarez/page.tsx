@@ -1,11 +1,12 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { cn } from "@/lib/utils"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
-import { ArrowRight, Play, ChevronDown, Star, Award, Tv, Film, Camera } from "lucide-react"
+import { ArtistContactCard } from "@/components/artists/artist-contact-card"
+import { ArrowRight, Play, Star, Award, Tv, Film, Camera } from "lucide-react"
 
 // TV Shows / Brand logos
 const tvLogos = [
@@ -67,7 +68,6 @@ const stats = [
 
 export default function PaulaSuarezPage() {
   const [isLoaded, setIsLoaded] = useState(false)
-  const [activeField, setActiveField] = useState("")
   const [hoveredVideo, setHoveredVideo] = useState<number | null>(null)
   const [activeGalleryImage, setActiveGalleryImage] = useState<number | null>(null)
 
@@ -527,7 +527,7 @@ export default function PaulaSuarezPage() {
         </div>
       </section>
 
-      {/* ======== HIRE FORM - Elegant ======== */}
+      {/* ======== HIRE CONTACT - Elegant ======== */}
       <section id="hire-paula" className="py-28 lg:py-36 bg-background scroll-mt-24">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-start max-w-6xl mx-auto">
@@ -565,110 +565,13 @@ export default function PaulaSuarezPage() {
               </div>
             </ScrollReveal>
 
-            {/* Right - Form */}
+            {/* Right - Contact */}
             <ScrollReveal direction="right" delay={200}>
-              <div className="bg-secondary/30 rounded-3xl p-8 md:p-10 border border-border">
-                <h3 className="font-serif text-2xl font-bold text-foreground mb-8">Artist Hiring Form</h3>
-                
-                <form className="space-y-5">
-                  {/* Name + Email row */}
-                  <div className="grid md:grid-cols-2 gap-5">
-                    <div className="relative">
-                      <input
-                        type="text"
-                        placeholder=" "
-                        onFocus={() => setActiveField("name")}
-                        onBlur={() => setActiveField("")}
-                        className={cn(
-                          "peer w-full px-5 py-4 bg-background border rounded-xl text-foreground text-sm outline-none transition-all duration-300",
-                          activeField === "name" ? "border-primary shadow-lg shadow-primary/10" : "border-border"
-                        )}
-                      />
-                      <label className="absolute left-5 top-4 text-sm text-muted-foreground transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs">
-                        Name
-                      </label>
-                    </div>
-                    <div className="relative">
-                      <input
-                        type="email"
-                        placeholder=" "
-                        onFocus={() => setActiveField("email")}
-                        onBlur={() => setActiveField("")}
-                        className={cn(
-                          "peer w-full px-5 py-4 bg-background border rounded-xl text-foreground text-sm outline-none transition-all duration-300",
-                          activeField === "email" ? "border-primary shadow-lg shadow-primary/10" : "border-border"
-                        )}
-                      />
-                      <label className="absolute left-5 top-4 text-sm text-muted-foreground transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs">
-                        Email Address
-                      </label>
-                    </div>
-                  </div>
-
-                  {/* WhatsApp */}
-                  <div className="relative">
-                    <input
-                      type="text"
-                      placeholder=" "
-                      onFocus={() => setActiveField("phone")}
-                      onBlur={() => setActiveField("")}
-                      className={cn(
-                        "peer w-full px-5 py-4 bg-background border rounded-xl text-foreground text-sm outline-none transition-all duration-300",
-                        activeField === "phone" ? "border-primary shadow-lg shadow-primary/10" : "border-border"
-                      )}
-                    />
-                    <label className="absolute left-5 top-4 text-sm text-muted-foreground transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs">
-                      Your contact number or WhatsApp
-                    </label>
-                  </div>
-
-                  {/* Field select */}
-                  <div className="relative">
-                    <select
-                      onFocus={() => setActiveField("field")}
-                      onBlur={() => setActiveField("")}
-                      className={cn(
-                        "w-full px-5 py-4 bg-background border rounded-xl text-muted-foreground text-sm outline-none appearance-none transition-all duration-300 cursor-pointer",
-                        activeField === "field" ? "border-primary shadow-lg shadow-primary/10" : "border-border"
-                      )}
-                    >
-                      <option value="">In which field would you like to hire Paula?</option>
-                      <option value="modeling">Modeling</option>
-                      <option value="acting">Acting</option>
-                      <option value="presenting">TV Presenting</option>
-                      <option value="brand">Brand Ambassador</option>
-                      <option value="events">Events & Appearances</option>
-                      <option value="music-video">Music Videos</option>
-                    </select>
-                    <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground pointer-events-none" />
-                  </div>
-
-                  {/* Details */}
-                  <div className="relative">
-                    <textarea
-                      placeholder=" "
-                      rows={5}
-                      onFocus={() => setActiveField("details")}
-                      onBlur={() => setActiveField("")}
-                      className={cn(
-                        "peer w-full px-5 py-4 bg-background border rounded-xl text-foreground text-sm outline-none resize-none transition-all duration-300",
-                        activeField === "details" ? "border-primary shadow-lg shadow-primary/10" : "border-border"
-                      )}
-                    />
-                    <label className="absolute left-5 top-4 text-sm text-muted-foreground transition-all duration-300 pointer-events-none peer-focus:-translate-y-7 peer-focus:text-xs peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-7 peer-[:not(:placeholder-shown)]:text-xs">
-                      Place, Date, Company, and specifications.
-                    </label>
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="group w-full flex items-center justify-center gap-3 rounded-xl bg-primary py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg hover:shadow-primary/25"
-                  >
-                    Submit Request
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </button>
-                </form>
-              </div>
+              <ArtistContactCard
+                artistName="Paula"
+                inquiryLabel="modeling, acting, presenting, or brand work"
+                services={["Modeling", "Acting", "Presenting", "Brand Campaigns"]}
+              />
             </ScrollReveal>
           </div>
         </div>
