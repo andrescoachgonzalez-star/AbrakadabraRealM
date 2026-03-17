@@ -48,14 +48,14 @@ const nextStepVideos = [
 
 // Photo gallery
 const galleryImages = [
-  "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=600&q=80",
-  "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=600&q=80",
-  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=600&q=80",
-  "https://images.unsplash.com/photo-1502823403499-6ccfcf4fb453?w=600&q=80",
-  "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=600&q=80",
-  "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=600&q=80",
-  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600&q=80",
-  "https://images.unsplash.com/photo-1496440737103-cd596325d314?w=600&q=80",
+  "/paula/paula4.webp",
+  "/paula/paula5.webp",
+  "/paula/paula6.webp",
+  "/paula/paula9.webp",
+  "/paula/paula8.webp",
+  "/paula/paula7.webp",
+  "/paula/paula10.webp",
+  "/paula/paula11.webp",
 ]
 
 // Stats
@@ -130,7 +130,7 @@ export default function PaulaSuarezPage() {
         {/* Right - Image */}
         <div className="relative min-h-[60vh] lg:min-h-screen order-1 lg:order-2">
           <img
-            src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=1200&q=80"
+            src="/paula/paula-portada.webp"
             alt="Paula Suarez"
             className={cn(
               "w-full h-full object-cover object-top transition-all duration-[2s]",
@@ -194,7 +194,7 @@ export default function PaulaSuarezPage() {
                   <div className="absolute -inset-8 bg-primary/5 rounded-[3rem] -rotate-3" />
                   <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl">
                     <img
-                      src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=800&q=80"
+                      src="/paula/paula2.webp"
                       alt="Paula Suarez portrait"
                       className="w-full h-full object-cover"
                     />
@@ -249,7 +249,7 @@ export default function PaulaSuarezPage() {
       <section className="relative overflow-hidden">
         <div className="relative min-h-screen flex items-center">
           <img
-            src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=1600&q=80"
+            src="/paula/paula3.webp"
             alt="Paula Suarez - Abrakadabra Realm"
             className="absolute inset-0 w-full h-full object-cover"
           />
@@ -425,7 +425,7 @@ export default function PaulaSuarezPage() {
                 {/* Image */}
                 <div className="relative min-h-[400px] lg:min-h-[500px]">
                   <img
-                    src="https://images.unsplash.com/photo-1517841905240-472988babdf9?w=1000&q=80"
+                    src="/paula/paula2.webp"
                     alt="Paula in Miami"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
