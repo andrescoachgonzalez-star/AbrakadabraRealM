@@ -68,7 +68,9 @@ const djProducers: DJProducer[] = [
   {
     name: "Rizzo",
     slug: "rizzo",
-    image: "/Image-DJs/imagen-4.jpg",
+    image: "/Image-DJs/Rizzo.png",
+    hoverImage: "/Image-DJs/Rizzo.png",
+    modalImage: "/Image-DJs/Rizzo.png",
     description:
       "Rizzo (Col) is a DJ and producer from Pereira, Colombia specializing in House and Tech House with a unique sound that blends organic percussion and deep grooves...",
     type: "pdf",
@@ -78,7 +80,9 @@ const djProducers: DJProducer[] = [
   {
     name: "8batzz",
     slug: "8batzz",
-    image: "/Image-DJs/imagen-5.webp",
+    image: "/Image-DJs/8batzz.png",
+    hoverImage: "/Image-DJs/8batzz.png",
+    modalImage: "/Image-DJs/8batzz.png",
     description:
       "8batzz is a DJ and electronic music producer from Pereira, Colombia. Since 2021 he has developed a solid proposal within Afro House and Tech House...",
     type: "pdf",

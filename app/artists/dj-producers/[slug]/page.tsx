@@ -70,7 +70,7 @@ const djData: Record<
   },
   rizzo: {
     name: "Rizzo",
-    image: "/artists/dj-rizzo.jpg",
+    image: "/Image-DJs/Rizzo.png",
     location: "Pereira, Colombia",
     contracts: "15+ Contracts",
     instagramHandle: "@rizzocol",
@@ -85,7 +85,7 @@ const djData: Record<
   },
   "8batzz": {
     name: "8batzz",
-    image: "/artists/dj-8batzz.jpg",
+    image: "/Image-DJs/8batzz.png",
     location: "Pereira, Colombia",
     contracts: "8+ Contracts",
     instagramHandle: "@8batzz",

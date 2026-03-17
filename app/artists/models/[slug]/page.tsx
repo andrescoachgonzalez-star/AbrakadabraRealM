@@ -27,7 +27,7 @@ const modelsData: Record<
     location: "Miami",
     contracts: "28+ Contracts",
     instagramHandle: "@paulasuarez",
-    instagramUrl: "https://www.instagram.com/paulasuarez/",
+    instagramUrl: "https://www.instagram.com/paulasuarezg/",
     fullBio:
       "Paula Suarez is a multifaceted artist who fuses her passion for modeling, acting and music in every step she takes. With a magnetic presence and innate talent, she has captivated audiences on the catwalk, in front of the camera and on stage. As a model, her elegance and authenticity have shone through in major campaigns, while her versatility as an actress has led her to star in film and television projects, exploring deep and challenging characters. In addition, her unique voice and musical sensitivity position her as a singer with soul, capable of moving with every note. Paula is a creative force in constant evolution, whose mission is to inspire the world through her art.",
     booking: "Official Booking — AbrakadabraRealm ®",
@@ -39,7 +39,7 @@ const modelsData: Record<
     location: "New York",
     contracts: "9+ Contracts",
     instagramHandle: "@sandrahenao",
-    instagramUrl: "https://www.instagram.com/sandrahenao/",
+    instagramUrl: "https://www.instagram.com/sandrakhenao",
     fullBio:
       "Sandra Henao is a Colombian model based in the United States, known for her natural charm and authentic elegance. Her collaboration with Abrakadabra highlights her unique essence, standing out in projects that transcend the ordinary. While she models selectively, Sandra brings a fresh and refined style that captivates both attention and admiration. Her authenticity makes her an inspiration, ready to partner on projects that celebrate genuine beauty and creativity. A memorable presence that adds magic to every moment.",
     booking: "Official Booking — AbrakadabraRealm ®",
@@ -51,7 +51,7 @@ const modelsData: Record<
     location: "Spain",
     contracts: "19+ Contracts",
     instagramHandle: "@adrianahenao",
-    instagramUrl: "https://www.instagram.com/adrianahenao/",
+    instagramUrl: "https://www.instagram.com/adrianahenaoart",
     fullBio:
       "Adriana Henao is a visionary artist who has revolutionized contemporary art with her unique style and spiritual approach. Her works, a fusion of surrealism and magical realism, invite reflection and meditation, creating a transformative visual and emotional experience. With nationally and internationally recognized exhibitions, Adriana stands out for her ability to channel pure spiritual energy through her art, offering not only visually striking pieces, but also deeply healing ones. To explore her work is to embark on a journey of self-knowledge and spiritual elevation, transforming lives and perspectives through her impressive talent.",
     booking: "Official Booking — AbrakadabraRealm ®",
