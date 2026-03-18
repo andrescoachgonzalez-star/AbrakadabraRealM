@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
 import Image from "next/image"
-import Link from "next/link"
 import { LuxuryHeader } from "@/components/luxury-header"
 import {
   Globe,
@@ -20,20 +19,47 @@ import {
   ArrowDown,
   Music,
   Disc3,
+  Headphones,
 } from "lucide-react"
+
+/* --- Images ------------------------------------------------------- */
+
+const ourMusicImages = {
+  hero: "/Image-Our-Music/Imagen-1.webp",
+  abrakadabraLogo: "/Image-Our-Music/imagen-2.png",
+  moodchillLogo: "/Image-Our-Music/Imagen-3.png",
+  activities: "/Image-Our-Music/Imagen-4.png",
+
+  darkness: "/Image-Our-Music/Darkness.webp",
+  sinPrisa: "/Image-Our-Music/Sin-prisa.webp",
+  memorias: "/Image-Our-Music/Memorias.webp",
+
+  miOtroYo: "/Image-Our-Music/Mi-otro-yo.webp",
+  esencia: "/Image-Our-Music/Esencia.webp",
+  energia: "/Image-Our-Music/Energia.webp",
+}
+
+/* --- Types -------------------------------------------------------- */
+
+type Release = {
+  title: string
+  artist: string
+  image: string
+  listenUrl: string
+}
 
 /* --- Data --------------------------------------------------------- */
 
-const abrakadabraReleases = [
-  { title: "Darkness", artist: "8batzz", image: "/music/album-darkness.jpg", listenUrl: "#" },
-  { title: "Sin Prisa", artist: "8batzz", image: "/music/album-sin-prisa.jpg", listenUrl: "#" },
-  { title: "Memories", artist: "Rizzo (Col)", image: "/music/album-memories.jpg", listenUrl: "#" },
+const abrakadabraReleases: Release[] = [
+  { title: "Darkness", artist: "8batzz", image: ourMusicImages.darkness, listenUrl: "#" },
+  { title: "Sin Prisa", artist: "8batzz", image: ourMusicImages.sinPrisa, listenUrl: "#" },
+  { title: "Memorias", artist: "Rizzo (Col)", image: ourMusicImages.memorias, listenUrl: "#" },
 ]
 
-const moodchillReleases = [
-  { title: "Mi otro yo", artist: "Blasfemia MC", image: "/music/album-mi-otro-yo.jpg", listenUrl: "#" },
-  { title: "Esencia", artist: "Zinergiabeats", image: "/music/album-esencia.jpg", listenUrl: "#" },
-  { title: "Energia", artist: "L-Mental MC", image: "/music/album-energia.jpg", listenUrl: "#" },
+const moodchillReleases: Release[] = [
+  { title: "Mi otro yo", artist: "Blasfemia MC", image: ourMusicImages.miOtroYo, listenUrl: "#" },
+  { title: "Esencia", artist: "Zinergiabeats", image: ourMusicImages.esencia, listenUrl: "#" },
+  { title: "Energia", artist: "L-Mental MC", image: ourMusicImages.energia, listenUrl: "#" },
 ]
 
 const services = [
@@ -74,7 +100,17 @@ function HeroSection() {
 
   return (
     <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
-      {/* Animated background lines */}
+      <div className="absolute inset-0">
+        <Image
+          src={ourMusicImages.hero}
+          alt="Our Music Background"
+          fill
+          priority
+          className="object-cover opacity-25"
+        />
+        <div className="absolute inset-0 bg-black/70" />
+      </div>
+
       <div className="absolute inset-0 overflow-hidden">
         {[...Array(20)].map((_, i) => (
           <motion.div
@@ -85,9 +121,7 @@ function HeroSection() {
               left: "-100%",
               right: "-100%",
             }}
-            animate={{
-              x: ["-100%", "100%"],
-            }}
+            animate={{ x: ["-100%", "100%"] }}
             transition={{
               duration: 8 + i * 0.5,
               repeat: Number.POSITIVE_INFINITY,
@@ -98,7 +132,6 @@ function HeroSection() {
         ))}
       </div>
 
-      {/* Red accent glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[oklch(0.55_0.18_20)]/5 rounded-full blur-[150px]" />
 
       <motion.div style={{ opacity, y, scale }} className="relative z-10 text-center px-6">
@@ -158,7 +191,7 @@ function HeroSection() {
   )
 }
 
-/* --- Label Section (reusable for both labels) --------------------- */
+/* --- Label Section ------------------------------------------------ */
 
 function LabelSection({
   name,
@@ -172,7 +205,7 @@ function LabelSection({
   name: string
   description: string
   logoImage: string
-  releases: typeof abrakadabraReleases
+  releases: Release[]
   accentText: string
   platformLinks: { label: string; icon: string; url: string }[]
   reverse?: boolean
@@ -183,14 +216,14 @@ function LabelSection({
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
-      {/* Subtle background accent */}
       <div
-        className={`absolute top-0 ${reverse ? "right-0" : "left-0"} w-1/2 h-full bg-gradient-to-${reverse ? "l" : "r"} from-[oklch(0.55_0.18_20)]/[0.02] to-transparent`}
+        className={`absolute top-0 w-1/2 h-full ${
+          reverse ? "right-0 bg-gradient-to-l" : "left-0 bg-gradient-to-r"
+        } from-[oklch(0.55_0.18_20)]/[0.02] to-transparent`}
       />
 
       <div ref={ref} className="container mx-auto px-6">
         <div className={`flex flex-col ${reverse ? "lg:flex-row-reverse" : "lg:flex-row"} gap-12 lg:gap-20 items-start`}>
-          {/* Label Card */}
           <motion.div
             initial={{ opacity: 0, x: reverse ? 60 : -60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -200,16 +233,14 @@ function LabelSection({
             <div className="relative group">
               <div className="relative overflow-hidden rounded-lg aspect-square bg-[#1a1a1a]">
                 <Image
-                  src={logoImage || "/placeholder.svg"}
+                  src={logoImage}
                   alt={name}
                   fill
                   className="object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-                {/* Overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               </div>
 
-              {/* Label info overlay */}
               <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                 <h3 className="text-2xl md:text-3xl font-serif font-bold text-white mb-3">{name}</h3>
                 <WaveDivider />
@@ -225,7 +256,6 @@ function LabelSection({
             </div>
           </motion.div>
 
-          {/* Releases side */}
           <motion.div
             initial={{ opacity: 0, x: reverse ? -60 : 60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -236,8 +266,7 @@ function LabelSection({
               Featured Releases
             </h2>
 
-            {/* Album grid */}
-            <div className="grid grid-cols-3 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-8">
               {releases.map((release, i) => (
                 <motion.div
                   key={release.title}
@@ -250,12 +279,12 @@ function LabelSection({
                 >
                   <div className="relative aspect-square overflow-hidden rounded-md">
                     <Image
-                      src={release.image || "/placeholder.svg"}
+                      src={release.image}
                       alt={release.title}
                       fill
                       className="object-cover transition-all duration-500 group-hover:scale-110"
                     />
-                    {/* Hover overlay */}
+
                     <AnimatePresence>
                       {hoveredRelease === i && (
                         <motion.div
@@ -276,47 +305,53 @@ function LabelSection({
                       )}
                     </AnimatePresence>
                   </div>
+
                   <div className="mt-3">
                     <p className="text-white text-sm font-medium font-sans">{release.title}</p>
-                    <p className="text-white/40 text-xs font-sans">Listen now</p>
+                    <p className="text-white/40 text-xs font-sans">{release.artist}</p>
                   </div>
                 </motion.div>
               ))}
             </div>
 
-            {/* Platform buttons */}
             <div className="flex flex-wrap gap-3 mb-8">
-              {platformLinks.map((link) => (
-                <motion.a
-                  key={link.label}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-2 px-8 py-3 border border-white/20 rounded-full text-white text-sm tracking-wider hover:border-white/50 transition-colors font-sans"
-                >
-                  {link.icon === "spotify" && (
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
-                    </svg>
-                  )}
-                  {link.icon === "youtube" && (
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                    </svg>
-                  )}
-                  {link.icon === "beatport" && (
-                    <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 22c-5.523 0-10-4.477-10-10S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10zm-2-15v10l8-5-8-5z" />
-                    </svg>
-                  )}
-                  {link.label}
-                </motion.a>
-              ))}
+              {platformLinks.map((link) => {
+                const isBeatport = link.icon === "beatport"
+
+                return (
+                  <motion.a
+                    key={link.label}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    whileHover={{ scale: 1.05 }}
+                    whileTap={{ scale: 0.95 }}
+                    className={
+                      isBeatport
+                        ? "flex items-center gap-2 px-8 py-3 rounded-full border-2 border-black bg-[#d9d9d9] text-black text-sm font-bold tracking-wider hover:bg-white transition-colors font-sans shadow-sm"
+                        : "flex items-center gap-2 px-8 py-3 border border-white/20 rounded-full text-white text-sm tracking-wider hover:border-white/50 transition-colors font-sans"
+                    }
+                  >
+                    {link.icon === "spotify" && (
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
+                      </svg>
+                    )}
+
+                    {link.icon === "youtube" && (
+                      <svg className="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                      </svg>
+                    )}
+
+                    {link.icon === "beatport" && <Headphones className="w-5 h-5" />}
+
+                    {link.label}
+                  </motion.a>
+                )
+              })}
             </div>
 
-            {/* Accent text */}
             <p className="text-white/40 text-sm italic leading-relaxed font-sans">{accentText}</p>
           </motion.div>
         </div>
@@ -325,7 +360,7 @@ function LabelSection({
   )
 }
 
-/* --- Services Icons Row ------------------------------------------- */
+/* --- Services Section --------------------------------------------- */
 
 function ServicesSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -342,6 +377,7 @@ function ServicesSection() {
         >
           What We Offer
         </motion.h2>
+
         <motion.p
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
@@ -381,7 +417,7 @@ function ServicesSection() {
   )
 }
 
-/* --- Activities (Video Sets + Radio Shows) ------------------------ */
+/* --- Activities Section ------------------------------------------- */
 
 function ActivitiesSection() {
   const ref = useRef<HTMLDivElement>(null)
@@ -391,7 +427,6 @@ function ActivitiesSection() {
     <section className="relative py-24 md:py-32 overflow-hidden">
       <div ref={ref} className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center">
-          {/* Text side */}
           <motion.div
             initial={{ opacity: 0, x: -60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -401,11 +436,11 @@ function ActivitiesSection() {
             <h2 className="text-3xl md:text-4xl font-serif font-bold text-white mb-4">
               Participate in our activities
             </h2>
+
             <div className="mb-10">
               <WaveDivider />
             </div>
 
-            {/* Video Sets */}
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 rounded-full border border-[oklch(0.55_0.18_20)]/30 flex items-center justify-center">
@@ -415,12 +450,12 @@ function ActivitiesSection() {
                   Video Sets
                 </h3>
               </div>
+
               <p className="text-white/50 text-sm leading-relaxed font-sans">
                 Immerse yourself in the vibrant Afro House experience with our exclusive video sets, designed for those looking for something truly special. Each set will take place in unique and captivating locations, fusing the music with the beauty of the surroundings, creating an unforgettable atmosphere. Sign up to receive invitations to our upcoming video sets.
               </p>
             </div>
 
-            {/* Radio Shows */}
             <div className="mb-10">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-8 h-8 rounded-full border border-[oklch(0.55_0.18_20)]/30 flex items-center justify-center">
@@ -430,6 +465,7 @@ function ActivitiesSection() {
                   Radio Shows
                 </h3>
               </div>
+
               <p className="text-white/50 text-sm leading-relaxed font-sans">
                 {"Discover the essence of Afro House music with our exciting radio show, where each broadcast reflects our passion for the culture and rhythms that connect us. This space is designed to highlight the diversity and creativity of the scene, presenting the best artists and DJs who share our vision. Send your session of at least 30 minutes to our email (abrakadabrarealm@gmail.com)"}
               </p>
@@ -446,7 +482,6 @@ function ActivitiesSection() {
             </motion.a>
           </motion.div>
 
-          {/* Image side */}
           <motion.div
             initial={{ opacity: 0, x: 60 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -455,13 +490,12 @@ function ActivitiesSection() {
           >
             <div className="relative overflow-hidden rounded-lg group">
               <Image
-                src="/music/studio-production.jpg"
+                src={ourMusicImages.activities}
                 alt="Studio production"
                 width={800}
                 height={600}
                 className="w-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              {/* Red accent line */}
               <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[oklch(0.55_0.18_20)] to-transparent" />
             </div>
           </motion.div>
@@ -479,7 +513,6 @@ function SubmitDemoCTA() {
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
-      {/* Background accent */}
       <div className="absolute inset-0">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[oklch(0.55_0.18_20)]/5 rounded-full blur-[120px]" />
       </div>
@@ -501,8 +534,9 @@ function SubmitDemoCTA() {
           </motion.div>
 
           <h2 className="text-3xl md:text-5xl font-serif font-bold text-white mb-6 text-balance">
-            {"Ready to share your sound?"}
+            Ready to share your sound?
           </h2>
+
           <p className="text-white/50 text-base leading-relaxed mb-10 font-sans">
             Submit your demo to either of our labels and join a community of artists who are pushing boundaries in electronic music.
           </p>
@@ -517,6 +551,7 @@ function SubmitDemoCTA() {
               <Mail className="w-4 h-4" />
               Submit Demo
             </motion.a>
+
             <motion.a
               href="mailto:abrakadabrarealm@gmail.com"
               whileHover={{ scale: 1.05 }}
@@ -540,7 +575,7 @@ function MusicFooter() {
     <footer className="border-t border-white/5 py-12">
       <div className="container mx-auto px-6 text-center">
         <p className="text-white/20 text-xs tracking-widest font-sans">
-          {"ABRAKADABRA REALM \u2014 ALL RIGHTS RESERVED"}
+          ABRAKADABRA REALM — ALL RIGHTS RESERVED
         </p>
       </div>
     </footer>
@@ -555,29 +590,48 @@ export default function OurMusicPage() {
       <LuxuryHeader />
       <HeroSection />
 
-      {/* Abrakadabra Realm Label */}
       <LabelSection
         name="Abrakadabra Realm"
         description="Our label merges the ancient and modern, focusing on Afro House to connect music and spirit. We honor tradition and innovation, crafting a space where artists explore creativity and cultural roots."
-        logoImage="/music/abrakadabra-realm-logo.jpg"
+        logoImage={ourMusicImages.abrakadabraLogo}
         releases={abrakadabraReleases}
         accentText="Our label merges the ancient and modern, focusing on Afro House to connect music and spirit. We honor tradition and innovation, crafting a space where artists explore creativity and cultural roots."
         platformLinks={[
-          { label: "SPOTIFY", icon: "spotify", url: "#" },
-          { label: "YOUTUBE", icon: "youtube", url: "#" },
+          {
+            label: "SPOTIFY",
+            icon: "spotify",
+            url: "https://open.spotify.com/playlist/6B0VzDomUlrkzO6mITiUcW?si=DZlG4eyUTkKdF_k1n0xQQA&nd=1&dlsi=eeceaad6619043b8",
+          },
+          {
+            label: "YOUTUBE",
+            icon: "youtube",
+            url: "https://www.youtube.com/playlist?list=PL7CVTLJ8b8aJ1ryWzCWOzLWQpAQ36KjQ3",
+          },
+          {
+            label: "BEATPORT",
+            icon: "beatport",
+            url: "https://www.beatport.com/label/abrakadabra-realm/125161",
+          },
         ]}
       />
 
-      {/* MoodChill Label */}
       <LabelSection
         name="MoodChill"
         description="Our label champions freedom, authenticity, and diversity through rap, afrobeat, hip-hop, and urban genres. We amplify voices, challenge norms, and connect cultures."
-        logoImage="/music/moodchill-logo.jpg"
+        logoImage={ourMusicImages.moodchillLogo}
         releases={moodchillReleases}
-        accentText="Our label merges the ancient and modern, focusing on Afro House to connect music and spirit. We honor tradition and innovation, crafting a space where artists explore creativity and cultural roots."
+        accentText="Our label champions freedom, authenticity, and diversity through rap, afrobeat, hip-hop, and urban genres. We amplify voices, challenge norms, and connect cultures."
         platformLinks={[
-          { label: "SPOTIFY", icon: "spotify", url: "#" },
-          { label: "YOUTUBE", icon: "youtube", url: "#" },
+          {
+            label: "SPOTIFY",
+            icon: "spotify",
+            url: "https://open.spotify.com/intl-es/album/7au3NjnvP4uScxV5gvWBXx?si=Ui2h1d-uTLO0T55_gghj4w&nd=1&dlsi=5ce2bde3a63f4c57",
+          },
+          {
+            label: "YOUTUBE",
+            icon: "youtube",
+            url: "https://www.youtube.com/@abrakadabrarealm",
+          },
         ]}
         reverse
       />
