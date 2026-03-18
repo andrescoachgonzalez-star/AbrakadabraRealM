@@ -33,17 +33,57 @@ const brandCollabs = [
 
 // Music videos
 const musicVideos = [
-  { title: "Te Robare", artist: "Nicky Jam", thumbnail: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&q=80" },
-  { title: "Bailar Contigo", artist: "Mackie", thumbnail: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=400&q=80" },
-  { title: "Algo Contigo", artist: "Gente de Zona", thumbnail: "https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&q=80" },
-  { title: "Santa Tentacion", artist: "El Roockie", thumbnail: "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&q=80" },
+  {
+    title: "Te Robare",
+    artist: "Nicky Jam",
+    url: "https://youtu.be/aA_kuFTV-P8",
+    thumbnail: "https://img.youtube.com/vi/aA_kuFTV-P8/hqdefault.jpg",
+  },
+  {
+    title: "Yo Quiero Bailar Contigo",
+    artist: "Zion & Lennox ft. Mackie",
+    url: "https://youtu.be/jUoCwHB0uJI",
+    thumbnail: "https://img.youtube.com/vi/jUoCwHB0uJI/hqdefault.jpg",
+  },
+  {
+    title: "Algo Contigo",
+    artist: "Gente de Zona",
+    url: "https://youtu.be/yvhx5gMmSPs",
+    thumbnail: "https://img.youtube.com/vi/yvhx5gMmSPs/hqdefault.jpg",
+  },
+  {
+    title: "Santa Tentacion",
+    artist: "El Rookie",
+    url: "https://youtu.be/4xy8xkSLZJk",
+    thumbnail: "https://img.youtube.com/vi/4xy8xkSLZJk/hqdefault.jpg",
+  },
 ]
 
 const nextStepVideos = [
-  { title: "Celosa", artist: "Nicky Jam", thumbnail: "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=400&q=80" },
-  { title: "Young Miko", artist: "Wisin", thumbnail: "https://images.unsplash.com/photo-1571266028243-e4733b0f0bb0?w=400&q=80" },
-  { title: "Vas A Llorar", artist: "El Gran Combo", thumbnail: "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?w=400&q=80" },
-  { title: "The Story Of A Kid", artist: "OMG Swim", thumbnail: "https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400&q=80" },
+  {
+    title: "Featured Reel 01",
+    artist: "Paula Suarez",
+    url: "https://youtu.be/95tSP5o5200",
+    thumbnail: "https://img.youtube.com/vi/95tSP5o5200/hqdefault.jpg",
+  },
+  {
+    title: "Featured Reel 02",
+    artist: "Paula Suarez",
+    url: "https://youtu.be/uhqFMesRAzw",
+    thumbnail: "https://img.youtube.com/vi/uhqFMesRAzw/hqdefault.jpg",
+  },
+  {
+    title: "Featured Reel 03",
+    artist: "Paula Suarez",
+    url: "https://youtu.be/y5Ixvvj59_I",
+    thumbnail: "https://img.youtube.com/vi/y5Ixvvj59_I/hqdefault.jpg",
+  },
+  {
+    title: "Featured Reel 04",
+    artist: "Paula Suarez",
+    url: "https://youtu.be/88uE5Oz5LKE",
+    thumbnail: "https://img.youtube.com/vi/88uE5Oz5LKE/hqdefault.jpg",
+  },
 ]
 
 // Photo gallery
@@ -380,9 +420,12 @@ export default function PaulaSuarezPage() {
             <ScrollReveal direction="right" delay={200}>
               <div className="grid grid-cols-2 gap-4">
                 {musicVideos.map((video, index) => (
-                  <div 
+                  <a
                     key={index} 
-                    className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer"
+                    href={video.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer block"
                     onMouseEnter={() => setHoveredVideo(index)}
                     onMouseLeave={() => setHoveredVideo(null)}
                   >
@@ -407,8 +450,11 @@ export default function PaulaSuarezPage() {
                     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                       <p className="text-white text-sm font-semibold tracking-wider">{video.title}</p>
                       <p className="text-white/50 text-xs tracking-wider">{video.artist}</p>
+                      <p className="mt-2 text-[10px] font-medium tracking-[0.25em] text-primary uppercase">
+                        Watch on YouTube
+                      </p>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             </ScrollReveal>
@@ -493,9 +539,12 @@ export default function PaulaSuarezPage() {
             <ScrollReveal direction="right" delay={200}>
               <div className="grid grid-cols-2 gap-4">
                 {nextStepVideos.map((video, index) => (
-                  <div 
+                  <a
                     key={index} 
-                    className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer"
+                    href={video.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer block"
                     onMouseEnter={() => setHoveredVideo(index + 10)}
                     onMouseLeave={() => setHoveredVideo(null)}
                   >
@@ -518,8 +567,11 @@ export default function PaulaSuarezPage() {
                     <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
                       <p className="text-white text-sm font-semibold tracking-wider">{video.title}</p>
                       <p className="text-white/50 text-xs tracking-wider">{video.artist}</p>
+                      <p className="mt-2 text-[10px] font-medium tracking-[0.25em] text-primary uppercase">
+                        Watch on YouTube
+                      </p>
                     </div>
-                  </div>
+                  </a>
                 ))}
               </div>
             </ScrollReveal>
