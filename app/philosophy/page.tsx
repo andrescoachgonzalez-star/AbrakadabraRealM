@@ -1491,7 +1491,9 @@ export default function AbrakadabraRealm() {
         <ShowcaseSection />
         <Divider />
         <TeamSection />
-        <CTASection />
+
+        {/* <CTASection /> */}
+
         <SiteFooter />
       </div>
     </main>

@@ -731,7 +731,10 @@ export default function CarRentalPage() {
       <LuxuryFleet />
       <TestimonialsSection />
       <WhyChooseUsSection />
-      <SubscribeSection />
+
+      {/* SubscribeSection oculto, pero se mantiene en el código */}
+      {false && <SubscribeSection />}
+
       <LuxuryFooter />
     </main>
   )

@@ -18,6 +18,8 @@ type DJProducer = {
   fullBio: string
 }
 
+const DJ_SECTION_ID = "dj-producers"
+
 const pageImages = {
   hero: "/Image-DJs/imagen-1.png",
   eventFestival: "/Image-DJs/imagen-2.jpg",
@@ -310,7 +312,7 @@ export default function DJProducersPage() {
             className="mt-8"
           >
             <motion.a
-              href="#hire-form"
+              href={`#${DJ_SECTION_ID}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex px-10 py-4 bg-[oklch(0.55_0.18_20)] text-white font-bold tracking-wider rounded-lg hover:shadow-xl hover:shadow-[oklch(0.55_0.18_20)]/30 transition-all duration-300 items-center gap-3 mx-auto"
@@ -394,7 +396,7 @@ export default function DJProducersPage() {
         </div>
       </section>
 
-      <section className="py-20 bg-[#111]">
+      <section id={DJ_SECTION_ID} className="py-20 bg-[#111] scroll-mt-24">
         <div className="container mx-auto px-6">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -456,13 +458,14 @@ export default function DJProducersPage() {
 
                   <p className="text-white/70 text-sm text-center leading-relaxed mb-4">{category.description}</p>
 
-                  <motion.button
+                  <motion.a
+                    href={`#${DJ_SECTION_ID}`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="block mx-auto px-6 py-2 border border-white text-white text-sm tracking-wider hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
+                    className="block mx-auto w-fit px-6 py-2 border border-white text-white text-sm tracking-wider hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
                   >
                     Explore Now
-                  </motion.button>
+                  </motion.a>
                 </div>
               </motion.div>
             ))}
@@ -587,7 +590,7 @@ export default function DJProducersPage() {
         </div>
       </section>
 
- {/*
+      {/*
 <section id="hire-form" className="py-0 overflow-hidden scroll-mt-24">
   <div className="flex flex-col lg:flex-row min-h-[700px]">
     <motion.div
@@ -711,7 +714,7 @@ export default function DJProducersPage() {
 </section>
 */}
 
-<div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
-</main>
-)
+      <div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
+    </main>
+  )
 }

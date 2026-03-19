@@ -13,13 +13,13 @@ import {
   Handshake,
   Play,
   Radio,
-  Mail,
-  ExternalLink,
   ChevronRight,
   ArrowDown,
   Music,
   Disc3,
   Headphones,
+  MessageCircle,
+  MessageSquare,
 } from "lucide-react"
 
 /* --- Images ------------------------------------------------------- */
@@ -543,23 +543,25 @@ function SubmitDemoCTA() {
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <motion.a
-              href="mailto:abrakadabrarealm@gmail.com"
+              href={`https://wa.me/573103920569?text=${encodeURIComponent("Hi, I want more information about your music label.")}`}
+              target="_blank"
+              rel="noopener noreferrer"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[oklch(0.55_0.18_20)] text-white text-sm tracking-widest uppercase font-sans hover:bg-[oklch(0.50_0.20_20)] transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#25D366] text-white text-sm tracking-widest uppercase font-sans hover:bg-[#1ebe5b] transition-colors"
             >
-              <Mail className="w-4 h-4" />
-              Submit Demo
+              <MessageCircle className="w-4 h-4" />
+              Contact via WhatsApp
             </motion.a>
 
             <motion.a
-              href="mailto:abrakadabrarealm@gmail.com"
+              href="sms:+573103920569"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-white/20 text-white text-sm tracking-widest uppercase font-sans hover:bg-white/5 transition-colors"
             >
-              <ExternalLink className="w-4 h-4" />
-              Contact Us
+              <MessageSquare className="w-4 h-4" />
+              Contact Us as SMS
             </motion.a>
           </div>
         </motion.div>

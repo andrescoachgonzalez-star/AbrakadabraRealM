@@ -923,7 +923,7 @@ export default function VehicleDetailsPage() {
            </span>
            </motion.a>
           <motion.a
-            href="https://wa.me/13053109327"
+            href="https://wa.me/573103920569"
             target="_blank"
             rel="noopener noreferrer"
             whileHover={{ scale: 1.03 }}

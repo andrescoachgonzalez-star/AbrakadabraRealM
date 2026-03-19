@@ -8,8 +8,8 @@ import { LuxuryHeader } from "@/components/luxury-header"
 
 // Exact image paths from /public/Image-Models
 const heroImage = "/Image-Models/model-1.webp"
-const timelineImage = "/Image-Models/model-6.webp" // changed
-const formImage = "/Image-Models/Model-11.webp" // changed
+const timelineImage = "/Image-Models/model-6.webp" 
+const formImage = "/Image-Models/Model-11.webp" 
 
 const galleryImages = [
   "/Image-Models/model-6.webp",
