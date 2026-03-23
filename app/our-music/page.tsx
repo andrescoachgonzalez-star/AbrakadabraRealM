@@ -71,6 +71,13 @@ const services = [
   { icon: Handshake, label: "COLLABORATE", description: "Artist partnerships & features" },
 ]
 
+/* --- Contact Numbers --------------------------------------------- */
+
+const CO_WA_NUMBER = "573103920569"
+const CO_SMS_NUMBER = "+573103920569"
+const US_WA_NUMBER = "19175475787"
+const US_SMS_NUMBER = "+19175475787"
+
 /* --- Animated divider (wave) -------------------------------------- */
 
 function WaveDivider() {
@@ -510,6 +517,7 @@ function ActivitiesSection() {
 function SubmitDemoCTA() {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-50px" })
+  const message = encodeURIComponent("Hi, I want more information about your music label.")
 
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
@@ -522,7 +530,7 @@ function SubmitDemoCTA() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
-          className="max-w-2xl mx-auto text-center"
+          className="max-w-3xl mx-auto text-center"
         >
           <motion.div
             initial={{ scale: 0 }}
@@ -541,27 +549,49 @@ function SubmitDemoCTA() {
             Submit your demo to either of our labels and join a community of artists who are pushing boundaries in electronic music.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <motion.a
-              href={`https://wa.me/573103920569?text=${encodeURIComponent("Hi, I want more information about your music label.")}`}
+              href={`https://wa.me/${CO_WA_NUMBER}?text=${message}`}
               target="_blank"
               rel="noopener noreferrer"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-[#25D366] text-white text-sm tracking-widest uppercase font-sans hover:bg-[#1ebe5b] transition-colors"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-[#25D366] text-white text-sm tracking-widest uppercase font-sans border border-[#25D366]/40 shadow-lg shadow-[#25D366]/20 hover:bg-[#1ebe5b] transition-all duration-300"
             >
               <MessageCircle className="w-4 h-4" />
-              Contact via WhatsApp
+              WhatsApp COL
             </motion.a>
 
             <motion.a
-              href="sms:+573103920569"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 border border-white/20 text-white text-sm tracking-widest uppercase font-sans hover:bg-white/5 transition-colors"
+              href={`sms:${CO_SMS_NUMBER}`}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full border border-white/20 bg-white/5 text-white text-sm tracking-widest uppercase font-sans hover:bg-white/10 hover:border-white/35 transition-all duration-300"
             >
               <MessageSquare className="w-4 h-4" />
-              Contact Us as SMS
+              SMS COL
+            </motion.a>
+
+            <motion.a
+              href={`https://wa.me/${US_WA_NUMBER}?text=${message}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-emerald-600 text-white text-sm tracking-widest uppercase font-sans border border-emerald-400/30 shadow-lg shadow-emerald-600/20 hover:bg-emerald-700 transition-all duration-300"
+            >
+              <MessageCircle className="w-4 h-4" />
+              WhatsApp USA
+            </motion.a>
+
+            <motion.a
+              href={`sms:${US_SMS_NUMBER}`}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.97 }}
+              className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-sky-600 text-white text-sm tracking-widest uppercase font-sans border border-sky-400/30 shadow-lg shadow-sky-600/20 hover:bg-sky-700 transition-all duration-300"
+            >
+              <MessageSquare className="w-4 h-4" />
+              SMS USA
             </motion.a>
           </div>
         </motion.div>

@@ -249,6 +249,10 @@ const allProducts: Record<
   },
 }
 
+const CO_SMS_NUMBER = "+573103920569"
+const US_WA_NUMBER = "19175475787"
+const US_SMS_NUMBER = "+19175475787"
+
 export default function ProductDetailPage() {
   const params = useParams()
   const slug = params.slug as string
@@ -492,12 +496,12 @@ export default function ProductDetailPage() {
                 </motion.div>
               </AnimatePresence>
 
-              {/* WhatsApp */}
+              {/* Contact Buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="mb-8"
+                className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-3"
               >
                 <motion.a
                   href="https://wa.me/573103920569"
@@ -505,9 +509,38 @@ export default function ProductDetailPage() {
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full h-11 bg-[#c41e3a] text-white text-sm font-bold tracking-widest hover:bg-[#a01830] transition-colors flex items-center justify-center"
+                  className="w-full h-11 rounded-md border border-[#c41e3a]/30 bg-[#c41e3a] text-white text-sm font-bold tracking-widest hover:bg-[#a01830] transition-all duration-300 flex items-center justify-center shadow-lg shadow-[#c41e3a]/20"
                 >
-                  BOOK IN WHATSAPP
+                  BOOK IN WHATSAPP COL
+                </motion.a>
+
+                <motion.a
+                  href={`sms:${CO_SMS_NUMBER}`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full h-11 rounded-md border border-[#c4a882]/30 bg-[#c4a882] text-black text-sm font-bold tracking-widest hover:bg-[#d6bc98] transition-all duration-300 flex items-center justify-center shadow-lg shadow-[#c4a882]/20"
+                >
+                  BOOK IN SMS COL
+                </motion.a>
+
+                <motion.a
+                  href={`https://wa.me/${US_WA_NUMBER}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full h-11 rounded-md border border-emerald-500/30 bg-emerald-600 text-white text-sm font-bold tracking-widest hover:bg-emerald-700 transition-all duration-300 flex items-center justify-center shadow-lg shadow-emerald-600/20"
+                >
+                  BOOK IN WHATSAPP USA
+                </motion.a>
+
+                <motion.a
+                  href={`sms:${US_SMS_NUMBER}`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full h-11 rounded-md border border-sky-500/30 bg-sky-600 text-white text-sm font-bold tracking-widest hover:bg-sky-700 transition-all duration-300 flex items-center justify-center shadow-lg shadow-sky-600/20"
+                >
+                  BOOK IN SMS USA
                 </motion.a>
               </motion.div>
 

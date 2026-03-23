@@ -774,7 +774,7 @@ export default function ModelsPage() {
                 whileTap={{ scale: 0.98 }}
                 className="w-full py-4 bg-gradient-to-r from-[oklch(0.55_0.18_20)] to-[oklch(0.45_0.2_10)] text-white font-bold tracking-wider rounded-lg hover:shadow-xl hover:shadow-[oklch(0.55_0.18_20)]/30 transition-all duration-300"
               >
-                Submit Form
+                Coming Soon
               </motion.button>
             </div>
           </motion.div>

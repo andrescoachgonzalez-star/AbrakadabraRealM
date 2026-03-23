@@ -458,14 +458,14 @@ const imgByVehicleId: Record<string, ImgConfig> = {
       `${IMG}/Lamborguini-Carros/Lamborghini_Huracan_EVO_Verde/Verde-5.webp`,
     ],
   },
-"lamborghini-urus-black": {
-  hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Lamborghini-Urus-1.webp`,
-  images: [
-    `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Lamborghini-Urus-1.webp`,
-    `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Urus-1-Negro.webp`,
-    `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Urus-2-Negro.webp`,
-  ],
-},
+  "lamborghini-urus-black": {
+    hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Lamborghini-Urus-1.webp`,
+    images: [
+      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Lamborghini-Urus-1.webp`,
+      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Urus-1-Negro.webp`,
+      `${IMG}/Lamborguini-Carros/Lamborghini_Urus_1/Urus-2-Negro.webp`,
+    ],
+  },
   "lamborghini-urus-blue": {
     hero: `${IMG}/Lamborguini-Carros/Lamborghini_Urus_Azul/Lamborghini-Urus-Azul.webp`,
     images: [
@@ -909,19 +909,20 @@ export default function VehicleDetailsPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          className="flex flex-col sm:flex-row sm:flex-wrap items-center justify-center gap-4"
         >
           <motion.a
-          href="sms:+573103920569"
-          whileHover={{ scale: 1.03 }}
-          whileTap={{ scale: 0.97 }}
-          className="px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 min-w-[200px] text-center"
->
-          <span className="flex items-center justify-center gap-2">
-          <CreditCard className="h-5 w-5" />
-           {"BOOK IN SMS"}
-           </span>
-           </motion.a>
+            href="sms:+573103920569"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-10 py-4 bg-primary text-primary-foreground font-semibold rounded-full hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 min-w-[200px] text-center"
+          >
+            <span className="flex items-center justify-center gap-2">
+              <CreditCard className="h-5 w-5" />
+              {"BOOK IN SMS COL"}
+            </span>
+          </motion.a>
+
           <motion.a
             href="https://wa.me/573103920569"
             target="_blank"
@@ -932,7 +933,33 @@ export default function VehicleDetailsPage() {
           >
             <span className="flex items-center justify-center gap-2">
               <Phone className="h-5 w-5" />
-              BOOK IN WHATSAPP
+              BOOK IN WHATSAPP COL
+            </span>
+          </motion.a>
+
+          <motion.a
+            href="sms:+19175475787"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-10 py-4 bg-sky-600 text-white font-semibold rounded-full hover:bg-sky-700 hover:shadow-lg hover:shadow-sky-500/30 transition-all duration-300 min-w-[200px] text-center"
+          >
+            <span className="flex items-center justify-center gap-2">
+              <CreditCard className="h-5 w-5" />
+              BOOK IN SMS USA
+            </span>
+          </motion.a>
+
+          <motion.a
+            href="https://wa.me/19175475787"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            className="px-10 py-4 bg-emerald-600 text-white font-semibold rounded-full hover:bg-emerald-700 hover:shadow-lg hover:shadow-emerald-500/30 transition-all duration-300 min-w-[200px] text-center"
+          >
+            <span className="flex items-center justify-center gap-2">
+              <Phone className="h-5 w-5" />
+              BOOK IN WHATSAPP USA
             </span>
           </motion.a>
         </motion.div>
