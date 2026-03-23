@@ -17,18 +17,12 @@ const materialFilters = [
 ]
 
 const typeFilters = [
-  { id: "rings", label: "Rings" },
-  { id: "necklaces", label: "Necklaces" },
-  { id: "bracelets", label: "Bracelets" },
-  { id: "earrings", label: "Earrings" },
-  { id: "chains", label: "Chains" },
-]
-
-const priceRanges = [
-  { id: "0-5000", label: "Under $5,000", min: 0, max: 5000 },
-  { id: "5000-10000", label: "$5,000 - $10,000", min: 5000, max: 10000 },
-  { id: "10000-20000", label: "$10,000 - $20,000", min: 10000, max: 20000 },
-  { id: "20000+", label: "Over $20,000", min: 20000, max: 999999 },
+  { id: "rings", label: "Rings", disabled: false },
+  { id: "necklaces", label: "Necklaces", disabled: false },
+  { id: "bracelets", label: "Bracelets", disabled: false },
+  { id: "earrings", label: "Earrings", disabled: false },
+  { id: "chains", label: "Chains", disabled: true },
+  { id: "watches", label: "Watches", disabled: true },
 ]
 
 export default function ShopPage() {
@@ -38,7 +32,6 @@ export default function ShopPage() {
 
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([])
   const [selectedTypes, setSelectedTypes] = useState<string[]>([])
-  const [selectedPriceRange, setSelectedPriceRange] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState("")
   const [isFilterOpen, setIsFilterOpen] = useState(false)
 
@@ -54,7 +47,7 @@ export default function ShopPage() {
     if (initialMaterial) {
       setSelectedMaterials([initialMaterial])
     }
-    if (initialType) {
+    if (initialType && typeFilters.some((type) => type.id === initialType && !type.disabled)) {
       setSelectedTypes([initialType])
     }
   }, [initialMaterial, initialType])
@@ -68,13 +61,16 @@ export default function ShopPage() {
   }
 
   const toggleType = (id: string) => {
+    if (typeFilters.find((type) => type.id === id)?.disabled) {
+      return
+    }
+
     setSelectedTypes((prev) => (prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]))
   }
 
   const clearAllFilters = () => {
     setSelectedMaterials([])
     setSelectedTypes([])
-    setSelectedPriceRange(null)
     setSearchQuery("")
   }
 
@@ -99,18 +95,10 @@ export default function ShopPage() {
       filtered = filtered.filter((p) => selectedTypes.includes(p.type))
     }
 
-    if (selectedPriceRange) {
-      const range = priceRanges.find((r) => r.id === selectedPriceRange)
-      if (range) {
-        filtered = filtered.filter((p) => p.price >= range.min && p.price <= range.max)
-      }
-    }
-
     return filtered
-  }, [selectedMaterials, selectedTypes, selectedPriceRange, searchQuery])
+  }, [selectedMaterials, selectedTypes, searchQuery])
 
-  const activeFiltersCount =
-    selectedMaterials.length + selectedTypes.length + (selectedPriceRange ? 1 : 0)
+  const activeFiltersCount = selectedMaterials.length + selectedTypes.length
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -196,15 +184,6 @@ export default function ShopPage() {
                     </button>
                   )
                 })}
-                {selectedPriceRange && (
-                  <button
-                    onClick={() => setSelectedPriceRange(null)}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium"
-                  >
-                    {priceRanges.find((r) => r.id === selectedPriceRange)?.label}
-                    <X className="w-3 h-3" />
-                  </button>
-                )}
                 <button
                   onClick={clearAllFilters}
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors underline"
@@ -295,15 +274,20 @@ export default function ShopPage() {
                     {typeFilters.map((type) => (
                       <label
                         key={type.id}
-                        className="flex items-center gap-3 cursor-pointer group"
-                        onClick={() => toggleType(type.id)}
+                        className={cn(
+                          "flex items-center gap-3",
+                          type.disabled ? "cursor-not-allowed opacity-40" : "cursor-pointer group"
+                        )}
+                        onClick={() => !type.disabled && toggleType(type.id)}
                       >
                         <div
                           className={cn(
                             "w-5 h-5 rounded border-2 transition-all flex items-center justify-center",
                             selectedTypes.includes(type.id)
                               ? "border-primary bg-primary"
-                              : "border-border group-hover:border-primary/50"
+                              : type.disabled
+                                ? "border-border"
+                                : "border-border group-hover:border-primary/50"
                           )}
                         >
                           {selectedTypes.includes(type.id) && (
@@ -322,7 +306,12 @@ export default function ShopPage() {
                             </svg>
                           )}
                         </div>
-                        <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
+                        <span
+                          className={cn(
+                            "text-sm text-muted-foreground transition-colors",
+                            type.disabled ? "" : "group-hover:text-foreground"
+                          )}
+                        >
                           {type.label}
                         </span>
                       </label>
@@ -345,34 +334,24 @@ export default function ShopPage() {
                   )}
                 </button>
                 {openSections.price && (
-                  <div className="mt-4 space-y-3">
-                    {priceRanges.map((range) => (
-                      <label
-                        key={range.id}
-                        className="flex items-center gap-3 cursor-pointer group"
-                        onClick={() =>
-                          setSelectedPriceRange(
-                            selectedPriceRange === range.id ? null : range.id
-                          )
-                        }
-                      >
-                        <div
-                          className={cn(
-                            "w-5 h-5 rounded-full border-2 transition-all flex items-center justify-center",
-                            selectedPriceRange === range.id
-                              ? "border-primary"
-                              : "border-border group-hover:border-primary/50"
-                          )}
-                        >
-                          {selectedPriceRange === range.id && (
-                            <div className="w-2.5 h-2.5 rounded-full bg-primary" />
-                          )}
-                        </div>
-                        <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
-                          {range.label}
-                        </span>
-                      </label>
-                    ))}
+                  <div className="mt-4">
+                    <div className="mb-3 flex items-center justify-between text-sm">
+                      <span className="text-muted-foreground">On Demand</span>
+                    </div>
+                    <input
+                      type="range"
+                      min={0}
+                      max={100}
+                      step={1}
+                      value={100}
+                      disabled
+                      aria-disabled="true"
+                      className="h-2 w-full cursor-not-allowed appearance-none rounded-full bg-secondary accent-primary opacity-50"
+                    />
+                    <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                      <span>Lower</span>
+                      <span>Higher</span>
+                    </div>
                   </div>
                 )}
               </div>
@@ -423,7 +402,7 @@ export default function ShopPage() {
 
                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
                       <span className="font-serif text-xl font-bold text-foreground">
-                        ${product.price.toLocaleString()}
+                        On Demand
                       </span>
                       <div
                         className={cn(
@@ -517,10 +496,13 @@ export default function ShopPage() {
                 {typeFilters.map((type) => (
                   <button
                     key={type.id}
-                    onClick={() => toggleType(type.id)}
+                    onClick={() => !type.disabled && toggleType(type.id)}
+                    disabled={type.disabled}
                     className={cn(
                       "px-4 py-2 rounded-full border transition-all",
-                      selectedTypes.includes(type.id)
+                      type.disabled
+                        ? "cursor-not-allowed border-border text-muted-foreground/40"
+                        : selectedTypes.includes(type.id)
                         ? "border-primary bg-primary/10 text-primary"
                         : "border-border text-muted-foreground hover:border-primary/50"
                     )}
@@ -534,23 +516,24 @@ export default function ShopPage() {
             {/* Price Filter */}
             <div>
               <h3 className="font-semibold text-foreground mb-4">Price Range</h3>
-              <div className="space-y-2">
-                {priceRanges.map((range) => (
-                  <button
-                    key={range.id}
-                    onClick={() =>
-                      setSelectedPriceRange(selectedPriceRange === range.id ? null : range.id)
-                    }
-                    className={cn(
-                      "w-full text-left px-4 py-3 rounded-xl border transition-all",
-                      selectedPriceRange === range.id
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border text-muted-foreground hover:border-primary/50"
-                    )}
-                  >
-                    {range.label}
-                  </button>
-                ))}
+              <div>
+                <div className="mb-3 flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">On Demand</span>
+                </div>
+                <input
+                  type="range"
+                  min={0}
+                  max={100}
+                  step={1}
+                  value={100}
+                  disabled
+                  aria-disabled="true"
+                  className="h-2 w-full cursor-not-allowed appearance-none rounded-full bg-secondary accent-primary opacity-50"
+                />
+                <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                  <span>Lower</span>
+                  <span>Higher</span>
+                </div>
               </div>
             </div>
           </div>

@@ -38,7 +38,7 @@ const gemstones: Gem[] = [
     textColor: "text-slate-600",
   },
 
-  // ⏳ 3) Pure Gold (Próximamente)
+  // ⏳ 3) Pure Gold (Coming Soon)
   {
     id: "gold",
     name: "Pure Gold",
@@ -50,7 +50,7 @@ const gemstones: Gem[] = [
     comingSoon: true,
   },
 
-  // ⏳ 4) Rubies (Próximamente)
+  // ⏳ 4) Rubies (Coming Soon)
   {
     id: "rubies",
     name: "Rubies",
@@ -134,10 +134,10 @@ export function GemstoneShowcase() {
                     isComingSoon && "opacity-60 cursor-not-allowed hover:shadow-none hover:translate-y-0"
                   )}
                 >
-                  {/* Badge "Próximamente" */}
+                  {/* Badge "Coming Soon" */}
                   {isComingSoon && (
                     <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-muted text-muted-foreground border">
-                      Próximamente
+                      Coming Soon
                     </span>
                   )}
 

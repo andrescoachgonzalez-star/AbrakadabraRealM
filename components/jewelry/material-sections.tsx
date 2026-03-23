@@ -52,7 +52,7 @@ const materials: Material[] = [
     bgAccent: "bg-slate-400",
   },
 
-  // ⏳ 3) Gold (Próximamente)
+  // ⏳ 3) Gold (Coming Soon)
   {
     id: "gold",
     name: "Pure Gold",
@@ -70,7 +70,7 @@ const materials: Material[] = [
     comingSoon: true,
   },
 
-  // ⏳ 4) Rubies (Próximamente)
+  // ⏳ 4) Rubies (Coming Soon)
   {
     id: "rubies",
     name: "Rubies",
@@ -181,7 +181,7 @@ export function MaterialSections() {
 
                       {isComingSoon && (
                         <span className="px-3 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-muted text-muted-foreground border">
-                          Próximamente
+                          Coming Soon
                         </span>
                       )}
                     </div>
@@ -233,7 +233,7 @@ export function MaterialSections() {
                           "bg-muted text-muted-foreground border cursor-not-allowed"
                         )}
                       >
-                        Próximamente
+                        Coming Soon
                         <svg
                           className="w-4 h-4"
                           fill="none"

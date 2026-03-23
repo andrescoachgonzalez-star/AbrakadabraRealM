@@ -8,6 +8,7 @@ const collections = [
   {
     id: "rings",
     name: "Rings",
+    available: true,
     tagline: "Symbols of Forever",
     description: "From engagement rings to statement pieces, each ring is designed to capture life's most precious moments.",
     features: ["Engagement", "Wedding Bands", "Cocktail", "Eternity"],
@@ -22,6 +23,7 @@ const collections = [
   {
     id: "necklaces",
     name: "Necklaces",
+    available: true,
     tagline: "Grace in Motion",
     description: "Elegant chains and pendants that frame the face and add sophistication to any ensemble.",
     features: ["Pendants", "Chains", "Chokers", "Statement"],
@@ -36,6 +38,7 @@ const collections = [
   {
     id: "bracelets",
     name: "Bracelets",
+    available: true,
     tagline: "Wrist Artistry",
     description: "Delicate bangles and bold cuffs that move with you, catching light at every turn.",
     features: ["Bangles", "Cuffs", "Tennis", "Charm"],
@@ -50,22 +53,9 @@ const collections = [
     ),
   },
   {
-    id: "chains",
-    name: "Chains",
-    tagline: "Linked Luxury",
-    description: "Masterfully crafted chains in various styles, from classic to contemporary, each link perfected.",
-    features: ["Cuban", "Rope", "Figaro", "Box"],
-    icon: (
-      <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <ellipse cx="35" cy="40" rx="12" ry="8" className="stroke-primary/50" />
-        <ellipse cx="50" cy="50" rx="12" ry="8" className="stroke-primary/40" />
-        <ellipse cx="65" cy="60" rx="12" ry="8" className="stroke-primary/30" />
-      </svg>
-    ),
-  },
-  {
     id: "earrings",
     name: "Earrings",
+    available: true,
     tagline: "Frame Your Face",
     description: "From subtle studs to dramatic drops, earrings that complete every look with elegance.",
     features: ["Studs", "Drops", "Hoops", "Chandeliers"],
@@ -81,8 +71,24 @@ const collections = [
     ),
   },
   {
+    id: "chains",
+    name: "Chains",
+    available: false,
+    tagline: "Linked Luxury",
+    description: "Masterfully crafted chains in various styles, from classic to contemporary, each link perfected.",
+    features: ["Cuban", "Rope", "Figaro", "Box"],
+    icon: (
+      <svg viewBox="0 0 100 100" className="w-full h-full" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <ellipse cx="35" cy="40" rx="12" ry="8" className="stroke-primary/50" />
+        <ellipse cx="50" cy="50" rx="12" ry="8" className="stroke-primary/40" />
+        <ellipse cx="65" cy="60" rx="12" ry="8" className="stroke-primary/30" />
+      </svg>
+    ),
+  },
+  {
     id: "watches",
     name: "Watches",
+    available: false,
     tagline: "Time Refined",
     description: "Exquisite timepieces adorned with precious stones, where function meets extraordinary form.",
     features: ["Diamond Set", "Gold", "Limited Edition", "Bespoke"],
@@ -127,18 +133,24 @@ export function CollectionTypes() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {collections.map((collection, index) => (
             <ScrollReveal key={collection.id} delay={index * 80}>
-              <a
-                href={`/jewelry/shop?type=${collection.id}`}
+              <div
                 className={cn(
-                  "group relative bg-card rounded-2xl p-8 border border-border transition-all duration-500 block",
-                  "hover:shadow-xl hover:border-primary/30 hover:-translate-y-2",
+                  "group relative flex h-full flex-col rounded-2xl border border-border bg-card p-8 transition-all duration-500",
+                  collection.available
+                    ? "hover:-translate-y-2 hover:border-primary/30 hover:shadow-xl"
+                    : "opacity-85",
                   hoveredId === collection.id ? "z-10" : ""
                 )}
                 onMouseEnter={() => setHoveredId(collection.id)}
                 onMouseLeave={() => setHoveredId(null)}
               >
                 {/* Icon */}
-                <div className="w-20 h-20 mb-6 transition-transform duration-500 group-hover:scale-110">
+                <div
+                  className={cn(
+                    "mb-6 h-20 w-20 transition-transform duration-500",
+                    collection.available ? "group-hover:scale-110" : ""
+                  )}
+                >
                   {collection.icon}
                 </div>
 
@@ -158,22 +170,37 @@ export function CollectionTypes() {
                   {collection.features.map((feature) => (
                     <span
                       key={feature}
-                      className="text-xs px-3 py-1 rounded-full bg-secondary text-muted-foreground transition-colors duration-300 group-hover:bg-primary/10 group-hover:text-primary"
+                      className={cn(
+                        "rounded-full bg-secondary px-3 py-1 text-xs text-muted-foreground transition-colors duration-300",
+                        collection.available ? "group-hover:bg-primary/10 group-hover:text-primary" : ""
+                      )}
                     >
                       {feature}
                     </span>
                   ))}
                 </div>
 
-                {/* Hover Arrow */}
-                <div className="absolute bottom-8 right-8 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <svg className="w-5 h-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                    </svg>
-                  </div>
+                <div className="mt-8">
+                  {collection.available ? (
+                    <a
+                      href={`/jewelry/shop?type=${collection.id}`}
+                      className="inline-flex items-center gap-2 rounded-full bg-foreground px-5 py-3 text-xs font-semibold tracking-[0.2em] text-background uppercase transition-all duration-300 hover:gap-3 hover:bg-primary"
+                    >
+                      Explore Collection
+                      <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </a>
+                  ) : (
+                    <span
+                      aria-disabled="true"
+                      className="inline-flex cursor-not-allowed items-center gap-2 rounded-full border border-border bg-secondary px-5 py-3 text-xs font-semibold tracking-[0.2em] text-muted-foreground uppercase"
+                    >
+                      Coming Soon
+                    </span>
+                  )}
                 </div>
-              </a>
+              </div>
             </ScrollReveal>
           ))}
         </div>

@@ -1,5 +1,5 @@
 import { MaintenanceView } from "@/components/maintenance-view"
 
-export default function MaintenancePage() {
+export default function NotFound() {
   return <MaintenanceView />
 }

@@ -93,11 +93,12 @@ export default function ProductDetailPage() {
       .slice(0, 4)
   }, [product])
 
-  const contactMessage = `Hi, I'm interested in the ${product.name} ($${product.price.toLocaleString()}) from the ${product.collection} Collection. Could you provide more details?`
+  const contactMessage = `Hi, I'm interested in the ${product.name} from the ${product.collection} Collection. Could you provide more details?`
   const whatsappHref = `https://wa.me/${CONTACT_INFO.colombia.whatsappNumber}?text=${encodeURIComponent(
     contactMessage
   )}`
-  const smsHref = `${CONTACT_INFO.colombia.smsHref}?body=${encodeURIComponent(contactMessage)}`
+  const smsColombiaHref = `${CONTACT_INFO.colombia.smsHref}?body=${encodeURIComponent(contactMessage)}`
+  const smsUsaHref = `${CONTACT_INFO.usa.smsHref}?body=${encodeURIComponent(contactMessage)}`
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -206,12 +207,11 @@ export default function ProductDetailPage() {
               {product.name}
             </h1>
 
-            {/* Price */}
+            {/* Availability */}
             <div className="mb-8">
               <span className="font-serif text-3xl font-bold text-foreground">
-                ${product.price.toLocaleString()}
+                On Demand
               </span>
-              <span className="text-sm text-muted-foreground ml-2">USD</span>
             </div>
 
             {/* Divider */}
@@ -401,15 +401,17 @@ export default function ProductDetailPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <a
-                  href={CONTACT_INFO.colombia.phoneHref}
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2.5 p-3 rounded-xl border border-border hover:border-primary/30 hover:bg-background transition-all duration-300 group"
                 >
                   <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
-                    <span className="text-primary text-sm">📞</span>
+                    <span className="text-primary text-sm">✦</span>
                   </div>
                   <div>
                     <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
-                      Phone
+                      WhatsApp Colombia
                     </p>
                     <p className="text-xs font-semibold text-foreground">
                       {CONTACT_INFO.colombia.display}
@@ -418,7 +420,7 @@ export default function ProductDetailPage() {
                 </a>
 
                 <a
-                  href={smsHref}
+                  href={smsColombiaHref}
                   className="flex items-center gap-2.5 p-3 rounded-xl border border-border hover:border-primary/30 hover:bg-background transition-all duration-300 group"
                 >
                   <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
@@ -426,10 +428,44 @@ export default function ProductDetailPage() {
                   </div>
                   <div>
                     <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
-                      SMS
+                      SMS Colombia
                     </p>
                     <p className="text-xs font-semibold text-foreground">
                       {CONTACT_INFO.colombia.display}
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  href={CONTACT_INFO.usa.phoneHref}
+                  className="flex items-center gap-2.5 p-3 rounded-xl border border-border hover:border-primary/30 hover:bg-background transition-all duration-300 group"
+                >
+                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
+                    <span className="text-primary text-sm">📞</span>
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
+                      Call USA
+                    </p>
+                    <p className="text-xs font-semibold text-foreground">
+                      {CONTACT_INFO.usa.display}
+                    </p>
+                  </div>
+                </a>
+
+                <a
+                  href={smsUsaHref}
+                  className="flex items-center gap-2.5 p-3 rounded-xl border border-border hover:border-primary/30 hover:bg-background transition-all duration-300 group"
+                >
+                  <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors duration-300">
+                    <span className="text-primary text-sm">💬</span>
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-muted-foreground tracking-wider uppercase">
+                      SMS USA
+                    </p>
+                    <p className="text-xs font-semibold text-foreground">
+                      {CONTACT_INFO.usa.display}
                     </p>
                   </div>
                 </a>
@@ -481,7 +517,7 @@ export default function ProductDetailPage() {
                       {item.name}
                     </h3>
                     <p className="font-serif text-foreground font-bold">
-                      ${item.price.toLocaleString()}
+                      On Demand
                     </p>
                   </a>
                 </ScrollReveal>

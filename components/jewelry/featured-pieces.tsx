@@ -15,21 +15,10 @@ type FeaturedPiece = {
   category: "Ring" | "Necklace" | "Pendant" | "Charm" | "Bracelet" | "Earring" | "Chain"
   collection: string
   badge?: "FREE SHIPPING" | "NEW" | "SALE"
-  price: number
-  compareAtPrice?: number
-  currency: "USD"
   stone?: string
   material?: string
   imageSrc: string
   imageAlt: string
-}
-
-function formatPrice(value: number, currency: "USD") {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency,
-    maximumFractionDigits: 0,
-  }).format(value)
 }
 
 // Mapea el "type" interno a la etiqueta bonita que ya usas en UI
@@ -70,9 +59,6 @@ export function FeaturedPieces() {
       badge: (p as any).badge
         ? ((p as any).badge as FeaturedPiece["badge"])
         : (p.isNew ? "NEW" : "FREE SHIPPING"),
-      price: p.price,
-      compareAtPrice: (p as any).compareAtPrice,
-      currency: "USD" as const,
       stone: (p as any).stone,
       material: p.material ? p.material.charAt(0).toUpperCase() + p.material.slice(1) : undefined,
       imageSrc: p.image,
@@ -102,9 +88,7 @@ export function FeaturedPieces() {
                 Featured Pieces
               </h2>
             </div>
-            <p className="text-muted-foreground max-w-md leading-relaxed">
-              Productos destacados del inicio (desde tu data real). Luego puedes ampliar con categorías y filtros.
-            </p>
+            
           </div>
         </ScrollReveal>
 
@@ -175,14 +159,8 @@ export function FeaturedPieces() {
                   <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
                     <div className="flex items-baseline gap-3">
                       <span className="font-serif text-xl font-bold text-foreground">
-                        {formatPrice(piece.price, piece.currency)}
+                        On Demand
                       </span>
-
-                      {piece.compareAtPrice ? (
-                        <span className="text-sm text-muted-foreground line-through">
-                          {formatPrice(piece.compareAtPrice, piece.currency)}
-                        </span>
-                      ) : null}
                     </div>
 
                     <a
