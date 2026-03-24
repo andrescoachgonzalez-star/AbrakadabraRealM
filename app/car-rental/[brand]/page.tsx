@@ -3,98 +3,293 @@
 import { useParams, useRouter } from "next/navigation"
 import { motion } from "framer-motion"
 import Link from "next/link"
+import Image from "next/image"
 import { ArrowLeft, X, ChevronRight } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
 
-const brandsData: Record<string, any> = {
+type Vehicle = {
+  id: string
+  name: string
+  price: string
+  image?: string
+}
+
+type Brand = {
+  displayName: string
+  category: string
+  power: string
+  available: number
+  vehicles: Vehicle[]
+}
+
+const brandsData: Record<string, Brand> = {
   "mercedes-benz": {
     displayName: "MERCEDES BENZ",
     category: "SUV / Sedan",
     power: "577 HP",
     available: 5,
     vehicles: [
-      { id: "mercedes-benz-g-wagon-amg", name: "G-Wagon AMG", price: "899,00" },
-      { id: "mercedes-benz-g-wagon-black", name: "G-Wagon Black", price: "899,00" },
-      { id: "mercedes-benz-amg-gt-silver", name: "AMG GT Silver", price: "799,00" },
-      { id: "mercedes-benz-s-class-maybach", name: "S-Class Maybach", price: "1.099,00" },
-      { id: "mercedes-benz-maybach-gls", name: "Maybach GLS", price: "1.299,00" },
+      {
+        id: "mercedes-benz-s580",
+        name: "Mercedes Benz S580",
+        price: "399,00",
+        image: "/Marcas/Mercedes-Benz/Mercedes-Benz-S580.webp",
+      },
+      {
+        id: "mercedes-benz-g550",
+        name: "Mercedes Benz G550",
+        price: "499,00",
+        image: "/Marcas/Mercedes-Benz/Mercedes-G550.webp",
+      },
+      {
+        id: "mercedes-benz-g63",
+        name: "Mercedes Benz G63",
+        price: "699,00",
+        image: "/Marcas/Mercedes-Benz/Mercedes-G63.webp",
+      },
+      {
+        id: "mercedes-benz-maybach",
+        name: "Mercedes Benz Maybach",
+        price: "899,00",
+        image: "/Marcas/Mercedes-Benz/MercedesMaybach.webp",
+      },
+      {
+        id: "mercedes-benz-g63-brabus",
+        name: "Mercedes Benz G63 Brabus",
+        price: "999,00",
+        image: "/Marcas/Mercedes-Benz/MercedesG63Brabus.webp",
+      },
     ],
   },
+
   corvette: {
     displayName: "CORVETTE C8",
     category: "Sports Car",
     power: "495 HP",
     available: 3,
     vehicles: [
-      { id: "corvette-stingray-red", name: "Stingray Red", price: "599,00" },
-      { id: "corvette-stingray-yellow", name: "Stingray Yellow", price: "599,00" },
-      { id: "corvette-stingray-blue", name: "Stingray Blue", price: "599,00" },
+      {
+        id: "corvette-c8-2024-red",
+        name: "Corvette C8 2024",
+        price: "449,00",
+        image: "/Marcas/Corvette/Corvette-Rojo.webp",
+      },
+      {
+        id: "corvette-c8-2024-mint",
+        name: "Corvette C8 2024",
+        price: "449,00",
+        image: "/Marcas/Corvette/Corvette-Verde.webp",
+      },
+      {
+        id: "corvette-c8-2023-blue",
+        name: "Corvette C8 2023",
+        price: "449,00",
+        image: "/Marcas/Corvette/Corvette-Azul.webp",
+      },
     ],
   },
+
   lamborghini: {
     displayName: "LAMBORGHINI",
     category: "Super Sports",
     power: "770 HP",
     available: 11,
     vehicles: [
-      { id: "lamborghini-urus-green", name: "Urus Green", price: "999,00" },
-      { id: "lamborghini-huracan-yellow", name: "Huracan Yellow", price: "1.299,00" },
-      { id: "lamborghini-huracan-orange", name: "Huracan Orange", price: "1.299,00" },
-      { id: "lamborghini-aventador-red", name: "Aventador Red", price: "1.999,00" },
-      { id: "lamborghini-aventador-black", name: "Aventador Black", price: "1.999,00" },
-      { id: "lamborghini-urus-white", name: "Urus White", price: "999,00" },
-      { id: "lamborghini-huracan-blue", name: "Huracan Blue", price: "1.299,00" },
-      { id: "lamborghini-revuelto-green", name: "Revuelto Green", price: "2.499,00" },
-      { id: "lamborghini-urus-grey", name: "Urus Grey", price: "999,00" },
-      { id: "lamborghini-huracan-purple", name: "Huracan Purple", price: "1.299,00" },
-      { id: "lamborghini-aventador-gold", name: "Aventador Gold", price: "2.199,00" },
+      {
+        id: "lamborghini-huracan-Red",
+        name: "Lamborghini Huracan Red",
+        price: "799,00",
+        image: "/Marcas/Lamborguini/Lamborghini-Huracan.webp",
+      },
+      {
+        id: "lamborghini-evo-spyder-blue",
+        name: "Lamborghini Evo Spyder",
+        price: "899,00",
+        image: "/Marcas/Lamborguini/Lamborghini-Huracan-Evo-Spyder.webp",
+      },
+      {
+        id: "lamborghini-huracan-white",
+        name: "Lamborghini Huracan white",
+        price: "999,00",
+        image: "/Marcas/Lamborguini/HuracanGray.webp",
+      },
+      {
+        id: "lamborghini-huracan-evo-Black",
+        name: "Lamborghini Huracan EVO Black",
+        price: "999,00",
+        image: "/Marcas/Lamborguini/Lamborghini-Huracan-EVO-1.webp",
+      },
+      {
+        id: "lamborghini-huracan-evo-Green",
+        name: "Lamborghini Huracan EVO Green",
+        price: "999,00",
+        image: "/Marcas/Lamborguini/Lamborghini-Huracan-EVO.webp",
+      },
+      {
+        id: "lamborghini-evo-sto-yellow",
+        name: "Lamborghini EVO STO Yellow",
+        price: "1.999,00",
+        image: "/Marcas/Lamborguini/Lamborghini-EVO-STO.webp",
+      },
+      {
+        id: "lamborghini-urus-dark-Black",
+        name: "Lamborghini Urus dark Black",
+        price: "799,00",
+        image: "/Marcas/Lamborguini/Lamborghini-Urus-Black.webp",
+      },
+      {
+        id: "lamborghini-urus-white",
+        name: "Lamborghini Urus white",
+        price: "899,00",
+        image: "/Marcas/Lamborguini/Lamborghini-URUS-white.webp",
+      },
+      {
+        id: "lamborghini-urus-black",
+        name: "Lamborghini Urus Black",
+        price: "899,00",
+        image: "/Marcas/Lamborguini/Lamborghini-Urus.webp",
+      },
+      {
+        id: "lamborghini-urus-s-green",
+        name: "Lamborghini Urus S green",
+        price: "999,00",
+        image: "/Marcas/Lamborguini/Lamborghini-Urus-Green.webp",
+      },
+      {
+        id: "lamborghini-urus-blue",
+        name: "Lamborghini Urus blue",
+        price: "1.199,00",
+        image: "/Marcas/Lamborguini/Lamborghini-Urus-Blue.webp",
+      },
     ],
   },
+
   bentley: {
     displayName: "BENTLEY",
     category: "Luxury Coupe",
     power: "626 HP",
     available: 3,
     vehicles: [
-      { id: "bentley-continental-gt", name: "Continental GT", price: "899,00" },
-      { id: "bentley-flying-spur", name: "Flying Spur", price: "999,00" },
-      { id: "bentley-bentayga", name: "Bentayga", price: "1.199,00" },
+      {
+        id: "bentley-flying-spur",
+        name: "Bentley Flying Spur",
+        price: "799,00",
+        image: "/Marcas/Bentley/BentleyFlyingSpur.webp",
+      },
+      {
+        id: "bentley-azure-bentayga",
+        name: "Bentley Azure Bentayga",
+        price: "1.100,00",
+        image: "/Marcas/Bentley/Bentley-Azzure-Bentayga.webp",
+      },
+      {
+        id: "bentley-continental-gt",
+        name: "Bentley Continental GT",
+        price: "1.120,00",
+        image: "/Marcas/Bentley/Bentley-GT.webp",
+      },
     ],
   },
+
   ferrari: {
     displayName: "FERRARI",
     category: "Hybrid Supercar",
     power: "819 HP",
     available: 1,
-    vehicles: [{ id: "ferrari-sf90-stradale", name: "SF90 Stradale", price: "2.999,00" }],
+    vehicles: [
+      {
+        id: "ferrari-f8-spider",
+        name: "Ferrari F8 Spider",
+        price: "2.599,00",
+        image: "/Marcas/Ferrari/FerrariF8.webp",
+      },
+    ],
   },
+
   "rolls-royce": {
     displayName: "ROLLS ROYCE",
     category: "Ultra Luxury",
     power: "563 HP",
-    available: 2,
+    available: 8,
     vehicles: [
-      { id: "rolls-royce-dawn", name: "Dawn", price: "899,00" },
-      { id: "rolls-royce-ghost", name: "Ghost", price: "1.199,00" },
+      {
+        id: "rolls-royce-dawn",
+        name: "Rolls Royce Dawn",
+        price: "899,00",
+        image: "/Marcas/Roll-Royce/RollsRoyceDawn.webp",
+      },
+      {
+        id: "rolls-royce-cullinan-white",
+        name: "Rolls Royce Cullinan",
+        price: "1.199,00",
+        image: "/Marcas/Roll-Royce/RollsRoyceCullinan.webp",
+      },
+      {
+        id: "rolls-royce-cullinan-black-1",
+        name: "Rolls Royce Cullinan",
+        price: "1.199,00",
+        image: "/Marcas/Roll-Royce/RollsRoyceCullinan-1.webp",
+      },
+      {
+        id: "rolls-royce-cullinan-black-2",
+        name: "Rolls Royce Cullinan",
+        price: "1.399,00",
+        image: "/Marcas/Roll-Royce/RollsRoyceCullinan-2.webp",
+      },
+      {
+        id: "rolls-royce-cullinan-silver",
+        name: "Rolls Royce Cullinan",
+        price: "1.399,00",
+        image: "/Marcas/Roll-Royce/RollsRoyceCullinan-5.webp",
+      },
+      {
+        id: "rolls-royce-wraith",
+        name: "Rolls Royce Wraith",
+        price: "1.099,00",
+        image: "/Marcas/Roll-Royce/RollsRoyceWraith.webp",
+      },
+      {
+        id: "rolls-royce-ghost",
+        name: "Rolls Royce Ghost",
+        price: "1.200,00",
+        image: "/Marcas/Roll-Royce/RollsRoyceGhost.webp",
+      },
+      {
+        id: "rolls-royce-phantom",
+        name: "Rolls Royce Phantom",
+        price: "2.500,00",
+        image: "/Marcas/Roll-Royce/RollsRoycePhantom.webp",
+      },
     ],
   },
+
   mclaren: {
     displayName: "McLAREN",
     category: "Supercar",
     power: "710 HP",
     available: 1,
-    vehicles: [{ id: "mclaren-720s", name: "720S", price: "1.499,00" }],
-  },
-  porsche: {
-    displayName: "PORSCHE",
-    category: "Performance",
-    power: "640 HP",
-    available: 4,
     vehicles: [
-      { id: "porsche-911-turbo-s", name: "911 Turbo S", price: "699,00" },
-      { id: "porsche-taycan", name: "Taycan", price: "599,00" },
-      { id: "porsche-cayenne-turbo", name: "Cayenne Turbo", price: "499,00" },
-      { id: "porsche-panamera", name: "Panamera", price: "549,00" },
+      {
+        id: "mclaren-gt",
+        name: "McLaren GT",
+        price: "899,00",
+        image: "/Marcas/Mclaren/McLaren-GT.webp",
+      },
+    ],
+  },
+
+  bmw: {
+    displayName: "BMW",
+    category: "Luxury Sedan",
+    power: "375 HP",
+    available: 1,
+    vehicles: [
+      {
+        id: "bmw-7-series-740i",
+        name: "BMW 7 Series 740i",
+        price: "399,00",
+        image: "/Marcas/BMW/BMW-7-Series-740i.webp",
+      },
     ],
   },
 }
@@ -109,7 +304,6 @@ export default function BrandPage() {
     <main className="min-h-screen bg-foreground overflow-x-hidden">
       <LuxuryHeader />
 
-      {/* Dark honeycomb background */}
       <div
         className="fixed inset-0 z-0"
         style={{
@@ -118,10 +312,8 @@ export default function BrandPage() {
         }}
       />
 
-      {/* Content overlay */}
       <div className="relative z-10 min-h-screen pt-28 pb-16 px-8 lg:px-12">
         <div className="container mx-auto max-w-7xl">
-          {/* Close button */}
           <div className="flex justify-end mb-4">
             <button
               onClick={() => router.push("/car-rental")}
@@ -132,7 +324,6 @@ export default function BrandPage() {
             </button>
           </div>
 
-          {/* Brand Title */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -142,9 +333,8 @@ export default function BrandPage() {
             {brandData.displayName}
           </motion.h1>
 
-          {/* Vehicle Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {brandData.vehicles.map((vehicle: any, index: number) => (
+            {brandData.vehicles.map((vehicle, index) => (
               <motion.div
                 key={vehicle.id}
                 initial={{ opacity: 0, y: 30, scale: 0.95 }}
@@ -155,17 +345,23 @@ export default function BrandPage() {
                   href={`/car-rental/vehicle/${vehicle.id}`}
                   className="group block overflow-hidden rounded-2xl bg-card shadow-lg hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
                 >
-                  {/* Image */}
-                  <div className="relative aspect-[4/3] bg-gradient-to-br from-muted to-muted/50 flex items-center justify-center overflow-hidden m-4 rounded-xl shadow-inner">
-                    <span className="text-muted-foreground/30 text-sm tracking-widest">IMAGE</span>
-                    <div className="absolute inset-0 bg-gradient-to-t from-card/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-end justify-center pb-4">
-                      <span className="text-foreground text-sm font-medium flex items-center gap-1">
-                        View Details <ChevronRight className="h-4 w-4" />
+                  <div className="relative aspect-[4/3] bg-gradient-to-br from-zinc-200 to-zinc-100 flex items-center justify-center overflow-hidden m-4 rounded-xl shadow-inner">
+                    {vehicle.image ? (
+                      <Image
+                        src={vehicle.image}
+                        alt={vehicle.name}
+                        fill
+                        className="object-contain p-3 transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+                        priority={index < 3}
+                      />
+                    ) : (
+                      <span className="text-muted-foreground/30 text-sm tracking-widest">
+                        IMAGE
                       </span>
-                    </div>
+                    )}
                   </div>
 
-                  {/* Content */}
                   <div className="px-5 pb-5">
                     <h3 className="font-serif text-lg font-bold text-foreground group-hover:text-primary transition-colors">
                       {vehicle.name}
@@ -179,7 +375,6 @@ export default function BrandPage() {
             ))}
           </div>
 
-          {/* Back link */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}

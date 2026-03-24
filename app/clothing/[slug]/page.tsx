@@ -4,22 +4,25 @@ import { useState } from "react"
 import { useParams } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
-import { ArrowLeft, Minus, Plus, ChevronRight, Truck, Shield, Star } from "lucide-react"
+import { ArrowLeft, ChevronRight, Truck, Shield, Star } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
 
-const allProducts: Record<string, {
-  name: string
-  category: string
-  categorySlug: string
-  originalPrice: string
-  salePrice: string
-  onSale: boolean
-  images: string[]
-  description: string[]
-  sizes: string[]
-  material: string
-  limitedEdition: boolean
-}> = {
+const allProducts: Record<
+  string,
+  {
+    name: string
+    category: string
+    categorySlug: string
+    originalPrice: string
+    salePrice: string
+    onSale: boolean
+    images: string[]
+    description: string[]
+    sizes: string[]
+    material: string
+    limitedEdition: boolean
+  }
+> = {
   "oversize-abrakadabra-realm-black": {
     name: "OVERSIZE ABRAKADABRA REALM BLACK",
     category: "T-Shirt & Caps",
@@ -28,9 +31,15 @@ const allProducts: Record<string, {
     salePrice: "30,00",
     onSale: true,
     images: [
-      "/clothing/tshirt-black.jpg",
-      "/clothing/tshirt-black-back.jpg",
-      "/clothing/tshirt-black-detail.jpg",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-1.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-2.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-3.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-4.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-5.jpg",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-6.jpg",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-7.webp",
+      "/Clothes/Camisa-1-Negra/Camisa-1-Negra-8.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -51,9 +60,15 @@ const allProducts: Record<string, {
     salePrice: "30,00",
     onSale: true,
     images: [
-      "/clothing/tshirt-white.jpg",
-      "/clothing/tshirt-white-back.jpg",
-      "/clothing/tshirt-white-detail.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca.webp",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-2.webp",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-3.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-4.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-5.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-6.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-7.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-8.jpg",
+      "/Clothes/Camisa-1-Blanca/Camisa-Blanca-9.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -73,10 +88,7 @@ const allProducts: Record<string, {
     originalPrice: "20,00",
     salePrice: "10,00",
     onSale: true,
-    images: [
-      "/clothing/cap-white.jpg",
-      "/clothing/cap-white-detail.jpg",
-    ],
+    images: ["/Clothes/Gorra-1/Foto-gorra-1.webp"],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
       "LIMITED EDITION",
@@ -95,10 +107,7 @@ const allProducts: Record<string, {
     originalPrice: "20,00",
     salePrice: "10,00",
     onSale: true,
-    images: [
-      "/clothing/cap-black.jpg",
-      "/clothing/cap-black-detail.jpg",
-    ],
+    images: ["/Clothes/Gorra-2/Foto-gorra-2.webp"],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
       "LIMITED EDITION",
@@ -118,9 +127,11 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/tshirt-universe-black.jpg",
-      "/clothing/tshirt-black-back.jpg",
-      "/clothing/tshirt-black-detail.jpg",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-1.webp",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-2.webp",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-3.webp",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-4.webp",
+      "/Clothes/Camisa-2-Negra/Camisa2-black-5.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -141,9 +152,10 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/tshirt-beige.jpg",
-      "/clothing/tshirt-white-back.jpg",
-      "/clothing/tshirt-white-detail.jpg",
+      "/Clothes/Camisa-2-Blanca/Camisa2-white-1.webp",
+      "/Clothes/Camisa-2-Blanca/Camisa2-white-2.webp",
+      "/Clothes/Camisa-2-Blanca/Camisa2-white-3.webp",
+      "/Clothes/Camisa-2-Blanca/Camisa2-white-4.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -164,8 +176,12 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/swimsuit-blue.jpg",
-      "/clothing/swimsuit-blue-detail.jpg",
+      "/Clothes/Bikini-1/Bikini-blue.webp",
+      "/Clothes/Bikini-1/Bikini-blue-1.webp",
+      "/Clothes/Bikini-1/Bikini-blue-2.webp",
+      "/Clothes/Bikini-1/Bikini-blue-3.webp",
+      "/Clothes/Bikini-1/Bikini-blue-4.webp",
+      "/Clothes/Bikini-1/Bikini-blue-5.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -186,8 +202,11 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/swimsuit-green.jpg",
-      "/clothing/swimsuit-green-detail.jpg",
+      "/Clothes/Bikini-2/Bikini-green.webp",
+      "/Clothes/Bikini-2/Bikini-green-1.webp",
+      "/Clothes/Bikini-2/Bikini-green-2.webp",
+      "/Clothes/Bikini-2/Bikini-green-3.webp",
+      "/Clothes/Bikini-2/Bikini-green-4.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -208,8 +227,14 @@ const allProducts: Record<string, {
     salePrice: "20,00",
     onSale: true,
     images: [
-      "/clothing/swimsuit-fuchsia.jpg",
-      "/clothing/swimsuit-fuchsia-detail.jpg",
+      "/Clothes/Bikini-3/Bikini-rose.webp",
+      "/Clothes/Bikini-3/Bikini-rose-1.webp",
+      "/Clothes/Bikini-3/Bikini-rose-2.webp",
+      "/Clothes/Bikini-3/Bikini-rose-3.webp",
+      "/Clothes/Bikini-3/Bikini-rose-4.webp",
+      "/Clothes/Bikini-3/Bikini-rose-5.webp",
+      "/Clothes/Bikini-3/Bikini-rose-7.webp",
+      "/Clothes/Bikini-3/Bikini-rose-8.webp",
     ],
     description: [
       "IMPORTANT: Free shipping only in Colombia",
@@ -224,15 +249,17 @@ const allProducts: Record<string, {
   },
 }
 
+const CO_SMS_NUMBER = "+573103920569"
+const US_WA_NUMBER = "19175475787"
+const US_SMS_NUMBER = "+19175475787"
+
 export default function ProductDetailPage() {
   const params = useParams()
   const slug = params.slug as string
   const product = allProducts[slug]
 
   const [selectedImage, setSelectedImage] = useState(0)
-  const [quantity, setQuantity] = useState(1)
   const [activeTab, setActiveTab] = useState<"description" | "details" | "shipping">("description")
-  const [selectedSize, setSelectedSize] = useState<string | null>(null)
 
   if (!product) {
     return (
@@ -276,7 +303,6 @@ export default function ProductDetailPage() {
       <section className="pb-20">
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-
             {/* Left: Gallery */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
@@ -294,6 +320,15 @@ export default function ProductDetailPage() {
                     SALE
                   </motion.div>
                 )}
+
+                <Link
+                  href="/clothing"
+                  className="absolute top-5 right-5 z-10 inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/45 backdrop-blur-md px-4 py-2 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/90 shadow-lg transition-all duration-300 hover:border-[#c4a882]/70 hover:bg-black/65 hover:text-[#c4a882]"
+                >
+                  <ArrowLeft className="w-4 h-4" />
+                  EXIT
+                </Link>
+
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={selectedImage}
@@ -308,7 +343,7 @@ export default function ProductDetailPage() {
                 </AnimatePresence>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-3 flex-wrap">
                 {product.images.map((img, i) => (
                   <motion.button
                     key={i}
@@ -377,9 +412,7 @@ export default function ProductDetailPage() {
                     key={tab.key}
                     onClick={() => setActiveTab(tab.key)}
                     className={`relative px-5 py-3 text-sm tracking-wide transition-colors ${
-                      activeTab === tab.key
-                        ? "text-white"
-                        : "text-white/40 hover:text-white/60"
+                      activeTab === tab.key ? "text-white" : "text-white/40 hover:text-white/60"
                     }`}
                   >
                     {tab.label}
@@ -463,63 +496,52 @@ export default function ProductDetailPage() {
                 </motion.div>
               </AnimatePresence>
 
-              {/* Size Selection */}
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.45 }}
-                className="mb-6"
-              >
-                <p className="text-white/50 text-xs tracking-widest uppercase mb-3">Size</p>
-                <div className="flex gap-2">
-                  {product.sizes.map((size) => (
-                    <button
-                      key={size}
-                      onClick={() => setSelectedSize(size)}
-                      className={`min-w-[48px] h-10 px-3 text-sm tracking-wide border transition-all duration-300 ${
-                        selectedSize === size
-                          ? "border-[#c4a882] bg-[#c4a882]/10 text-[#c4a882]"
-                          : "border-white/15 text-white/50 hover:border-white/30 hover:text-white/70"
-                      }`}
-                    >
-                      {size}
-                    </button>
-                  ))}
-                </div>
-              </motion.div>
-
-              {/* Quantity + Add to Cart */}
+              {/* Contact Buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5 }}
-                className="flex items-center gap-4 mb-8"
+                className="mb-8 grid grid-cols-1 sm:grid-cols-2 gap-3"
               >
-                <div className="flex items-center border border-white/15">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-10 h-11 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors"
-                  >
-                    <Minus className="w-4 h-4" />
-                  </button>
-                  <span className="w-12 h-11 flex items-center justify-center text-white text-sm border-x border-white/15">
-                    {quantity}
-                  </span>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-10 h-11 flex items-center justify-center text-white/50 hover:text-white hover:bg-white/5 transition-colors"
-                  >
-                    <Plus className="w-4 h-4" />
-                  </button>
-                </div>
-
-                <motion.button
+                <motion.a
+                  href="https://wa.me/573103920569"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
-                  className="flex-1 h-11 bg-[#c41e3a] text-white text-sm font-bold tracking-widest hover:bg-[#a01830] transition-colors"
+                  className="w-full h-11 rounded-md border border-[#c41e3a]/30 bg-[#c41e3a] text-white text-sm font-bold tracking-widest hover:bg-[#a01830] transition-all duration-300 flex items-center justify-center shadow-lg shadow-[#c41e3a]/20"
                 >
-                  ADD TO CART
-                </motion.button>
+                  BOOK IN WHATSAPP COL
+                </motion.a>
+
+                <motion.a
+                  href={`sms:${CO_SMS_NUMBER}`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full h-11 rounded-md border border-[#c4a882]/30 bg-[#c4a882] text-black text-sm font-bold tracking-widest hover:bg-[#d6bc98] transition-all duration-300 flex items-center justify-center shadow-lg shadow-[#c4a882]/20"
+                >
+                  BOOK IN SMS COL
+                </motion.a>
+
+                <motion.a
+                  href={`https://wa.me/${US_WA_NUMBER}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full h-11 rounded-md border border-emerald-500/30 bg-emerald-600 text-white text-sm font-bold tracking-widest hover:bg-emerald-700 transition-all duration-300 flex items-center justify-center shadow-lg shadow-emerald-600/20"
+                >
+                  BOOK IN WHATSAPP USA
+                </motion.a>
+
+                <motion.a
+                  href={`sms:${US_SMS_NUMBER}`}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full h-11 rounded-md border border-sky-500/30 bg-sky-600 text-white text-sm font-bold tracking-widest hover:bg-sky-700 transition-all duration-300 flex items-center justify-center shadow-lg shadow-sky-600/20"
+                >
+                  BOOK IN SMS USA
+                </motion.a>
               </motion.div>
 
               {/* Category */}
@@ -617,7 +639,9 @@ export default function ProductDetailPage() {
                       </h3>
                       <div className="flex items-center gap-2 mt-1">
                         {relatedProduct.onSale && (
-                          <span className="text-white/40 text-xs line-through">{relatedProduct.originalPrice} USD</span>
+                          <span className="text-white/40 text-xs line-through">
+                            {relatedProduct.originalPrice} USD
+                          </span>
                         )}
                         <span className="text-white text-xs font-semibold">{relatedProduct.salePrice} USD</span>
                       </div>
@@ -632,11 +656,7 @@ export default function ProductDetailPage() {
       {/* Back to collection */}
       <section className="pb-16">
         <div className="container mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-          >
+          <motion.div initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
             <Link
               href="/clothing"
               className="inline-flex items-center gap-2 text-[#c4a882] text-sm tracking-widest hover:text-white transition-colors group"
@@ -651,7 +671,7 @@ export default function ProductDetailPage() {
       {/* Footer */}
       <footer className="bg-[#0a0a0a] py-12 border-t border-white/10">
         <div className="container mx-auto px-6 text-center">
-          <p className="text-white/40 text-sm tracking-widest">{"ABRAKADABRA REALM \u2013 LUXURY MARKETPLACE"}</p>
+          <p className="text-white/40 text-sm tracking-widest">{"ABRAKADABRA REALM – LUXURY MARKETPLACE"}</p>
           <p className="text-white/30 text-xs mt-2">All rights reserved 2024</p>
         </div>
       </footer>

@@ -6,30 +6,49 @@ import Link from "next/link"
 import { ChevronDown, Sparkles, ClipboardPen, MessageSquareText, Scale, BadgeCheck, ArrowRight } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
 
+// Exact image paths from /public/Image-Models
+const heroImage = "/Image-Models/model-1.webp"
+const timelineImage = "/Image-Models/model-6.webp" 
+const formImage = "/Image-Models/Model-11.webp" 
+
+const galleryImages = [
+  "/Image-Models/model-6.webp",
+  "/Image-Models/model-7.webp",
+  "/Image-Models/model-8.webp",
+  "/Image-Models/model-9.webp",
+  "/Image-Models/model-10.webp",
+  "/Image-Models/model-1.webp",
+  "/Image-Models/model-2.webp",
+  "/Image-Models/model-3.webp",
+]
+
 const models = [
   {
     name: "Paula Suarez",
     slug: "paula-suarez",
     role: "Model",
-    image: "/models/gen-paula.jpg",
+    image: "/Image-Models/Paula-Suarez.png",
     description: "Paula Suarez is a multifaceted artist who fuses her passion for modeling, acting and music in every step she takes...",
-    fullBio: "Paula Suarez is a multifaceted artist who fuses her passion for modeling, acting and music in every step she takes. With a magnetic presence and innate talent, she has captivated audiences on the catwalk, in front of the camera and on stage. As a model, her elegance and authenticity have shone through in major campaigns, while her versatility as an actress has led her to star in film and television projects, exploring deep and challenging characters. In addition, her unique voice and musical sensitivity position her as a singer with soul, capable of moving with every note. Paula is a creative force in constant evolution, whose mission is to inspire the world through her art.",
+    fullBio:
+      "Paula Suarez is a multifaceted artist who fuses her passion for modeling, acting and music in every step she takes. With a magnetic presence and innate talent, she has captivated audiences on the catwalk, in front of the camera and on stage. As a model, her elegance and authenticity have shone through in major campaigns, while her versatility as an actress has led her to star in film and television projects, exploring deep and challenging characters. In addition, her unique voice and musical sensitivity position her as a singer with soul, capable of moving with every note. Paula is a creative force in constant evolution, whose mission is to inspire the world through her art.",
   },
   {
     name: "Sandra Henao",
     slug: "sandra-henao",
     role: "Model",
-    image: "/models/gen-sandra.jpg",
+    image: "/Image-Models/Sandra.png",
     description: "Sandra Henao is a Colombian model based in the United States, known for her natural charm and authentic elegance...",
-    fullBio: "Sandra Henao is a Colombian model based in the United States, known for her natural charm and authentic elegance. Her collaboration with Abrakadabra highlights her unique essence, standing out in projects that transcend the ordinary. While she models selectively, Sandra brings a fresh and refined style that captivates both attention and admiration. Her authenticity makes her an inspiration, ready to partner on projects that celebrate genuine beauty and creativity. A memorable presence that adds magic to every moment.",
+    fullBio:
+      "Sandra Henao is a Colombian model based in the United States, known for her natural charm and authentic elegance. Her collaboration with Abrakadabra highlights her unique essence, standing out in projects that transcend the ordinary. While she models selectively, Sandra brings a fresh and refined style that captivates both attention and admiration. Her authenticity makes her an inspiration, ready to partner on projects that celebrate genuine beauty and creativity. A memorable presence that adds magic to every moment.",
   },
   {
     name: "Adriana Henao",
     slug: "adriana-henao",
     role: "Fine Artist",
-    image: "/models/gen-adriana.jpg",
+    image: "/Image-Models/Adriana.png",
     description: "Adriana Henao is a visionary artist who has revolutionized contemporary art with her unique style and spiritual...",
-    fullBio: "Adriana Henao is a visionary artist who has revolutionized contemporary art with her unique style and spiritual approach. Her works, a fusion of surrealism and magical realism, invite reflection and meditation, creating a transformative visual and emotional experience. With nationally and internationally recognized exhibitions, Adriana stands out for her ability to channel pure spiritual energy through her art, offering not only visually striking pieces, but also deeply healing ones. To explore her work is to embark on a journey of self-knowledge and spiritual elevation, transforming lives and perspectives through her impressive talent.",
+    fullBio:
+      "Adriana Henao is a visionary artist who has revolutionized contemporary art with her unique style and spiritual approach. Her works, a fusion of surrealism and magical realism, invite reflection and meditation, creating a transformative visual and emotional experience. With nationally and internationally recognized exhibitions, Adriana stands out for her ability to channel pure spiritual energy through her art, offering not only visually striking pieces, but also deeply healing ones. To explore her work is to embark on a journey of self-knowledge and spiritual elevation, transforming lives and perspectives through her impressive talent.",
   },
 ]
 
@@ -46,55 +65,70 @@ const serviceCategories = [
     category: "Advertising and Promotion",
     title: "Boost Your Brand",
     subtitle: "Connect with your audience effectively",
-    description: "From e-commerce modeling to presence at trade shows, events, and product launches, we offer brand ambassadors who represent your vision with professionalism and charisma.",
-    image: "/models/gen-service-advertising.jpg",
+    description:
+      "From e-commerce modeling to presence at trade shows, events, and product launches, we offer brand ambassadors who represent your vision with professionalism and charisma.",
+    image: "/Image-Models/model-2.webp",
   },
   {
     category: "Audiovisual Production",
     title: "Image and Movement",
-    description: "Modeling and presence in the audiovisual world Your brand or production deserves the best visual impact. We work on music videos, TV commercials, digital ads, and social media content with a professional and engaging approach.",
-    image: "/models/gen-service-audiovisual.jpg",
+    description:
+      "Modeling and presence in the audiovisual world Your brand or production deserves the best visual impact. We work on music videos, TV commercials, digital ads, and social media content with a professional and engaging approach.",
+    image: "/Image-Models/model-3.webp",
   },
   {
     category: "Fashion and Catwalk",
     title: "Elegance in Every Step",
-    description: "Fashion Shows, Shoots, and Haute Couture Modeling Stand out in the fashion world with our professional modeling services. From exclusive runway shows and photoshoots for brands to designer lookbooks and fashion catalogs.",
-    image: "/models/gen-service-fashion.jpg",
+    description:
+      "Fashion Shows, Shoots, and Haute Couture Modeling Stand out in the fashion world with our professional modeling services. From exclusive runway shows and photoshoots for brands to designer lookbooks and fashion catalogs.",
+    image: "/Image-Models/model-4.png",
   },
 ]
 
 const timelineServices = [
   {
     title: "Fashion and Runway",
-    description: "Elevate your brand's visual impact with our professional models. We participate in fashion shows, photoshoots for clothing and accessory brands, haute couture modeling, fashion catalogs, lookbooks, and sportswear.",
+    description:
+      "Elevate your brand's visual impact with our professional models. We participate in fashion shows, photoshoots for clothing and accessory brands, haute couture modeling, fashion catalogs, lookbooks, and sportswear.",
   },
   {
     title: "Audiovisual Production",
-    description: "Give your audiovisual projects presence and elegance. We have models for music videos, television commercials, digital ads, advertising campaigns, social media content, and corporate videos.",
+    description:
+      "Give your audiovisual projects presence and elegance. We have models for music videos, television commercials, digital ads, advertising campaigns, social media content, and corporate videos.",
   },
   {
     title: "Advertising and Promotion",
-    description: "Give your brand prestige with our models in e-commerce campaigns, product launches, trade shows and exhibitions, brand activations, and promotional events.",
+    description:
+      "Give your brand prestige with our models in e-commerce campaigns, product launches, trade shows and exhibitions, brand activations, and promotional events.",
   },
   {
     title: "Entertainment and Acting",
-    description: "From modeling in music videos and commercials to acting in series and films, our models excel as presenters and hosts in audiovisual productions.",
+    description:
+      "From modeling in music videos and commercials to acting in series and films, our models excel as presenters and hosts in audiovisual productions.",
   },
   {
     title: "Events and Presentations",
-    description: "Make your events shine with models presenting luxury events, conventions, motorsports events, lingerie shows, and beauty pageants.",
+    description:
+      "Make your events shine with models presenting luxury events, conventions, motorsports events, lingerie shows, and beauty pageants.",
   },
   {
     title: "Digital World and Social Media",
-    description: "Take advantage of digital influence with models who create content for Instagram, TikTok, and YouTube, participate in live shopping, and participate in augmented and virtual reality campaigns.",
+    description:
+      "Take advantage of digital influence with models who create content for Instagram, TikTok, and YouTube, participate in live shopping, and participate in augmented and virtual reality campaigns.",
   },
 ]
 
 const brandNames = [
-  "OMG SWIM", "CHICME", "KERATHERAPY", "Lola Bendita", "PRETTYLITTLETHING", "VFIT SPORTSWEAR", "Cristal COSMETICS", "HOT MIAMI STYLES"
+  "OMG SWIM",
+  "CHICME",
+  "KERATHERAPY",
+  "Lola Bendita",
+  "PRETTYLITTLETHING",
+  "VFIT SPORTSWEAR",
+  "Cristal COSMETICS",
+  "HOT MIAMI STYLES",
 ]
 
-// Model Card Component
 function ModelCard({ model, index }: { model: typeof models[0]; index: number }) {
   return (
     <motion.div
@@ -105,7 +139,6 @@ function ModelCard({ model, index }: { model: typeof models[0]; index: number })
       className="group"
     >
       <div className="bg-gradient-to-b from-[#1e1e1e] to-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-[oklch(0.55_0.18_20)]/30 transition-all duration-500">
-        {/* Image with red triangle accent */}
         <div className="relative aspect-[4/5] overflow-hidden">
           <motion.img
             src={model.image || "/placeholder.svg"}
@@ -114,28 +147,24 @@ function ModelCard({ model, index }: { model: typeof models[0]; index: number })
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.6 }}
           />
-          {/* Red triangle accent */}
+
           <div className="absolute top-0 right-0 w-0 h-0 border-t-[120px] border-t-[oklch(0.55_0.18_20)] border-l-[120px] border-l-transparent opacity-80" />
 
-          {/* Name overlay at bottom */}
           <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 pt-20">
             <p className="text-white/60 text-xs tracking-wider">{model.role}</p>
             <h3 className="text-white text-4xl font-bold font-serif mt-1">{model.name}</h3>
           </div>
         </div>
 
-        {/* Feed tab */}
         <div className="flex border-b border-white/10 px-3 py-2">
           <div className="flex-1 py-3 text-sm font-bold tracking-wider bg-[oklch(0.55_0.18_20)] text-white rounded-full text-center">
             FEED
           </div>
         </div>
 
-        {/* Description */}
         <div className="p-6">
           <p className="text-white/60 text-sm leading-relaxed">{model.description}</p>
 
-          {/* See more button - links to individual page */}
           <Link href={`/artists/models/${model.slug}`}>
             <motion.div
               whileHover={{ scale: 1.02 }}
@@ -148,7 +177,6 @@ function ModelCard({ model, index }: { model: typeof models[0]; index: number })
           </Link>
         </div>
 
-        {/* Hire button */}
         <Link href="#hire-form">
           <motion.div
             whileHover={{ scale: 1.02 }}
@@ -174,6 +202,7 @@ export default function ModelsPage() {
     eventType: "",
     message: "",
   })
+
   const [activeTimeline, setActiveTimeline] = useState(0)
 
   return (
@@ -183,7 +212,7 @@ export default function ModelsPage() {
       {/* Hero Section */}
       <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <img
-          src="/models/gen-hero.jpg"
+          src={heroImage}
           alt="Our Models"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -198,6 +227,7 @@ export default function ModelsPage() {
           >
             OUR MODELS
           </motion.h1>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -218,7 +248,7 @@ export default function ModelsPage() {
         </div>
       </section>
 
-      {/* Service Categories - 3 Cards */}
+      {/* Service Categories */}
       <section className="py-20 bg-[#0a0a0a]">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -231,7 +261,6 @@ export default function ModelsPage() {
                 transition={{ duration: 0.6, delay: index * 0.15 }}
                 className="group rounded-2xl overflow-hidden border border-[oklch(0.55_0.18_20)]/20 hover:border-[oklch(0.55_0.18_20)]/50 transition-all duration-500"
               >
-                {/* Image top */}
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <motion.img
                     src={service.image || "/placeholder.svg"}
@@ -241,13 +270,10 @@ export default function ModelsPage() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>
 
-                {/* Content bottom - white bg */}
                 <div className="bg-white p-6">
                   <p className="text-black/50 text-xs tracking-wider uppercase mb-1">{service.category}</p>
                   <h3 className="text-2xl font-bold text-black font-serif mb-2">{service.title}</h3>
-                  {service.subtitle && (
-                    <p className="text-black/60 text-sm mb-2">{service.subtitle}</p>
-                  )}
+                  {service.subtitle && <p className="text-black/60 text-sm mb-2">{service.subtitle}</p>}
                   <p className="text-black/50 text-sm leading-relaxed">{service.description}</p>
                 </div>
               </motion.div>
@@ -266,9 +292,7 @@ export default function ModelsPage() {
             className="flex items-center gap-3 mb-12"
           >
             <div className="w-1 h-10 bg-[oklch(0.55_0.18_20)] rounded-full" />
-            <h2 className="text-3xl md:text-4xl font-bold text-white font-serif">
-              Our Models
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-bold text-white font-serif">Our Models</h2>
           </motion.div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -351,19 +375,16 @@ export default function ModelsPage() {
         </div>
       </section>
 
-      {/* Brands That Trust Us - Luxury Marquee */}
+      {/* Brands That Trust Us */}
       <section className="py-28 bg-gradient-to-b from-[#0a0a0a] via-[#111] to-[#0a0a0a] relative overflow-hidden">
-        {/* Decorative corner accents */}
         <div className="absolute top-8 left-8 w-16 h-16 border-t border-l border-[oklch(0.55_0.18_20)]/30 rounded-tl-lg" />
         <div className="absolute top-8 right-8 w-16 h-16 border-t border-r border-[oklch(0.55_0.18_20)]/30 rounded-tr-lg" />
         <div className="absolute bottom-8 left-8 w-16 h-16 border-b border-l border-[oklch(0.55_0.18_20)]/30 rounded-bl-lg" />
         <div className="absolute bottom-8 right-8 w-16 h-16 border-b border-r border-[oklch(0.55_0.18_20)]/30 rounded-br-lg" />
 
-        {/* Subtle red glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-[oklch(0.55_0.18_20)]/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="container mx-auto px-6 relative">
-          {/* Title */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -393,12 +414,12 @@ export default function ModelsPage() {
                 className="h-px bg-gradient-to-l from-transparent to-[oklch(0.55_0.18_20)]"
               />
             </motion.div>
+
             <h3 className="text-5xl md:text-6xl font-bold text-white font-serif">
               Brands that <span className="text-[oklch(0.55_0.18_20)] italic">trust</span> us
             </h3>
           </motion.div>
 
-          {/* Infinite scrolling marquee - Row 1 */}
           <div className="relative mb-6">
             <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
             <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10" />
@@ -420,7 +441,6 @@ export default function ModelsPage() {
             </motion.div>
           </div>
 
-          {/* Infinite scrolling marquee - Row 2 (reverse) */}
           <div className="relative">
             <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0a0a0a] to-transparent z-10" />
             <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0a0a0a] to-transparent z-10" />
@@ -447,7 +467,6 @@ export default function ModelsPage() {
       {/* WITH OUR MODELS Timeline Section */}
       <section className="py-0 overflow-hidden">
         <div className="flex flex-col lg:flex-row min-h-[700px]">
-          {/* Left: Model image */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -456,13 +475,12 @@ export default function ModelsPage() {
             className="lg:w-1/2 relative"
           >
             <img
-              src="/models/gen-timeline.jpg"
-              alt="Model with dog"
+              src={timelineImage}
+              alt="Model"
               className="w-full h-full object-cover min-h-[500px]"
             />
           </motion.div>
 
-          {/* Right: Timeline content */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -485,7 +503,6 @@ export default function ModelsPage() {
                   className="flex gap-5 cursor-pointer group"
                   onClick={() => setActiveTimeline(index)}
                 >
-                  {/* Timeline dot and line */}
                   <div className="flex flex-col items-center">
                     <motion.div
                       animate={{
@@ -499,11 +516,15 @@ export default function ModelsPage() {
                     )}
                   </div>
 
-                  {/* Content */}
                   <div className="pb-6">
-                    <h4 className={`font-bold text-base mb-1 transition-colors ${activeTimeline === index ? "text-black" : "text-black/70"}`}>
+                    <h4
+                      className={`font-bold text-base mb-1 transition-colors ${
+                        activeTimeline === index ? "text-black" : "text-black/70"
+                      }`}
+                    >
                       {service.title}
                     </h4>
+
                     <AnimatePresence>
                       {activeTimeline === index && (
                         <motion.p
@@ -527,7 +548,6 @@ export default function ModelsPage() {
       {/* Boost Your Music Career Section */}
       <section className="py-0 overflow-hidden">
         <div className="flex flex-col lg:flex-row">
-          {/* Left: White content */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -539,11 +559,12 @@ export default function ModelsPage() {
               Boost your music career
             </h2>
             <p className="text-black/60 leading-relaxed text-base">
-              {"Boost your musical career with our models qualified to perform any performance, already producing results, like Paula, and appearing in world-class videos like \"Te Robare\" by Nicky Jam and Ozuna. It's time to take the next step in your career. What are you waiting for? We're here to serve you."}
+              {
+                'Boost your musical career with our models qualified to perform any performance, already producing results, like Paula, and appearing in world-class videos. It’s time to take the next step in your career. What are you waiting for? We’re here to serve you.'
+              }
             </p>
           </motion.div>
 
-          {/* Right: YouTube Video Embed */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -552,9 +573,13 @@ export default function ModelsPage() {
             className="lg:w-1/2 relative bg-black"
           >
             <iframe
-              src="https://www.youtube.com/embed/z3fRl5YQlyA"
-              title="Te Robare - Nicky Jam x Ozuna"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/aA_kuFTV-P8?si=gDMYuosIHRkD4ALh"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
               allowFullScreen
               className="w-full h-full min-h-[400px]"
             />
@@ -574,7 +599,7 @@ export default function ModelsPage() {
             >
               <h2 className="text-4xl md:text-5xl font-bold font-serif leading-tight">
                 <span className="text-[oklch(0.55_0.18_20)]">Innovation</span>
-                <span className="text-white">{" and "}</span>
+                <span className="text-white"> and </span>
                 <span className="text-[oklch(0.55_0.18_20)]">Style</span>
                 <br />
                 <span className="text-white">that Transcend</span>
@@ -589,7 +614,9 @@ export default function ModelsPage() {
               className="lg:w-3/5"
             >
               <p className="text-white/60 text-base leading-relaxed">
-                {"Exploring the world of designs isn't just a matter of aesthetics, but also of innovation and impact. Each design represents a fusion of creativity and functionality, setting trends and establishing new standards. Investing in exclusive designs not only elevates your style but also reflects your vision and personality. Discover our collection of carefully curated designs, where each piece tells a story and redefines elegance."}
+                {
+                  "Exploring the world of designs isn't just a matter of aesthetics, but also of innovation and impact. Each design represents a fusion of creativity and functionality, setting trends and establishing new standards. Investing in exclusive designs not only elevates your style but also reflects your vision and personality. Discover our collection of carefully curated designs, where each piece tells a story and redefines elegance."
+                }
               </p>
             </motion.div>
           </div>
@@ -609,16 +636,7 @@ export default function ModelsPage() {
           </motion.h2>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-            {[
-              "/models/gen-gallery-1.jpg",
-              "/models/gen-gallery-2.jpg",
-              "/models/gen-gallery-3.jpg",
-              "/models/gen-gallery-4.jpg",
-              "/models/gen-gallery-5.jpg",
-              "/models/gen-gallery-6.jpg",
-              "/models/gen-gallery-7.jpg",
-              "/models/gen-gallery-8.jpg",
-            ].map((img, i) => (
+            {galleryImages.map((img, i) => (
               <motion.div
                 key={`gallery-${i}`}
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -642,7 +660,6 @@ export default function ModelsPage() {
       {/* Hire Form Section */}
       <section id="hire-form" className="py-0 overflow-hidden">
         <div className="flex flex-col lg:flex-row min-h-[700px]">
-          {/* Left image */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -650,14 +667,13 @@ export default function ModelsPage() {
             className="lg:w-1/2 relative"
           >
             <img
-              src="/models/gen-form.jpg"
+              src={formImage}
               alt="Model"
               className="w-full h-full object-cover min-h-[400px]"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20" />
           </motion.div>
 
-          {/* Right form */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -678,6 +694,7 @@ export default function ModelsPage() {
                 onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                 className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
               />
+
               <input
                 type="text"
                 placeholder="Last Name"
@@ -685,6 +702,7 @@ export default function ModelsPage() {
                 onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                 className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
               />
+
               <input
                 type="email"
                 placeholder="Email Address"
@@ -692,6 +710,7 @@ export default function ModelsPage() {
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
               />
+
               <div className="grid grid-cols-2 gap-4">
                 <select
                   value={formData.country}
@@ -705,6 +724,7 @@ export default function ModelsPage() {
                   <option value="spain">Spain</option>
                   <option value="other">Other</option>
                 </select>
+
                 <input
                   type="tel"
                   placeholder="Phone"
@@ -713,6 +733,7 @@ export default function ModelsPage() {
                   className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
                 />
               </div>
+
               <select
                 value={formData.artist}
                 onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
@@ -720,9 +741,12 @@ export default function ModelsPage() {
               >
                 <option value="">Select Artist</option>
                 {models.map((m) => (
-                  <option key={m.name} value={m.name}>{m.name}</option>
+                  <option key={m.name} value={m.name}>
+                    {m.name}
+                  </option>
                 ))}
               </select>
+
               <select
                 value={formData.eventType}
                 onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
@@ -736,6 +760,7 @@ export default function ModelsPage() {
                 <option value="private">Private Event</option>
                 <option value="other">Other</option>
               </select>
+
               <textarea
                 placeholder="Tell us more about your event, location, number of guests, what do you have in mind?"
                 rows={4}
@@ -743,19 +768,19 @@ export default function ModelsPage() {
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                 className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors resize-none text-black placeholder:text-black/40"
               />
+
               <motion.button
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 className="w-full py-4 bg-gradient-to-r from-[oklch(0.55_0.18_20)] to-[oklch(0.45_0.2_10)] text-white font-bold tracking-wider rounded-lg hover:shadow-xl hover:shadow-[oklch(0.55_0.18_20)]/30 transition-all duration-300"
               >
-                Submit Form
+                Coming Soon
               </motion.button>
             </div>
           </motion.div>
         </div>
       </section>
 
-      {/* Red gradient bottom bar */}
       <div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
     </main>
   )

@@ -4,17 +4,27 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { LuxuryHeader } from "@/components/luxury-header"
-import { ChevronDown, ChevronRight } from "lucide-react"
+import { ChevronRight } from "lucide-react"
+
+type Product = {
+  id: number
+  name: string
+  slug: string
+  originalPrice: string
+  salePrice: string
+  image: string
+  soldOut?: boolean
+}
 
 // Product data
-const tshirtsAndCaps = [
+const tshirtsAndCaps: Product[] = [
   {
     id: 1,
     name: "OVERSIZE ABRAKADABRA REALM BLACK",
     slug: "oversize-abrakadabra-realm-black",
     originalPrice: "40,00",
     salePrice: "30,00",
-    image: "/clothing/tshirt-black.jpg",
+    image: "/Image-Clothes/T-shirt.webp",
   },
   {
     id: 2,
@@ -22,7 +32,7 @@ const tshirtsAndCaps = [
     slug: "oversize-abrakadabra-realm-white",
     originalPrice: "40,00",
     salePrice: "30,00",
-    image: "/clothing/tshirt-white.jpg",
+    image: "/Image-Clothes/T-shirt-2.webp",
   },
   {
     id: 3,
@@ -30,7 +40,8 @@ const tshirtsAndCaps = [
     slug: "cap-ii-abrakadabra",
     originalPrice: "20,00",
     salePrice: "10,00",
-    image: "/clothing/cap-white.jpg",
+    image: "/Image-Clothes/T-shirt-3.webp",
+    soldOut: true,
   },
   {
     id: 4,
@@ -38,7 +49,8 @@ const tshirtsAndCaps = [
     slug: "abrakadabra-cap-crew-vol-1",
     originalPrice: "20,00",
     salePrice: "10,00",
-    image: "/clothing/cap-black.jpg",
+    image: "/Image-Clothes/T-shirt-4.webp",
+    soldOut: true,
   },
   {
     id: 5,
@@ -46,7 +58,8 @@ const tshirtsAndCaps = [
     slug: "oversize-indifferent-black-universe",
     originalPrice: "40,00",
     salePrice: "20,00",
-    image: "/clothing/tshirt-universe-black.jpg",
+    image: "/Image-Clothes/T-shirt-5.webp",
+    soldOut: true,
   },
   {
     id: 6,
@@ -54,18 +67,19 @@ const tshirtsAndCaps = [
     slug: "oversize-universe-indifferent-beige",
     originalPrice: "40,00",
     salePrice: "20,00",
-    image: "/clothing/tshirt-beige.jpg",
+    image: "/Image-Clothes/T-shirt-6.webp",
+    soldOut: true,
   },
 ]
 
-const swimsuits = [
+const swimsuits: Product[] = [
   {
     id: 1,
     name: "BLUE HALTER SWIM DRESS",
     slug: "blue-halter-swim-dress",
     originalPrice: "36,00",
     salePrice: "20,00",
-    image: "/clothing/swimsuit-blue.jpg",
+    image: "/Image-Clothes/Bikini.png",
   },
   {
     id: 2,
@@ -73,7 +87,7 @@ const swimsuits = [
     slug: "vestido-de-bano-halter-verde",
     originalPrice: "36,00",
     salePrice: "20,00",
-    image: "/clothing/swimsuit-green.jpg",
+    image: "/Image-Clothes/Bikini-2.webp",
   },
   {
     id: 3,
@@ -81,31 +95,41 @@ const swimsuits = [
     slug: "vestido-de-bano-halter-fuchsia",
     originalPrice: "36,00",
     salePrice: "20,00",
-    image: "/clothing/swimsuit-fuchsia.jpg",
+    image: "/Image-Clothes/Bikini-3.webp",
   },
 ]
 
 const faqItems = [
   {
     question: "Is shipping within Colombia free?",
-    answer: "Yes, we offer free shipping for all orders within Colombia. Delivery typically takes 3-5 business days.",
+    answer:
+      "Yes, we offer free shipping for all orders within Colombia. Delivery typically takes 3-5 business days.",
   },
   {
     question: "Do you ship internationally?",
-    answer: "Yes, we ship internationally to most countries. Shipping costs and delivery times vary by location. Please contact us for specific rates.",
+    answer:
+      "Yes, we ship internationally to most countries. Shipping costs and delivery times vary by location. Please contact us for specific rates.",
   },
   {
     question: "Are the number of pieces per design limited?",
-    answer: "Yes, our editions are limited to ensure exclusivity. Once a design sells out, it will not be restocked.",
+    answer:
+      "Yes, our editions are limited to ensure exclusivity. Once a design sells out, it will not be restocked.",
   },
   {
     question: "How can I get assistance with my order?",
-    answer: "You can reach us via email at abrakadabrarealm@gmail.com or message us at the following numbers:\n\n+57 310 392 0569 (Colombia)\n+1 917 547 5787 (USA)\n\nFeel free to contact us for any inquiries or assistance!",
+    answer:
+      "You can reach us via email at abrakadabrarealm@gmail.com or message us at the following numbers:\n\n+57 310 392 0569 (Colombia)\n+1 917 547 5787 (USA)\n\nFeel free to contact us for any inquiries or assistance!",
   },
 ]
 
 // Product Card Component
-function ProductCard({ product, index }: { product: typeof tshirtsAndCaps[0]; index: number }) {
+function ProductCard({
+  product,
+  index,
+}: {
+  product: Product
+  index: number
+}) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -121,11 +145,15 @@ function ProductCard({ product, index }: { product: typeof tshirtsAndCaps[0]; in
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
 
-          {product.salePrice !== product.originalPrice && (
+          {product.soldOut ? (
+            <div className="absolute top-4 left-0 bg-[#e50046] text-white text-xs font-bold px-3 py-1 tracking-wider uppercase">
+              SOLD OUT
+            </div>
+          ) : product.salePrice !== product.originalPrice ? (
             <div className="absolute top-4 left-0 bg-[#c41e3a] text-white text-xs font-bold px-3 py-1 tracking-wider">
               SALE
             </div>
-          )}
+          ) : null}
 
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
             <span className="text-white text-sm tracking-widest border border-white px-4 py-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
@@ -135,10 +163,16 @@ function ProductCard({ product, index }: { product: typeof tshirtsAndCaps[0]; in
         </div>
 
         <div className="mt-4">
-          <h3 className="text-white/90 text-sm font-medium tracking-wide group-hover:text-[#c4a882] transition-colors">{product.name}</h3>
+          <h3 className="text-white/90 text-sm font-medium tracking-wide group-hover:text-[#c4a882] transition-colors">
+            {product.name}
+          </h3>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-white/50 text-sm line-through">{product.originalPrice} USD</span>
-            <span className="text-white text-sm font-semibold">{product.salePrice} USD</span>
+            <span className="text-white/50 text-sm line-through">
+              {product.originalPrice} USD
+            </span>
+            <span className="text-white text-sm font-semibold">
+              {product.salePrice} USD
+            </span>
           </div>
         </div>
       </Link>
@@ -149,6 +183,13 @@ function ProductCard({ product, index }: { product: typeof tshirtsAndCaps[0]; in
 export default function ClothingPage() {
   const [openFAQ, setOpenFAQ] = useState<number | null>(3)
 
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id)
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" })
+    }
+  }
+
   return (
     <main className="min-h-screen bg-[#1a1a1a]">
       <LuxuryHeader />
@@ -156,13 +197,13 @@ export default function ClothingPage() {
       {/* Hero Section */}
       <section className="relative min-h-[80vh] overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-[#c4a882] to-[#a89070]" />
-        
+
         <div className="relative container mx-auto px-6 py-20 flex items-center min-h-[80vh]">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="max-w-md"
+            className="max-w-md z-10"
           >
             <motion.h1
               initial={{ opacity: 0, y: 30 }}
@@ -186,6 +227,7 @@ export default function ClothingPage() {
               transition={{ duration: 0.6, delay: 0.6 }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              onClick={() => scrollToSection("tshirt-caps")}
               className="border-2 border-[#2a2a2a] text-[#2a2a2a] px-8 py-3 text-sm tracking-widest font-semibold hover:bg-[#2a2a2a] hover:text-white transition-all duration-300"
             >
               SEE MORE CLOTHES
@@ -199,7 +241,7 @@ export default function ClothingPage() {
             className="absolute right-0 top-0 bottom-0 w-2/3 hidden lg:block overflow-hidden"
           >
             <img
-              src="/clothing/hero-model.jpg"
+              src="/Image-Clothes/Principal.webp"
               alt="Abrakadabra Realm Model"
               className="w-full h-full object-cover object-center"
             />
@@ -219,7 +261,7 @@ export default function ClothingPage() {
               transition={{ delay: 1.2 }}
               className="text-[#c4a882] text-sm md:text-base tracking-widest"
             >
-              {"OVERSIZE SWETSHIRT \u2013 ABRAKADABRA REALM"}
+              {"OVERSIZE SWETSHIRT – ABRAKADABRA REALM"}
             </motion.p>
             <motion.p
               initial={{ opacity: 0 }}
@@ -227,7 +269,7 @@ export default function ClothingPage() {
               transition={{ delay: 1.4 }}
               className="text-[#c4a882]/70 text-xs md:text-sm tracking-widest mt-1"
             >
-              {"LIMITED NUMBER \u2013 LUXURY MARKETPLACE \u2013 ABRKDBR"}
+              {"LIMITED NUMBER – LUXURY MARKETPLACE – ABRKDBR"}
             </motion.p>
           </div>
         </motion.div>
@@ -252,6 +294,7 @@ export default function ClothingPage() {
               </p>
               <motion.button
                 whileHover={{ x: 5 }}
+                onClick={() => scrollToSection("faq-section")}
                 className="text-[#c4a882] text-sm tracking-wider flex items-center gap-2 hover:text-white transition-colors"
               >
                 VIEW DETAILS
@@ -281,9 +324,13 @@ export default function ClothingPage() {
                 whileInView={{ rotate: -15, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: 0.5 }}
-                className="absolute -right-10 -top-5 w-40 h-40 bg-black/50 rounded-lg flex items-center justify-center"
+                className="absolute -right-10 -top-5 w-40 h-40 bg-black/50 rounded-lg overflow-hidden"
               >
-                <span className="text-white/20 text-xs">SHIRT</span>
+                <img
+                  src="/Image-Clothes/T-shirt-6.webp"
+                  alt="Limited edition shirt"
+                  className="w-full h-full object-cover"
+                />
               </motion.div>
             </motion.div>
           </div>
@@ -291,7 +338,7 @@ export default function ClothingPage() {
       </section>
 
       {/* T-Shirts & Caps Section */}
-      <section className="py-16 bg-[#1a1a1a]">
+      <section id="tshirt-caps" className="py-16 bg-[#1a1a1a]">
         <div className="container mx-auto px-6">
           <div className="flex items-center justify-between mb-10">
             <motion.h2
@@ -302,7 +349,10 @@ export default function ClothingPage() {
             >
               T-SHIRT & CAPS
             </motion.h2>
-            <motion.button
+            <motion.a
+              href="https://wa.me/573103920569"
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -310,7 +360,7 @@ export default function ClothingPage() {
               className="border border-white/30 text-white/70 px-6 py-2 text-sm tracking-widest hover:bg-white hover:text-black transition-all duration-300"
             >
               VIEW CATALOG
-            </motion.button>
+            </motion.a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -333,7 +383,10 @@ export default function ClothingPage() {
             >
               SWIMSUITS
             </motion.h2>
-            <motion.button
+            <motion.a
+              href="https://wa.me/573103920569"
+              target="_blank"
+              rel="noopener noreferrer"
               initial={{ opacity: 0, x: 30 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -341,7 +394,7 @@ export default function ClothingPage() {
               className="border border-white/30 text-white/70 px-6 py-2 text-sm tracking-widest hover:bg-white hover:text-black transition-all duration-300"
             >
               VIEW CATALOG
-            </motion.button>
+            </motion.a>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -353,7 +406,10 @@ export default function ClothingPage() {
       </section>
 
       {/* FAQ Section */}
-      <section className="py-24 bg-gradient-to-b from-[#1a1a1a] to-[#0f0f0f] border-t border-white/10 relative overflow-hidden">
+      <section
+        id="faq-section"
+        className="py-24 bg-gradient-to-b from-[#1a1a1a] to-[#0f0f0f] border-t border-white/10 relative overflow-hidden"
+      >
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
             initial={{ opacity: 0 }}
@@ -395,8 +451,10 @@ export default function ClothingPage() {
                 transition={{ delay: 0.1 }}
                 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white tracking-tight mb-6 font-serif leading-tight"
               >
-                Frequently<br />
-                <span className="text-[#c4a882]">Asked</span><br />
+                Frequently
+                <br />
+                <span className="text-[#c4a882]">Asked</span>
+                <br />
                 Questions
               </motion.h2>
               <motion.p
@@ -417,9 +475,13 @@ export default function ClothingPage() {
                 transition={{ delay: 0.3 }}
                 className="bg-gradient-to-br from-[#c4a882]/10 to-transparent border border-[#c4a882]/20 rounded-2xl p-8"
               >
-                <h4 className="text-white font-semibold mb-4 tracking-wide">Need more help?</h4>
-                <p className="text-white/50 text-sm mb-6">Contact our support team directly:</p>
-                
+                <h4 className="text-white font-semibold mb-4 tracking-wide">
+                  Need more help?
+                </h4>
+                <p className="text-white/50 text-sm mb-6">
+                  Contact our support team directly:
+                </p>
+
                 <div className="space-y-4">
                   <motion.a
                     href="mailto:abrakadabrarealm@gmail.com"
@@ -427,25 +489,51 @@ export default function ClothingPage() {
                     className="flex items-center gap-3 text-[#c4a882] hover:text-white transition-colors group"
                   >
                     <span className="w-10 h-10 rounded-full bg-[#c4a882]/10 flex items-center justify-center group-hover:bg-[#c4a882]/20 transition-colors">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                        />
                       </svg>
                     </span>
                     <span className="text-sm">abrakadabrarealm@gmail.com</span>
                   </motion.a>
-                  
+
                   <motion.div
                     whileHover={{ x: 5 }}
                     className="flex items-center gap-3 text-white/70"
                   >
                     <span className="w-10 h-10 rounded-full bg-[#c4a882]/10 flex items-center justify-center">
-                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      <svg
+                        className="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"
+                        />
                       </svg>
                     </span>
                     <div className="text-sm">
-                      <p>+57 310 392 0569 <span className="text-white/40">(Colombia)</span></p>
-                      <p>+1 917 547 5787 <span className="text-white/40">(USA)</span></p>
+                      <p>
+                        +57 310 392 0569{" "}
+                        <span className="text-white/40">(Colombia)</span>
+                      </p>
+                      <p>
+                        +1 917 547 5787{" "}
+                        <span className="text-white/40">(USA)</span>
+                      </p>
                     </div>
                   </motion.div>
                 </div>
@@ -468,9 +556,9 @@ export default function ClothingPage() {
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   className={`group rounded-xl overflow-hidden transition-all duration-500 ${
-                    openFAQ === index 
-                      ? 'bg-gradient-to-r from-[#c4a882]/20 to-[#c4a882]/5 border border-[#c4a882]/30' 
-                      : 'bg-[#222] hover:bg-[#2a2a2a] border border-transparent hover:border-white/10'
+                    openFAQ === index
+                      ? "bg-gradient-to-r from-[#c4a882]/20 to-[#c4a882]/5 border border-[#c4a882]/30"
+                      : "bg-[#222] hover:bg-[#2a2a2a] border border-transparent hover:border-white/10"
                   }`}
                 >
                   <button
@@ -479,17 +567,22 @@ export default function ClothingPage() {
                   >
                     <div className="flex items-center gap-4">
                       <motion.span
-                        animate={{ 
-                          backgroundColor: openFAQ === index ? '#c4a882' : 'rgba(196,168,130,0.1)',
-                          color: openFAQ === index ? '#1a1a1a' : '#c4a882'
+                        animate={{
+                          backgroundColor:
+                            openFAQ === index ? "#c4a882" : "rgba(196,168,130,0.1)",
+                          color: openFAQ === index ? "#1a1a1a" : "#c4a882",
                         }}
                         className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold"
                       >
-                        {String(index + 1).padStart(2, '0')}
+                        {String(index + 1).padStart(2, "0")}
                       </motion.span>
-                      <span className={`font-medium tracking-wide transition-colors ${
-                        openFAQ === index ? 'text-white' : 'text-white/80 group-hover:text-white'
-                      }`}>
+                      <span
+                        className={`font-medium tracking-wide transition-colors ${
+                          openFAQ === index
+                            ? "text-white"
+                            : "text-white/80 group-hover:text-white"
+                        }`}
+                      >
                         {item.question}
                       </span>
                     </div>
@@ -497,15 +590,27 @@ export default function ClothingPage() {
                       animate={{ rotate: openFAQ === index ? 45 : 0 }}
                       transition={{ duration: 0.3 }}
                       className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${
-                        openFAQ === index ? 'bg-[#c4a882] text-[#1a1a1a]' : 'bg-white/5 text-white/50'
+                        openFAQ === index
+                          ? "bg-[#c4a882] text-[#1a1a1a]"
+                          : "bg-white/5 text-white/50"
                       }`}
                     >
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 4v16m8-8H4"
+                        />
                       </svg>
                     </motion.div>
                   </button>
-                  
+
                   <AnimatePresence>
                     {openFAQ === index && (
                       <motion.div
@@ -522,22 +627,34 @@ export default function ClothingPage() {
                             transition={{ delay: 0.1 }}
                             className="text-white/60 leading-relaxed"
                           >
-                            {item.answer.includes('abrakadabrarealm@gmail.com') ? (
+                            {item.answer.includes("abrakadabrarealm@gmail.com") ? (
                               <>
-                                {item.answer.split('abrakadabrarealm@gmail.com')[0]}
-                                <a href="mailto:abrakadabrarealm@gmail.com" className="text-[#c4a882] hover:underline">
+                                {item.answer.split("abrakadabrarealm@gmail.com")[0]}
+                                <a
+                                  href="mailto:abrakadabrarealm@gmail.com"
+                                  className="text-[#c4a882] hover:underline"
+                                >
                                   abrakadabrarealm@gmail.com
                                 </a>
-                                {item.answer.split('abrakadabrarealm@gmail.com')[1]?.split('\n').map((line, i) => (
-                                  <span key={i}>
-                                    {line.includes('+57') || line.includes('+1') ? (
-                                      <span className="text-[#c4a882]">{line}</span>
-                                    ) : (
-                                      line
-                                    )}
-                                    {i < (item.answer.split('abrakadabrarealm@gmail.com')[1]?.split('\n').length ?? 0) - 1 && <br />}
-                                  </span>
-                                ))}
+                                {item.answer
+                                  .split("abrakadabrarealm@gmail.com")[1]
+                                  ?.split("\n")
+                                  .map((line, i) => (
+                                    <span key={i}>
+                                      {line.includes("+57") || line.includes("+1") ? (
+                                        <span className="text-[#c4a882]">
+                                          {line}
+                                        </span>
+                                      ) : (
+                                        line
+                                      )}
+                                      {i <
+                                        (item.answer
+                                          .split("abrakadabrarealm@gmail.com")[1]
+                                          ?.split("\n").length ?? 0) -
+                                          1 && <br />}
+                                    </span>
+                                  ))}
                               </>
                             ) : (
                               item.answer
@@ -563,7 +680,7 @@ export default function ClothingPage() {
             viewport={{ once: true }}
             className="text-white/40 text-sm tracking-widest"
           >
-            {"ABRAKADABRA REALM \u2013 LUXURY MARKETPLACE"}
+            {"ABRAKADABRA REALM – LUXURY MARKETPLACE"}
           </motion.p>
           <motion.p
             initial={{ opacity: 0 }}

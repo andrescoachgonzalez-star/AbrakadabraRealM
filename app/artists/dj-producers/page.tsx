@@ -6,49 +6,88 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, Disc3, ClipboardPen, MessageSquareText, Scale, BadgeCheck, X } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
 
-const djProducers = [
+type DJProducer = {
+  name: string
+  slug: string
+  image: string
+  hoverImage?: string
+  modalImage?: string
+  description: string
+  type: "pdf" | "modal"
+  pdfUrl: string
+  fullBio: string
+}
+
+const DJ_SECTION_ID = "dj-producers"
+
+const pageImages = {
+  hero: "/Image-DJs/imagen-1.png",
+  eventFestival: "/Image-DJs/imagen-2.jpg",
+  eventPrivate: "/Image-DJs/imagen-3.webp",
+  eventClub: "/Image-DJs/imagen-4.jpg",
+  philosophy: "/Image-DJs/imagen-5.webp",
+  form: "/Image-DJs/imagen-1.png",
+}
+
+const djProducers: DJProducer[] = [
   {
     name: "Mara",
     slug: "mara",
-    image: "/artists/dj-mara.jpg",
-    description: "An icon of Colombian electronic music in the world DJ Mara, stage name of Juan Carlos, is a Colombian DJ and music producer who has captivated audiences worldwide...",
-    type: "pdf" as const,
+    image: "/Image-DJs/mara.png",
+    hoverImage: "/Image-DJs/Mara.webp",
+    modalImage: "/Image-DJs/Mara.webp",
+    description:
+      "An icon of Colombian electronic music in the world DJ Mara, stage name of Juan Carlos, is a Colombian DJ and music producer who has captivated audiences worldwide...",
+    type: "pdf",
     pdfUrl: "/artists/pdfs/dj-mara-presskit.pdf",
     fullBio: "",
   },
   {
     name: "Mulan",
     slug: "mulan",
-    image: "/artists/dj-mulan.jpg",
-    description: "Mulan Vibes is a rising DJ and producer known for her electrifying presence and dynamic performances that blend Latin rhythms with electronic beats...",
-    type: "modal" as const,
+    image: "/Image-DJs/mulan.png",
+    hoverImage: "/Image-DJs/Mulan.webp",
+    modalImage: "/Image-DJs/Mulan.webp",
+    description:
+      "Mulan Vibes is a rising DJ and producer known for her electrifying presence and dynamic performances that blend Latin rhythms with electronic beats...",
+    type: "modal",
     pdfUrl: "",
-    fullBio: "Mulan Vibes is a rising DJ and producer known for her electrifying presence and dynamic performances. Specializing in House, Tech House, and Afro House, Mulan Vibes has been blends and creative productions reflect her passion for music and her ability to connect deeply with her crowd. As her career reckoned with in the global electronic music scene.",
+    fullBio:
+      "Mulan Vibes is a rising DJ and producer known for her electrifying presence and dynamic performances. Specializing in House, Tech House, and Afro House, Mulan Vibes has been blends and creative productions reflect her passion for music and her ability to connect deeply with her crowd. As her career reckoned with in the global electronic music scene.",
   },
   {
     name: "Joseph Ren",
     slug: "joseph-ren",
-    image: "/artists/dj-joseph.jpg",
-    description: "Juan Jose rivera rendon from Colombia also known as Joseph Ren, his passion for music has existed since childhood, creating unforgettable experiences...",
-    type: "pdf" as const,
+    image: "/Image-DJs/josep.png",
+    hoverImage: "/Image-DJs/Joseph-Ren.webp",
+    modalImage: "/Image-DJs/Joseph-Ren.webp",
+    description:
+      "Juan Jose rivera rendon from Colombia also known as Joseph Ren, his passion for music has existed since childhood, creating unforgettable experiences...",
+    type: "pdf",
     pdfUrl: "/artists/pdfs/joseph-ren-presskit.pdf",
     fullBio: "",
   },
   {
     name: "Rizzo",
     slug: "rizzo",
-    image: "/artists/dj-rizzo.jpg",
-    description: "Rizzo (Col) is a DJ and producer from Pereira, Colombia specializing in House and Tech House with a unique sound that blends organic percussion and deep grooves...",
-    type: "pdf" as const,
+    image: "/Image-DJs/Rizzo.png",
+    hoverImage: "/Image-DJs/Rizzo.png",
+    modalImage: "/Image-DJs/Rizzo.png",
+    description:
+      "Rizzo (Col) is a DJ and producer from Pereira, Colombia specializing in House and Tech House with a unique sound that blends organic percussion and deep grooves...",
+    type: "pdf",
     pdfUrl: "/artists/pdfs/rizzo-presskit.pdf",
     fullBio: "",
   },
   {
     name: "8batzz",
     slug: "8batzz",
-    image: "/artists/dj-8batzz.jpg",
-    description: "8batzz is a DJ and electronic music producer from Pereira, Colombia. Since 2021 he has developed a solid proposal within Afro House and Tech House...",
-    type: "pdf" as const,
+    image: "/Image-DJs/8batzz.png",
+    hoverImage: "/Image-DJs/8batzz.png",
+    modalImage: "/Image-DJs/8batzz.png",
+    description:
+      "8batzz is a DJ and electronic music producer from Pereira, Colombia. Since 2021 he has developed a solid proposal within Afro House and Tech House...",
+    type: "pdf",
     pdfUrl: "/artists/pdfs/8batzz-presskit.pdf",
     fullBio: "",
   },
@@ -58,17 +97,17 @@ const eventCategories = [
   {
     title: "Festivals & Live Shows",
     description: "Top-tier artists to make your festival or show unforgettable.",
-    image: "/artists/event-festival.jpg",
+    image: pageImages.eventFestival,
   },
   {
     title: "Public & Private Events",
     description: "Exceptional performances crafted to elevate and personalize your events.",
-    image: "/artists/event-private.jpg",
+    image: pageImages.eventPrivate,
   },
   {
     title: "Clubs, Bars & Restaurants",
     description: "Premium entertainment designed to enhance your venue's atmosphere.",
-    image: "/artists/event-club.jpg",
+    image: pageImages.eventClub,
   },
 ]
 
@@ -80,8 +119,7 @@ const hiringSteps = [
   { number: 5, title: "Hiring", icon: BadgeCheck },
 ]
 
-// Mulan Modal Component
-function MulanModal({ dj, onClose }: { dj: typeof djProducers[0]; onClose: () => void }) {
+function MulanModal({ dj, onClose }: { dj: DJProducer; onClose: () => void }) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -98,7 +136,6 @@ function MulanModal({ dj, onClose }: { dj: typeof djProducers[0]; onClose: () =>
         onClick={(e) => e.stopPropagation()}
         className="bg-[#1a1a1a] rounded-2xl overflow-hidden max-w-3xl w-full border border-white/10 shadow-2xl relative"
       >
-        {/* Close button */}
         <button
           onClick={onClose}
           className="absolute top-4 right-4 z-10 w-8 h-8 rounded-full bg-black/50 text-white flex items-center justify-center hover:bg-black/80 transition-colors"
@@ -107,28 +144,22 @@ function MulanModal({ dj, onClose }: { dj: typeof djProducers[0]; onClose: () =>
         </button>
 
         <div className="flex flex-col md:flex-row">
-          {/* Left: Image with red triangle */}
           <div className="md:w-1/2 relative aspect-square md:aspect-auto">
             <img
-              src={dj.image || "/placeholder.svg"}
+              src={dj.modalImage || dj.hoverImage || dj.image || "/placeholder.svg"}
               alt={dj.name}
               className="w-full h-full object-cover"
             />
-            {/* Red triangle accent */}
             <div className="absolute top-0 right-0 w-0 h-0 border-t-[160px] border-t-[oklch(0.55_0.18_20)] border-l-[160px] border-l-transparent opacity-80" />
             <div className="absolute bottom-0 right-0 w-0 h-0 border-b-[120px] border-b-[oklch(0.55_0.18_20)]/60 border-l-[120px] border-l-transparent" />
           </div>
 
-          {/* Right: Info */}
           <div className="md:w-1/2 p-8 md:p-10 flex flex-col justify-center">
             <h3 className="text-4xl font-bold text-white font-serif mb-5">{dj.name}</h3>
-            <p className="text-white/60 text-sm leading-relaxed text-justify">
-              {dj.fullBio}
-            </p>
+            <p className="text-white/60 text-sm leading-relaxed text-justify">{dj.fullBio}</p>
           </div>
         </div>
 
-        {/* Hire button */}
         <motion.button
           whileHover={{ scale: 1.01 }}
           whileTap={{ scale: 0.99 }}
@@ -141,13 +172,24 @@ function MulanModal({ dj, onClose }: { dj: typeof djProducers[0]; onClose: () =>
   )
 }
 
-// DJ Card Component
-function DJCard({ dj, index }: { dj: typeof djProducers[0]; index: number }) {
+function DJCard({ dj, index }: { dj: DJProducer; index: number }) {
   const [showModal, setShowModal] = useState(false)
   const router = useRouter()
 
   const handleSeeMore = () => {
+    if (dj.type === "modal") {
+      setShowModal(true)
+      return
+    }
+
     router.push(`/artists/dj-producers/${dj.slug}`)
+  }
+
+  const handleHire = () => {
+    const section = document.getElementById("hire-form")
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" })
+    }
   }
 
   return (
@@ -160,37 +202,46 @@ function DJCard({ dj, index }: { dj: typeof djProducers[0]; index: number }) {
         className="group"
       >
         <div className="bg-gradient-to-b from-[#1e1e1e] to-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-[oklch(0.55_0.18_20)]/30 transition-all duration-500">
-          {/* Image with red triangle accent */}
           <div className="relative aspect-[4/5] overflow-hidden">
-            <motion.img
-              src={dj.image || "/placeholder.svg"}
-              alt={dj.name}
-              className="w-full h-full object-cover"
+            <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.6 }}
-            />
-            {/* Red triangle accent */}
+              className="absolute inset-0"
+            >
+              <img
+                src={dj.image || "/placeholder.svg"}
+                alt={dj.name}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+                  dj.hoverImage ? "opacity-100 group-hover:opacity-0" : "opacity-100"
+                }`}
+              />
+
+              {dj.hoverImage && (
+                <img
+                  src={dj.hoverImage}
+                  alt={`${dj.name} alternate`}
+                  className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                />
+              )}
+            </motion.div>
+
             <div className="absolute top-0 right-0 w-0 h-0 border-t-[120px] border-t-[oklch(0.55_0.18_20)] border-l-[120px] border-l-transparent opacity-80" />
 
-            {/* Name overlay at bottom */}
             <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-6 pt-20">
-              <p className="text-white/60 text-xs tracking-wider">{"Dj -- Producer"}</p>
+              <p className="text-white/60 text-xs tracking-wider">Dj -- Producer</p>
               <h3 className="text-white text-4xl font-bold font-serif mt-1">{dj.name}</h3>
             </div>
           </div>
 
-          {/* Feed tab */}
           <div className="flex border-b border-white/10 px-3 py-2">
             <div className="flex-1 py-3 text-sm font-bold tracking-wider bg-[oklch(0.55_0.18_20)] text-white rounded-full text-center">
               FEED
             </div>
           </div>
 
-          {/* Description */}
           <div className="p-6">
             <p className="text-white/60 text-sm leading-relaxed">{dj.description}</p>
 
-            {/* See more button */}
             <motion.button
               onClick={handleSeeMore}
               whileHover={{ scale: 1.02 }}
@@ -202,8 +253,8 @@ function DJCard({ dj, index }: { dj: typeof djProducers[0]; index: number }) {
             </motion.button>
           </div>
 
-          {/* Hire button */}
           <motion.button
+            onClick={handleHire}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             className="w-full py-4 bg-gradient-to-r from-[oklch(0.55_0.18_20)] to-[oklch(0.45_0.2_10)] text-white font-bold tracking-widest text-sm hover:shadow-lg hover:shadow-[oklch(0.55_0.18_20)]/30 transition-all duration-300"
@@ -213,11 +264,8 @@ function DJCard({ dj, index }: { dj: typeof djProducers[0]; index: number }) {
         </div>
       </motion.div>
 
-      {/* Mulan Modal */}
       <AnimatePresence>
-        {showModal && dj.type === "modal" && (
-          <MulanModal dj={dj} onClose={() => setShowModal(false)} />
-        )}
+        {showModal && dj.type === "modal" && <MulanModal dj={dj} onClose={() => setShowModal(false)} />}
       </AnimatePresence>
     </>
   )
@@ -239,10 +287,9 @@ export default function DJProducersPage() {
     <main className="min-h-screen bg-[#111] overflow-x-hidden">
       <LuxuryHeader />
 
-      {/* Hero Section */}
       <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
         <img
-          src="/artists/dj-hero.jpg"
+          src={pageImages.hero}
           alt="DJ performing at festival"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -257,6 +304,7 @@ export default function DJProducersPage() {
           >
             OUR DJ/PRODUCERS
           </motion.h1>
+
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -264,19 +312,18 @@ export default function DJProducersPage() {
             className="mt-8"
           >
             <motion.a
-              href="#hire-form"
+              href={`#${DJ_SECTION_ID}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="inline-flex px-10 py-4 bg-[oklch(0.55_0.18_20)] text-white font-bold tracking-wider rounded-lg hover:shadow-xl hover:shadow-[oklch(0.55_0.18_20)]/30 transition-all duration-300 items-center gap-3 mx-auto"
             >
-              {"Hire DJ -- Producers"}
+              Hire DJ -- Producers
               <ChevronDown className="w-5 h-5" />
             </motion.a>
           </motion.div>
         </div>
       </section>
 
-      {/* How to Hire Section */}
       <section className="py-20 bg-[#111] relative">
         <div className="container mx-auto px-6">
           <motion.h2
@@ -285,12 +332,13 @@ export default function DJProducersPage() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-white text-center mb-16 font-serif"
           >
-            How to hire ours <span className="text-[oklch(0.55_0.18_20)]">DJ</span> {"-- Producers"}
+            How to hire ours <span className="text-[oklch(0.55_0.18_20)]">DJ</span> -- Producers
           </motion.h2>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-5">
             {hiringSteps.map((step, index) => {
               const IconComponent = step.icon
+
               return (
                 <motion.div
                   key={step.number}
@@ -311,7 +359,6 @@ export default function DJProducersPage() {
                     transition={{ type: "spring", stiffness: 400, damping: 20 }}
                     className="relative rounded-2xl overflow-hidden border border-white/10 group-hover:border-[oklch(0.55_0.18_20)]/60 transition-all duration-500 shadow-lg shadow-black/30 group-hover:shadow-[oklch(0.55_0.18_20)]/15 bg-[#1a1a1a]"
                   >
-                    {/* Top red accent bar */}
                     <motion.div
                       className="h-1 bg-gradient-to-r from-[oklch(0.55_0.18_20)] to-[oklch(0.45_0.2_10)]"
                       initial={{ scaleX: 0 }}
@@ -320,9 +367,7 @@ export default function DJProducersPage() {
                       transition={{ delay: 0.4 + index * 0.1, duration: 0.5 }}
                     />
 
-                    {/* Main content */}
                     <div className="px-5 pt-6 pb-5 flex flex-col items-center text-center">
-                      {/* Step number */}
                       <motion.span
                         initial={{ scale: 0 }}
                         whileInView={{ scale: 1 }}
@@ -333,7 +378,6 @@ export default function DJProducersPage() {
                         Step {step.number}
                       </motion.span>
 
-                      {/* Icon circle */}
                       <motion.div
                         whileHover={{ rotate: [0, -8, 8, 0], scale: 1.1 }}
                         transition={{ duration: 0.5 }}
@@ -342,7 +386,6 @@ export default function DJProducersPage() {
                         <IconComponent className="w-9 h-9 text-white" strokeWidth={1.8} />
                       </motion.div>
 
-                      {/* Title */}
                       <h4 className="text-white font-semibold text-sm tracking-wide leading-tight">{step.title}</h4>
                     </div>
                   </motion.div>
@@ -353,8 +396,7 @@ export default function DJProducersPage() {
         </div>
       </section>
 
-      {/* DJ Producers Grid */}
-      <section className="py-20 bg-[#111]">
+      <section id={DJ_SECTION_ID} className="py-20 bg-[#111] scroll-mt-24">
         <div className="container mx-auto px-6">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -362,8 +404,9 @@ export default function DJProducersPage() {
             viewport={{ once: true }}
             className="text-3xl md:text-4xl font-bold text-white mb-4 font-serif"
           >
-            <span className="text-[oklch(0.55_0.18_20)]">DJ</span> {"-- Producers"}
+            <span className="text-[oklch(0.55_0.18_20)]">DJ</span> -- Producers
           </motion.h2>
+
           <motion.div
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -379,7 +422,6 @@ export default function DJProducersPage() {
         </div>
       </section>
 
-      {/* Event Categories */}
       <section className="py-20 bg-[#0a0a0a]">
         <div className="container mx-auto px-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 h-auto md:h-[70vh]">
@@ -403,22 +445,27 @@ export default function DJProducersPage() {
                   <h3 className="text-2xl md:text-3xl font-bold text-white font-serif mb-2 text-center">
                     {category.title}
                   </h3>
-                  {/* Wavy line separator */}
+
                   <div className="flex justify-center my-3">
                     <svg width="80" height="10" viewBox="0 0 80 10" fill="none">
-                      <path d="M0 5C5 0 10 10 15 5C20 0 25 10 30 5C35 0 40 10 45 5C50 0 55 10 60 5C65 0 70 10 75 5" stroke="white" strokeWidth="1.5" />
+                      <path
+                        d="M0 5C5 0 10 10 15 5C20 0 25 10 30 5C35 0 40 10 45 5C50 0 55 10 60 5C65 0 70 10 75 5"
+                        stroke="white"
+                        strokeWidth="1.5"
+                      />
                     </svg>
                   </div>
-                  <p className="text-white/70 text-sm text-center leading-relaxed mb-4">
-                    {category.description}
-                  </p>
-                  <motion.button
+
+                  <p className="text-white/70 text-sm text-center leading-relaxed mb-4">{category.description}</p>
+
+                  <motion.a
+                    href={`#${DJ_SECTION_ID}`}
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="block mx-auto px-6 py-2 border border-white text-white text-sm tracking-wider hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
+                    className="block mx-auto w-fit px-6 py-2 border border-white text-white text-sm tracking-wider hover:bg-white hover:text-black transition-all duration-300 rounded-sm"
                   >
                     Explore Now
-                  </motion.button>
+                  </motion.a>
                 </div>
               </motion.div>
             ))}
@@ -426,10 +473,9 @@ export default function DJProducersPage() {
         </div>
       </section>
 
-      {/* Our Philosophy Section */}
       <section className="relative py-32 overflow-hidden">
         <img
-          src="/artists/dj-philosophy.jpg"
+          src={pageImages.philosophy}
           alt="DJ performing at festival"
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -481,6 +527,7 @@ export default function DJProducersPage() {
             >
               Our
             </motion.h2>
+
             <motion.h2
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -498,10 +545,9 @@ export default function DJProducersPage() {
               transition={{ duration: 0.7, delay: 0.4 }}
               className="text-white/70 text-lg md:text-xl leading-relaxed max-w-3xl mx-auto mb-12"
             >
-              The philosophy of Abrakadabra artists is rooted in authenticity, personal growth, and
-              constant innovation. We believe in the power of art and music to transform reality
-              and elevate collective consciousness, creating experiences that inspire reflection,
-              deep connection, and positive change.
+              The philosophy of Abrakadabra artists is rooted in authenticity, personal growth, and constant
+              innovation. We believe in the power of art and music to transform reality and elevate collective
+              consciousness, creating experiences that inspire reflection, deep connection, and positive change.
             </motion.p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-16">
@@ -529,8 +575,11 @@ export default function DJProducersPage() {
                       transition={{ delay: 0.7 + i * 0.15, type: "spring", stiffness: 200 }}
                       className="w-12 h-12 rounded-full bg-[oklch(0.55_0.18_20)]/10 border border-[oklch(0.55_0.18_20)]/30 flex items-center justify-center mx-auto mb-5"
                     >
-                      <span className="text-[oklch(0.55_0.18_20)] font-bold font-serif text-lg">{String(i + 1).padStart(2, '0')}</span>
+                      <span className="text-[oklch(0.55_0.18_20)] font-bold font-serif text-lg">
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
                     </motion.div>
+
                     <h4 className="text-white font-bold text-xl font-serif mb-3">{pillar.title}</h4>
                     <p className="text-white/50 text-sm leading-relaxed">{pillar.desc}</p>
                   </motion.div>
@@ -541,122 +590,130 @@ export default function DJProducersPage() {
         </div>
       </section>
 
-      {/* Hire Form Section */}
-      <section id="hire-form" className="py-0 overflow-hidden scroll-mt-24">
-        <div className="flex flex-col lg:flex-row min-h-[700px]">
-          {/* Left image */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:w-1/2 relative"
-          >
-            <img
-              src="/artists/dj-form-new.jpg"
-              alt="Artist performing"
-              className="w-full h-full object-cover min-h-[400px]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20" />
-          </motion.div>
+      {/*
+<section id="hire-form" className="py-0 overflow-hidden scroll-mt-24">
+  <div className="flex flex-col lg:flex-row min-h-[700px]">
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      className="lg:w-1/2 relative"
+    >
+      <img
+        src={pageImages.form}
+        alt="Artist performing"
+        className="w-full h-full object-cover min-h-[400px]"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20" />
+    </motion.div>
 
-          {/* Right form */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="lg:w-1/2 bg-white p-12 md:p-16 flex flex-col justify-center"
-          >
-            <h3 className="text-2xl font-bold text-[oklch(0.55_0.18_20)] text-center mb-1 font-serif">
-              Complete the form
-            </h3>
-            <p className="text-black/50 text-center mb-8">to hire our artists</p>
+    <motion.div
+      initial={{ opacity: 0, x: 50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: 0.2 }}
+      className="lg:w-1/2 bg-white p-12 md:p-16 flex flex-col justify-center"
+    >
+      <h3 className="text-2xl font-bold text-[oklch(0.55_0.18_20)] text-center mb-1 font-serif">
+        Complete the form
+      </h3>
+      <p className="text-black/50 text-center mb-8">to hire our artists</p>
 
-            <div className="space-y-4 max-w-lg mx-auto w-full">
-              <input
-                type="text"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
-              />
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
-              />
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <select
-                  value={formData.country}
-                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                  className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black/40 bg-white"
-                >
-                  <option value="">Select Country</option>
-                  <option value="colombia">Colombia</option>
-                  <option value="usa">United States</option>
-                  <option value="mexico">Mexico</option>
-                  <option value="spain">Spain</option>
-                  <option value="other">Other</option>
-                </select>
-                <input
-                  type="tel"
-                  placeholder="Phone"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
-                />
-              </div>
-              <select
-                value={formData.artist}
-                onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black/40 bg-white"
-              >
-                <option value="">Select Artist</option>
-                {djProducers.map((dj) => (
-                  <option key={dj.name} value={dj.name}>{dj.name}</option>
-                ))}
-              </select>
-              <select
-                value={formData.eventType}
-                onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black/40 bg-white"
-              >
-                <option value="">Event Type</option>
-                <option value="festival">Festival</option>
-                <option value="private">Private Event</option>
-                <option value="club">{"Club / Bar"}</option>
-                <option value="corporate">Corporate</option>
-                <option value="other">Other</option>
-              </select>
-              <textarea
-                placeholder="Tell us more about your event, location, number of guests, what do you have in mind?"
-                rows={4}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors resize-none text-black placeholder:text-black/40"
-              />
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-4 bg-gradient-to-r from-[oklch(0.55_0.18_20)] to-[oklch(0.45_0.2_10)] text-white font-bold tracking-wider rounded-lg hover:shadow-xl hover:shadow-[oklch(0.55_0.18_20)]/30 transition-all duration-300"
-              >
-                Submit Form
-              </motion.button>
-            </div>
-          </motion.div>
+      <div className="space-y-4 max-w-lg mx-auto w-full">
+        <input
+          type="text"
+          placeholder="First Name"
+          value={formData.firstName}
+          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+          className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
+        />
+
+        <input
+          type="text"
+          placeholder="Last Name"
+          value={formData.lastName}
+          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+          className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
+        />
+
+        <input
+          type="email"
+          placeholder="Email Address"
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
+        />
+
+        <div className="grid grid-cols-2 gap-4">
+          <select
+            value={formData.country}
+            onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+            className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black/40 bg-white"
+          >
+            <option value="">Select Country</option>
+            <option value="colombia">Colombia</option>
+            <option value="usa">United States</option>
+            <option value="mexico">Mexico</option>
+            <option value="spain">Spain</option>
+            <option value="other">Other</option>
+          </select>
+
+          <input
+            type="tel"
+            placeholder="Phone"
+            value={formData.phone}
+            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+            className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
+          />
         </div>
-      </section>
 
-      {/* Red gradient bottom bar */}
+        <select
+          value={formData.artist}
+          onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
+          className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black/40 bg-white"
+        >
+          <option value="">Select Artist</option>
+          {djProducers.map((dj) => (
+            <option key={dj.name} value={dj.name}>
+              {dj.name}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={formData.eventType}
+          onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
+          className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black/40 bg-white"
+        >
+          <option value="">Event Type</option>
+          <option value="festival">Festival</option>
+          <option value="private">Private Event</option>
+          <option value="club">Club / Bar</option>
+          <option value="corporate">Corporate</option>
+          <option value="other">Other</option>
+        </select>
+
+        <textarea
+          placeholder="Tell us more about your event, location, number of guests, what do you have in mind?"
+          rows={4}
+          value={formData.message}
+          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+          className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors resize-none text-black placeholder:text-black/40"
+        />
+
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          className="w-full py-4 bg-gradient-to-r from-[oklch(0.55_0.18_20)] to-[oklch(0.45_0.2_10)] text-white font-bold tracking-wider rounded-lg hover:shadow-xl hover:shadow-[oklch(0.55_0.18_20)]/30 transition-all duration-300"
+        >
+          Submit Form
+        </motion.button>
+      </div>
+    </motion.div>
+  </div>
+</section>
+*/}
+
       <div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
     </main>
   )

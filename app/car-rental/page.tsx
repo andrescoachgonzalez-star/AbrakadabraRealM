@@ -20,11 +20,11 @@ import {
 /* ── Data ────────────────────────────────────────── */
 
 const heroSlides = [
-  { name: "Lamborghini", color: "from-[#2d5016] to-[#1a3009]" },
-  { name: "Rolls Royce", color: "from-[#2c1654] to-[#1a0d33]" },
-  { name: "Ferrari", color: "from-[#8b1a1a] to-[#5c1111]" },
-  { name: "Bentley", color: "from-[#1a3a5c] to-[#0d2240]" },
-  { name: "Mercedes Benz", color: "from-[#3d3d3d] to-[#1a1a1a]" },
+  { name: "Corvette", color: "from-red-600 to-red-900", image: "/Image-Car-Rental/Corvette-Rojo.webp" },
+  { name: "Lamborghini", color: "from-[#2d5016] to-[#1a3009]", image: "/Image-Car-Rental/Lamborghini-Huracan-EVO.webp" },
+  { name: "Ferrari", color: "from-yellow-400 to-yellow-600", image: "/Image-Car-Rental/FerrariF8.webp" },
+  { name: "McLaren", color: "from-[#4a4a4a] to-[#2a2a2a]", image: "/Image-Car-Rental/McLaren-GT.png" },
+  { name: "Rolls Royce", color: "from-black to-gray-800", image: "/Image-Car-Rental/RollsRoycePhantom.webp" },
 ]
 
 const trustedBrands = [
@@ -35,7 +35,6 @@ const trustedBrands = [
   "Ferrari",
   "McLaren",
   "Lamborghini",
-  "Porsche",
   "Corvette",
 ]
 
@@ -43,66 +42,58 @@ const brands = [
   {
     name: "mercedes-benz",
     displayName: "Mercedes Benz",
-    category: "SUV",
     power: "577 HP",
     available: 5,
-    accent: "border-primary",
+    image: "/Our-Collection/Brabus.webp",
   },
   {
     name: "rolls-royce",
     displayName: "Rolls Royce",
-    category: "Sedan",
     power: "563 HP",
     available: 8,
-    accent: "border-border",
+    image: "/Our-Collection/Rolls-Royce-Phantom.webp",
   },
   {
     name: "bentley",
     displayName: "Bentley",
-    category: "Sedan",
     power: "626 HP",
     available: 3,
-    accent: "border-primary",
+    image: "/Our-Collection/Bentley-Continental-GT.png",
   },
   {
     name: "mclaren",
     displayName: "McLaren",
-    category: "Sports",
     power: "710 HP",
     available: 1,
-    accent: "border-border",
+    image: "/Our-Collection/McLaren-GT.png",
   },
   {
     name: "lamborghini",
     displayName: "Lamborghini",
-    category: "Super Sports",
     power: "770 HP",
     available: 11,
-    accent: "border-border",
+    image: "/Our-Collection/Lamborghini-EVO-STO.png",
   },
   {
     name: "ferrari",
     displayName: "Ferrari",
-    category: "Hybrid Supercar",
     power: "819 HP",
     available: 1,
-    accent: "border-border",
+    image: "/Our-Collection/Ferarri-F8-Spider.png",
   },
   {
     name: "corvette",
     displayName: "Corvette C8",
-    category: "Sports Car",
     power: "495 HP",
     available: 3,
-    accent: "border-border",
+    image: "/Our-Collection/Corvette-Azul.png",
   },
   {
-    name: "porsche",
-    displayName: "Porsche",
-    category: "Performance",
-    power: "640 HP",
-    available: 4,
-    accent: "border-border",
+    name: "bmw",
+    displayName: "BMW",
+    power: "375 HP",
+    available: 1,
+    image: "/Our-Collection/BMW-7-Series.png",
   },
 ]
 
@@ -182,13 +173,15 @@ function HeroCarousel() {
           transition={{ duration: 0.8 }}
           className="relative"
         >
-          {/* Car placeholder with silhouette style */}
+          {/* Car image */}
           <div className="relative aspect-[16/9]">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="w-[80%] h-[60%] bg-foreground/20 rounded-2xl" />
-            </div>
+            <img
+              src={slide.image}
+              alt={slide.name}
+              className="absolute inset-0 w-full h-full object-contain drop-shadow-2xl p-4"
+            />
             {/* Shadow under car */}
-            <div className="absolute bottom-[15%] left-1/2 -translate-x-1/2 w-[60%] h-6 bg-black/30 blur-2xl rounded-full" />
+            <div className="absolute bottom-[10%] left-1/2 -translate-x-1/2 w-[60%] h-6 bg-black/30 blur-2xl rounded-full" />
           </div>
 
           {/* YOUR LUXURY AWAITS label */}
@@ -383,11 +376,8 @@ function LuxuryFleet() {
                 href={`/car-rental/${brand.name}`}
                 className="group block overflow-hidden rounded-2xl border border-border bg-card hover:border-primary/30 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
               >
-                {/* Category badge + Arrow */}
+                {/* Arrow on hover */}
                 <div className="relative p-4 pb-0">
-                  <span className="inline-block px-3 py-1 text-xs bg-muted text-muted-foreground rounded-full">
-                    {brand.category}
-                  </span>
                   <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
                       <ArrowUpRight className="h-4 w-4" />
@@ -395,9 +385,13 @@ function LuxuryFleet() {
                   </div>
                 </div>
 
-                {/* Image placeholder */}
-                <div className="relative aspect-[4/3] mx-4 mt-2 bg-gradient-to-br from-muted to-muted/40 rounded-xl flex items-center justify-center overflow-hidden">
-                  <span className="text-muted-foreground/30 text-sm tracking-widest">IMAGE</span>
+                {/* Car image */}
+                <div className="relative aspect-[4/3] mx-4 bg-gradient-to-br from-muted to-muted/40 rounded-xl flex items-center justify-center overflow-hidden">
+                  <img
+                    src={brand.image}
+                    alt={brand.displayName}
+                    className="absolute inset-0 w-full h-full object-contain p-3"
+                  />
                 </div>
 
                 {/* Content */}
@@ -737,7 +731,10 @@ export default function CarRentalPage() {
       <LuxuryFleet />
       <TestimonialsSection />
       <WhyChooseUsSection />
-      <SubscribeSection />
+
+      {/* SubscribeSection oculto, pero se mantiene en el código */}
+      {false && <SubscribeSection />}
+
       <LuxuryFooter />
     </main>
   )

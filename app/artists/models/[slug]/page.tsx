@@ -23,44 +23,44 @@ const modelsData: Record<
   "paula-suarez": {
     name: "Paula Suarez",
     role: "Model",
-    image: "/models/gen-paula-detail.jpg",
+    image: "/Image-Models/Paula-Suarez.png",
     location: "Miami",
     contracts: "28+ Contracts",
     instagramHandle: "@paulasuarez",
-    instagramUrl: "https://www.instagram.com/paulasuarez/",
+    instagramUrl: "https://www.instagram.com/paulasuarezg/",
     fullBio:
       "Paula Suarez is a multifaceted artist who fuses her passion for modeling, acting and music in every step she takes. With a magnetic presence and innate talent, she has captivated audiences on the catwalk, in front of the camera and on stage. As a model, her elegance and authenticity have shone through in major campaigns, while her versatility as an actress has led her to star in film and television projects, exploring deep and challenging characters. In addition, her unique voice and musical sensitivity position her as a singer with soul, capable of moving with every note. Paula is a creative force in constant evolution, whose mission is to inspire the world through her art.",
-    booking: "Official Booking \u2014 AbrakadabraRealm \u00AE",
+    booking: "Official Booking — AbrakadabraRealm ®",
   },
   "sandra-henao": {
     name: "Sandra Henao",
     role: "Model",
-    image: "/models/gen-sandra-detail.jpg",
+    image: "/Image-Models/Sandra.png",
     location: "New York",
     contracts: "9+ Contracts",
     instagramHandle: "@sandrahenao",
-    instagramUrl: "https://www.instagram.com/sandrahenao/",
+    instagramUrl: "https://www.instagram.com/sandrakhenao",
     fullBio:
       "Sandra Henao is a Colombian model based in the United States, known for her natural charm and authentic elegance. Her collaboration with Abrakadabra highlights her unique essence, standing out in projects that transcend the ordinary. While she models selectively, Sandra brings a fresh and refined style that captivates both attention and admiration. Her authenticity makes her an inspiration, ready to partner on projects that celebrate genuine beauty and creativity. A memorable presence that adds magic to every moment.",
-    booking: "Official Booking \u2014 AbrakadabraRealm \u00AE",
+    booking: "Official Booking — AbrakadabraRealm ®",
   },
   "adriana-henao": {
     name: "Adriana Henao",
     role: "Fine Artist",
-    image: "/models/gen-adriana-detail.jpg",
+    image: "/Image-Models/Adriana.png",
     location: "Spain",
     contracts: "19+ Contracts",
     instagramHandle: "@adrianahenao",
-    instagramUrl: "https://www.instagram.com/adrianahenao/",
+    instagramUrl: "https://www.instagram.com/adrianahenaoart",
     fullBio:
       "Adriana Henao is a visionary artist who has revolutionized contemporary art with her unique style and spiritual approach. Her works, a fusion of surrealism and magical realism, invite reflection and meditation, creating a transformative visual and emotional experience. With nationally and internationally recognized exhibitions, Adriana stands out for her ability to channel pure spiritual energy through her art, offering not only visually striking pieces, but also deeply healing ones. To explore her work is to embark on a journey of self-knowledge and spiritual elevation, transforming lives and perspectives through her impressive talent.",
-    booking: "Official Booking \u2014 AbrakadabraRealm \u00AE",
+    booking: "Official Booking — AbrakadabraRealm ®",
   },
 }
 
 export default function ModelDetailPage() {
   const params = useParams()
-  const slug = params.slug as string
+  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug
   const model = modelsData[slug]
 
   if (!model) {
@@ -96,9 +96,9 @@ export default function ModelDetailPage() {
         <div className="bg-[#1a1a1a] rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
           <div className="flex flex-col lg:flex-row">
             {/* Left: Image with red triangle accents */}
-            <div className="lg:w-1/2 relative aspect-square lg:aspect-auto lg:min-h-[600px]">
+            <div className="lg:w-1/2 relative aspect-square lg:aspect-auto lg:min-h-[600px] bg-[#111]">
               <img
-                src={model.image || "/placeholder.svg"}
+                src={model.image}
                 alt={model.name}
                 className="w-full h-full object-cover"
               />
@@ -117,6 +117,7 @@ export default function ModelDetailPage() {
               >
                 {model.role}
               </motion.p>
+
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -146,6 +147,7 @@ export default function ModelDetailPage() {
                   <MapPin className="w-4 h-4 text-[oklch(0.65_0.2_20)]" />
                   <span className="text-white text-sm">{model.location}</span>
                 </div>
+
                 <a
                   href={model.instagramUrl}
                   target="_blank"
@@ -157,11 +159,10 @@ export default function ModelDetailPage() {
                     Instagram
                   </span>
                 </a>
+
                 <div className="flex items-center gap-3 bg-[#222] rounded-lg px-5 py-3 border border-white/5">
                   <Sparkles className="w-4 h-4 text-[oklch(0.65_0.2_20)]" />
-                  <span className="text-white text-sm">
-                    {model.contracts}
-                  </span>
+                  <span className="text-white text-sm">{model.contracts}</span>
                 </div>
               </motion.div>
 
