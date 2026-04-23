@@ -130,6 +130,21 @@ function createReferencedPendingEpisode(reference: number, order: number, title:
   return createPendingEpisode(order, title, `Referencia original de playlist [${reference}].`)
 }
 
+function createReferencedEpisodeWithUrl(
+  reference: number,
+  order: number,
+  title: string,
+  youtubeUrl: string
+): EpisodeDraft {
+  return {
+    title,
+    order,
+    youtubeUrl,
+    description: `Referencia original de playlist [${reference}].`,
+    isPreview: order === 1,
+  }
+}
+
 function createCourse(draft: CourseDraft): Course {
   const slug = slugify(draft.title)
   const sections = draft.sections
@@ -191,13 +206,48 @@ const courseDrafts: CourseDraft[] = [
         description: "Promos, manifiestos y piezas de introduccion a la comunidad.",
         order: 1,
         episodes: [
-          createReferencedPendingEpisode(2, 1, "00. NO SE TRATA DE MOTIVACION, SE TRATA DE MOVERTE"),
-          createReferencedPendingEpisode(7, 2, "EL CURSO QUE REVOLUCIONA LA EDUCACION - FOCUS PROGRAM (GRATIS EN NUESTRO PERFIL)"),
-          createReferencedPendingEpisode(62, 3, "00. EL LEON QUE TODOS LLEVAMOS DENTRO"),
-          createReferencedPendingEpisode(98, 4, "00. DEJA DE COMPRAR IDEAS"),
-          createReferencedPendingEpisode(106, 5, "EL MUNDO DE ABRAKADABRA"),
-          createReferencedPendingEpisode(107, 6, "ABRAKADABRAREALM"),
-          createReferencedPendingEpisode(136, 7, "00. FOCUS PRESENCIAL"),
+          createReferencedEpisodeWithUrl(
+            2,
+            1,
+            "00. NO SE TRATA DE MOTIVACION, SE TRATA DE MOVERTE",
+            "https://www.youtube.com/watch?v=CJKRRR0EWjY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=2"
+          ),
+          createReferencedEpisodeWithUrl(
+            7,
+            2,
+            "EL CURSO QUE REVOLUCIONA LA EDUCACION - FOCUS PROGRAM (GRATIS EN NUESTRO PERFIL)",
+            "https://www.youtube.com/watch?v=-EoFq_awQ5k&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=7"
+          ),
+          createReferencedEpisodeWithUrl(
+            62,
+            3,
+            "00. EL LEON QUE TODOS LLEVAMOS DENTRO",
+            "https://youtu.be/qmI1iXUVmC8?si=rjJv8peNyNMWn7Va"
+          ),
+          createReferencedEpisodeWithUrl(
+            98,
+            4,
+            "00. DEJA DE COMPRAR IDEAS",
+            "https://youtu.be/VOVNXWTaAss?si=V9BNn25m0ZITgU2C"
+          ),
+          createReferencedEpisodeWithUrl(
+            106,
+            5,
+            "EL MUNDO DE ABRAKADABRA",
+            "https://youtu.be/fyOozWkGEsE?si=IIv7egrNfDObZpjF"
+          ),
+          createReferencedEpisodeWithUrl(
+            107,
+            6,
+            "ABRAKADABRAREALM",
+            "https://youtu.be/m6TG-K6NoJw?si=k5tFFIgNo_MlyEwF"
+          ),
+          createReferencedEpisodeWithUrl(
+            136,
+            7,
+            "00. FOCUS PRESENCIAL",
+            "https://youtu.be/08lSqlFM7BE?si=QbtDChvLT2L3hh4j"
+          ),
         ],
       },
       {

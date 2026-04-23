@@ -5,7 +5,6 @@ import Link from "next/link"
 import { useParams } from "next/navigation"
 import {
   ArrowLeft,
-  ExternalLink,
   ChevronDown,
   ChevronUp,
   Clock,
@@ -73,7 +72,6 @@ export default function CourseDetailPage() {
   )
 
   const activeVideoId = activeEpisode?.youtubeVideoId
-  const activeYoutubeUrl = activeEpisode?.youtubeUrl
   const activePreviewImage =
     getYoutubeThumbnail(activeEpisode?.youtubeUrl) ??
     course.thumbnail ??
@@ -228,17 +226,6 @@ export default function CourseDetailPage() {
                   </div>
                 )}
 
-                {activeYoutubeUrl && (
-                  <Link
-                    href={activeYoutubeUrl}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="mt-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-5 py-3 text-xs font-semibold tracking-[0.22em] text-foreground transition-all duration-300 hover:border-primary hover:text-primary"
-                  >
-                    Abrir en YouTube
-                    <ExternalLink className="h-4 w-4" />
-                  </Link>
-                )}
               </div>
 
               <div>
@@ -302,7 +289,7 @@ export default function CourseDetailPage() {
                   </div>
                 </div>
 
-                <div className="max-h-[60vh] overflow-y-auto">
+                <div className="max-h-[62vh] overflow-y-auto scroll-smooth">
                   {orderedSections.length === 0 && (
                     <div className="p-5">
                       <p className="text-sm leading-relaxed text-muted-foreground">
@@ -315,26 +302,41 @@ export default function CourseDetailPage() {
                     <div key={section.title} className="border-b border-border last:border-0">
                       <button
                         onClick={() => toggleSection(sectionIndex)}
-                        className="flex w-full items-center justify-between p-4 text-left transition-colors hover:bg-muted/50"
+                        className={cn(
+                          "sticky top-0 z-10 flex w-full items-start justify-between gap-4 border-b border-border/70 bg-card/95 p-4 text-left backdrop-blur-md transition-colors hover:bg-muted/70",
+                          expandedSections[sectionIndex] && "shadow-sm"
+                        )}
                       >
-                        <div>
-                          <h4 className="text-sm font-medium text-foreground">{section.title}</h4>
+                        <div className="min-w-0">
+                          <div className="mb-2 flex flex-wrap items-center gap-2">
+                            <span className="rounded-full bg-primary/10 px-2.5 py-1 text-[10px] font-semibold tracking-[0.18em] text-primary uppercase">
+                              Seccion {sectionIndex + 1}
+                            </span>
+                            <span className="text-[10px] font-semibold tracking-[0.18em] text-muted-foreground uppercase">
+                              {section.episodes.length} episodios
+                            </span>
+                          </div>
+                          <h4 className="line-clamp-2 text-sm font-semibold text-foreground">
+                            {section.title.replace(/^Seccion \d+:\s*/i, "")}
+                          </h4>
                           {section.description && (
-                            <p className="mt-0.5 text-xs text-muted-foreground">
+                            <p className="mt-1 line-clamp-2 text-xs leading-relaxed text-muted-foreground">
                               {section.description}
                             </p>
                           )}
                         </div>
-                        {expandedSections[sectionIndex] ? (
-                          <ChevronUp className="h-5 w-5 text-muted-foreground" />
-                        ) : (
-                          <ChevronDown className="h-5 w-5 text-muted-foreground" />
-                        )}
+                        <div className="mt-1 flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full border border-border bg-background text-muted-foreground">
+                          {expandedSections[sectionIndex] ? (
+                            <ChevronUp className="h-4 w-4" />
+                          ) : (
+                            <ChevronDown className="h-4 w-4" />
+                          )}
+                        </div>
                       </button>
 
                       {expandedSections[sectionIndex] && (
-                        <div className="bg-muted/20">
-                          {section.episodes.map((episode) => (
+                        <div className="bg-muted/10 py-2">
+                          {section.episodes.map((episode, episodeIndex) => (
                             <button
                               key={episode.id}
                               onClick={() => {
@@ -342,29 +344,31 @@ export default function CourseDetailPage() {
                                 setIsIframeLoading(Boolean(episode.youtubeVideoId))
                               }}
                               className={cn(
-                                "flex w-full items-start gap-3 border-l-2 p-4 text-left transition-all duration-300",
+                                "group flex w-full items-start gap-3 border-l-2 px-4 py-3 text-left transition-all duration-300",
                                 activeEpisode?.id === episode.id
                                   ? "border-primary bg-primary/10"
-                                  : "border-transparent hover:bg-muted/50"
+                                  : "border-transparent hover:bg-background/80"
                               )}
                             >
                               <div
                                 className={cn(
-                                  "mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded border",
+                                  "mt-0.5 flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full border text-[10px] font-semibold transition-colors",
                                   activeEpisode?.id === episode.id
-                                    ? "border-primary bg-primary"
-                                    : "border-border bg-background"
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-border bg-background text-muted-foreground group-hover:border-primary/40"
                                 )}
                               >
                                 {activeEpisode?.id === episode.id ? (
-                                  <Play className="h-3 w-3 text-primary" fill="currentColor" />
-                                ) : <div className="h-1.5 w-1.5 rounded-full bg-muted-foreground/40" />}
+                                  <Play className="h-3 w-3" fill="currentColor" />
+                                ) : (
+                                  episodeIndex + 1
+                                )}
                               </div>
 
                               <div className="min-w-0 flex-1">
                                 <p
                                   className={cn(
-                                    "line-clamp-2 text-sm",
+                                    "line-clamp-2 text-sm leading-snug",
                                     activeEpisode?.id === episode.id
                                       ? "font-medium text-primary"
                                       : "text-foreground"
@@ -372,7 +376,7 @@ export default function CourseDetailPage() {
                                 >
                                   {episode.title}
                                 </p>
-                                <div className="mt-1 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                                <div className="mt-1.5 flex flex-wrap items-center gap-2 text-[10px] text-muted-foreground">
                                   {episode.duration && (
                                     <span className="inline-flex items-center gap-1">
                                       <Clock className="h-3 w-3" />
@@ -380,7 +384,7 @@ export default function CourseDetailPage() {
                                     </span>
                                   )}
                                   {!episode.youtubeVideoId && course.status === "published" && (
-                                    <span className="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 text-[10px] font-semibold tracking-[0.18em] text-primary uppercase">
+                                    <span className="rounded-full border border-primary/20 bg-primary/5 px-2 py-0.5 font-semibold tracking-[0.18em] text-primary uppercase">
                                       URL pendiente
                                     </span>
                                   )}
