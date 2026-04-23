@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { Car, Palette, Gem, Shirt, Calendar, Music, Users, ArrowUpRight } from "lucide-react"
+import { BookOpen, Car, Palette, Gem, Shirt, Calendar, Music, Users, ArrowUpRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const categories = [
@@ -12,6 +12,7 @@ const categories = [
   { name: "EVENTS", icon: Calendar, href: "/events", color: "from-violet-500/20 to-violet-500/5", accent: "group-hover:text-violet-500" },
   { name: "DJS / PRODUCERS", icon: Music, href: "/artists/dj-producers", color: "from-cyan-500/20 to-cyan-500/5", accent: "group-hover:text-cyan-500" },
   { name: "MODELS", icon: Users, href: "/artists/models", color: "from-pink-500/20 to-pink-500/5", accent: "group-hover:text-pink-500" },
+  { name: "COURSES", icon: BookOpen, href: "/cursos", color: "from-primary/20 to-primary/5", accent: "group-hover:text-primary" },
 ]
 
 const bentoItems = [
@@ -28,6 +29,14 @@ const bentoItems = [
   { title: "JEWELRY", span: "col-span-1 row-span-1", href: "/jewelry", image:"/home/erings-home.webp" },
   { title: "MODELS", span: "col-span-1 row-span-1", href: "/artists/models", image:"/home/models-home.webp" },
   { title: "DJ / PRODUCERS", span: "col-span-2 md:col-span-1 row-span-1", href: "/artists/dj-producers", image: "/home/producer-home.webp" },
+  {
+    title: "COURSES",
+    subtitle: "ACADEMIA - Abrakadabra",
+    span: "col-span-2 row-span-2 md:col-span-1 md:row-span-2",
+    featured: true,
+    href: "/cursos",
+    image: "/image-Philosophy/Cursos.png"
+  },
   { title: "RENTAL MIAMI", span: "col-span-1 row-span-1", href: "/car-rental", image:"/home/car-rental-home.webp"},
   { title: "JOIN US", span: "col-span-1 row-span-1", href: "/join-us", image:"/home/joinus-home.webp"},
   { title: "NEWS", span: "col-span-1 row-span-1", href: "/news", image:"/home/news-home.webp" },
@@ -111,7 +120,7 @@ export function CategoriesSection() {
 
         {/* BENTO GRID */}
         <div className={cn(
-          "mt-16 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 auto-rows-[150px] md:auto-rows-[180px] transition-all duration-1000 delay-500",
+          "mt-16 grid grid-cols-2 gap-4 auto-rows-[150px] sm:grid-cols-3 md:grid-cols-4 md:auto-rows-[180px] lg:grid-cols-7 transition-all duration-1000 delay-500",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
 

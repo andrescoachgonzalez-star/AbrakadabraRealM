@@ -22,6 +22,8 @@ const navLinks = [
   { name: "CAR RENTAL", href: "/car-rental" },
 ]
 
+const desktopSplitIndex = 3
+
 export function LuxuryHeader() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -95,7 +97,7 @@ export function LuxuryHeader() {
         >
           {/* Desktop Navigation Left */}
           <div className="hidden lg:flex items-center gap-6">
-            {navLinks.slice(0, 3).map((link) => (
+            {navLinks.slice(0, desktopSplitIndex).map((link) => (
               <a
                 key={link.name}
                 href={link.href}
@@ -161,7 +163,7 @@ export function LuxuryHeader() {
 
           {/* Desktop Navigation Right */}
           <div className="hidden lg:flex items-center gap-6">
-            {navLinks.slice(3).map((link) => (
+            {navLinks.slice(desktopSplitIndex).map((link) => (
               <div 
                 key={link.name} 
                 className="relative"
@@ -342,7 +344,7 @@ export function LuxuryHeader() {
         
         {/* Quick Nav */}
         <div className="hidden md:flex items-center">
-          {navLinks.slice(0, 3).map((link) => (
+          {navLinks.slice(0, desktopSplitIndex).map((link) => (
             <a
               key={link.name}
               href={link.href}
@@ -375,10 +377,10 @@ export function LuxuryHeader() {
               )}
             >
               <div className="bg-foreground/95 backdrop-blur-md rounded-xl shadow-xl overflow-hidden min-w-[140px]">
-                <a href="/#team" className="block px-4 py-2.5 text-[10px] font-medium tracking-widest text-background/70 transition-all duration-300 hover:text-background hover:bg-background/10 border-b border-background/10">
+                <a href="/artists/models" className="block px-4 py-2.5 text-[10px] font-medium tracking-widest text-background/70 transition-all duration-300 hover:text-background hover:bg-background/10 border-b border-background/10">
                   MODELS
                 </a>
-                <a href="/#team" className="block px-4 py-2.5 text-[10px] font-medium tracking-widest text-background/70 transition-all duration-300 hover:text-background hover:bg-background/10">
+                <a href="/artists/dj-producers" className="block px-4 py-2.5 text-[10px] font-medium tracking-widest text-background/70 transition-all duration-300 hover:text-background hover:bg-background/10">
                   DJs
                 </a>
               </div>
