@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import Link from "next/link"
 import { ArrowRight, Clock3, Layers3, ListVideo, Search } from "lucide-react"
 import { LuxuryFooter } from "@/components/luxury-footer"
@@ -8,29 +8,53 @@ import { LuxuryHeader } from "@/components/luxury-header"
 import { cn } from "@/lib/utils"
 import { courseCategories, courses } from "./data/courses"
 
+function normalizeFilterValue(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
 export default function CursosPage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("Todos")
 
-  const normalizedQuery = searchQuery.trim().toLowerCase()
-  const filteredCourses = courses.filter((course) => {
-    const matchesSearch =
-      normalizedQuery.length === 0 ||
-      course.title.toLowerCase().includes(normalizedQuery) ||
-      course.instructor?.toLowerCase().includes(normalizedQuery) ||
-      course.category?.toLowerCase().includes(normalizedQuery) ||
-      course.shortDescription?.toLowerCase().includes(normalizedQuery)
+  const categoryFilters = useMemo(
+    () =>
+      courseCategories.map((category) => ({
+        label: category,
+        value: normalizeFilterValue(category),
+      })),
+    []
+  )
 
-    const matchesCategory = selectedCategory === "Todos" || course.category === selectedCategory
-    return matchesSearch && matchesCategory
-  })
+  const filteredCourses = useMemo(() => {
+    const normalizedQuery = searchQuery.trim().toLowerCase()
+    const activeCategory = normalizeFilterValue(selectedCategory)
+
+    return courses.filter((course) => {
+      const matchesSearch =
+        normalizedQuery.length === 0 ||
+        course.title.toLowerCase().includes(normalizedQuery) ||
+        course.instructor?.toLowerCase().includes(normalizedQuery) ||
+        course.category?.toLowerCase().includes(normalizedQuery) ||
+        course.shortDescription?.toLowerCase().includes(normalizedQuery)
+
+      const courseCategory = normalizeFilterValue(course.category ?? "")
+      const matchesCategory = activeCategory === "todos" || courseCategory === activeCategory
+
+      return matchesSearch && matchesCategory
+    })
+  }, [searchQuery, selectedCategory])
 
   return (
     <main className="relative min-h-screen bg-background">
       <LuxuryHeader />
 
       <section className="relative overflow-hidden pt-32 pb-16">
-        <div className="absolute inset-0 opacity-[0.02]">
+        <div className="pointer-events-none absolute inset-0 opacity-[0.02]">
           <div
             className="absolute inset-0"
             style={{
@@ -41,7 +65,7 @@ export default function CursosPage() {
           />
         </div>
 
-        <div className="container mx-auto px-4">
+        <div className="relative z-10 container mx-auto px-4">
           <div className="mx-auto max-w-3xl text-center">
             <p className="mb-4 text-sm font-medium tracking-[0.3em] text-primary">
               ACADEMIA ABRAKADABRA
@@ -67,19 +91,21 @@ export default function CursosPage() {
                 />
               </div>
 
-              <div className="flex flex-wrap justify-center gap-2">
-                {courseCategories.map((category) => (
+              <div className="relative z-10 flex flex-wrap justify-center gap-2">
+                {categoryFilters.map((category) => (
                   <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
+                    key={category.value}
+                    type="button"
+                    onClick={() => setSelectedCategory(category.label)}
+                    aria-pressed={selectedCategory === category.label}
                     className={cn(
                       "rounded-full px-5 py-3 text-xs font-semibold tracking-wider transition-all duration-300",
-                      selectedCategory === category
+                      selectedCategory === category.label
                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
                         : "border border-border bg-card text-muted-foreground hover:border-primary hover:text-foreground"
                     )}
                   >
-                    {category}
+                    {category.label}
                   </button>
                 ))}
               </div>

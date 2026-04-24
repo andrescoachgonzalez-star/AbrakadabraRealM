@@ -1,3 +1,5 @@
+import { findPlaylistYoutubeUrl } from "./playlist-links"
+
 export type Episode = {
   id: string
   title: string
@@ -127,6 +129,18 @@ function createPendingEpisode(
 }
 
 function createReferencedPendingEpisode(reference: number, order: number, title: string) {
+  const youtubeUrl = findPlaylistYoutubeUrl(reference, title)
+
+  if (youtubeUrl) {
+    return {
+      title,
+      order,
+      youtubeUrl,
+      description: `Referencia original de playlist [${reference}]. Vinculado automaticamente desde CSV.`,
+      isPreview: order === 1,
+    }
+  }
+
   return createPendingEpisode(order, title, `Referencia original de playlist [${reference}].`)
 }
 

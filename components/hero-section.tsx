@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect, useCallback } from "react"
+import Link from "next/link"
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -36,6 +37,7 @@ const slides = [
     description: "Premium vehicles for unforgettable moments",
     cta: "RENT NOW",
     image: "/home/carro-home.webp",
+    href: "/car-rental",
   },
 ]
 
@@ -131,10 +133,20 @@ export function HeroSection() {
                   {slide.description}
                 </p>
 
-                <button className="group mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg">
-                  {slide.cta}
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-                </button>
+                {slide.href ? (
+                  <Link
+                    href={slide.href}
+                    className="group mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg"
+                  >
+                    {slide.cta}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                ) : (
+                  <button className="group mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg">
+                    {slide.cta}
+                    <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  </button>
+                )}
               </div>
             ))}
           </div>

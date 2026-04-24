@@ -1,0 +1,242 @@
+type PlaylistEntry = {
+  reference: number
+  normalizedTitle: string
+  youtubeUrl: string
+}
+
+const PLAYLIST_ENTRIES: PlaylistEntry[] = [
+  { reference: 1, normalizedTitle: "23 testimonio sobre el mapa de suenos tuto omar", youtubeUrl: "https://www.youtube.com/watch?v=XZNJWWpra0A&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=1" },
+  { reference: 2, normalizedTitle: "00 no se trata de motivacion se trata de moverte", youtubeUrl: "https://www.youtube.com/watch?v=CJKRRR0EWjY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=2" },
+  { reference: 3, normalizedTitle: "testimonios focus program", youtubeUrl: "https://www.youtube.com/watch?v=TzMANer52WY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=3" },
+  { reference: 4, normalizedTitle: "00 presentacion magda mateus", youtubeUrl: "https://www.youtube.com/watch?v=ABSWuQT1eOg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=4" },
+  { reference: 5, normalizedTitle: "68 bienvenida daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=Ek7AtTCpU3E&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=5" },
+  { reference: 6, normalizedTitle: "00 quien soy y como conoci a andres henao marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=WtKEGloyOz4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=6" },
+  { reference: 7, normalizedTitle: "el curso que revoluciona la educacion focus program", youtubeUrl: "https://www.youtube.com/watch?v=-EoFq_awQ5k&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=7" },
+  { reference: 8, normalizedTitle: "00 bienvenida focus program", youtubeUrl: "https://www.youtube.com/watch?v=ekjA8jCqVaY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=8" },
+  { reference: 9, normalizedTitle: "01 por que se creo focus program", youtubeUrl: "https://www.youtube.com/watch?v=Kt8BjnDSaxc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=9" },
+  { reference: 10, normalizedTitle: "02 la importancia de los 3 habitos", youtubeUrl: "https://www.youtube.com/watch?v=EzGutjaAO28&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=10" },
+  { reference: 11, normalizedTitle: "focus lectura 2", youtubeUrl: "https://www.youtube.com/watch?v=eJL0Va-xn6k&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=11" },
+  { reference: 12, normalizedTitle: "03 reglas del juego", youtubeUrl: "https://www.youtube.com/watch?v=gNUqJ4hT9qs&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=12" },
+  { reference: 13, normalizedTitle: "04 preguntas para saber si estas desarrollando tu potencial", youtubeUrl: "https://www.youtube.com/watch?v=8FnZzcK3h5o&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=13" },
+  { reference: 14, normalizedTitle: "05 valores y creencias", youtubeUrl: "https://www.youtube.com/watch?v=n_3QlOfQHCY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=14" },
+  { reference: 15, normalizedTitle: "06 valores y creencias conclusion", youtubeUrl: "https://www.youtube.com/watch?v=TO61MKYr6E8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=15" },
+  { reference: 16, normalizedTitle: "07 meditacion bienvenida", youtubeUrl: "https://www.youtube.com/watch?v=ikJFDciDcwg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=16" },
+  { reference: 17, normalizedTitle: "08 formula c y h x a", youtubeUrl: "https://www.youtube.com/watch?v=vibubmjzSBw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=17" },
+  { reference: 18, normalizedTitle: "dia 2 formula 4 amc", youtubeUrl: "https://www.youtube.com/watch?v=elaAyOi9DEI&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=18" },
+  { reference: 19, normalizedTitle: "dia 9 relaciones", youtubeUrl: "https://www.youtube.com/watch?v=_C5wO-wQdNM&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=19" },
+  { reference: 20, normalizedTitle: "09 la formula definitiva del exito", youtubeUrl: "https://www.youtube.com/watch?v=aPLabIx2Pgk&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=20" },
+  { reference: 21, normalizedTitle: "10 formula sentir pensar decir hacer", youtubeUrl: "https://www.youtube.com/watch?v=5dGorfoeXaU&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=21" },
+  { reference: 22, normalizedTitle: "11 formula del exito", youtubeUrl: "https://www.youtube.com/watch?v=0N3Ds-Gwdx4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=22" },
+  { reference: 23, normalizedTitle: "12 formula amc", youtubeUrl: "https://www.youtube.com/watch?v=0P9TbchBsWo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=23" },
+  { reference: 24, normalizedTitle: "13 el poder del yo soy", youtubeUrl: "https://www.youtube.com/watch?v=rVE2z3Ji_7o&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=24" },
+  { reference: 25, normalizedTitle: "14 meditacion decreto yo soy", youtubeUrl: "https://www.youtube.com/watch?v=b0ZGrvS3BI8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=25" },
+  { reference: 26, normalizedTitle: "15 rutina de lectura 1", youtubeUrl: "https://www.youtube.com/watch?v=djr6PkhTamo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=26" },
+  { reference: 27, normalizedTitle: "16 como ser feliz con lo que haces", youtubeUrl: "https://www.youtube.com/watch?v=u_HYzt21mts&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=27" },
+  { reference: 28, normalizedTitle: "17 como ser feliz con lo que haces filosofia de vida", youtubeUrl: "https://www.youtube.com/watch?v=CoCpsU7a7pg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=28" },
+  { reference: 29, normalizedTitle: "18 el dia que perdi la vista aprendi a ver", youtubeUrl: "https://www.youtube.com/watch?v=-saqWEtIx78&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=29" },
+  { reference: 30, normalizedTitle: "19 la rueda de la vida", youtubeUrl: "https://www.youtube.com/watch?v=tSoL9zYsco0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=30" },
+  { reference: 31, normalizedTitle: "20 meditacion proposito de vida", youtubeUrl: "https://www.youtube.com/watch?v=81COfvEXskU&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=31" },
+  { reference: 32, normalizedTitle: "21 rutina de lectura 2", youtubeUrl: "https://www.youtube.com/watch?v=fjIAu3VnaTs&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=32" },
+  { reference: 33, normalizedTitle: "22 aprende a marcar estandares", youtubeUrl: "https://www.youtube.com/watch?v=2hBSx2dZvIE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=33" },
+  { reference: 34, normalizedTitle: "2 3 nunca pares de aprender la vida no deja de ensenar", youtubeUrl: "https://www.youtube.com/watch?v=a625O3IVMZ4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=34" },
+  { reference: 35, normalizedTitle: "24 el poder del mapa de suenos", youtubeUrl: "https://www.youtube.com/watch?v=FiCMNa_K6KA&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=35" },
+  { reference: 36, normalizedTitle: "25 testimonio sobre del mapa de suenos wilmark munoz", youtubeUrl: "https://www.youtube.com/watch?v=Cf6zINIyQNU&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=36" },
+  { reference: 37, normalizedTitle: "26 meditacion de abundancia", youtubeUrl: "https://www.youtube.com/watch?v=ETvchJicSj0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=37" },
+  { reference: 38, normalizedTitle: "27 rutina de lectura 3", youtubeUrl: "https://www.youtube.com/watch?v=_JTG_4uSxVE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=38" },
+  { reference: 39, normalizedTitle: "28 por que es importante agradecer andres henao", youtubeUrl: "https://www.youtube.com/watch?v=IuTngM_DnKg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=39" },
+  { reference: 40, normalizedTitle: "31 meditacion agradecimiento", youtubeUrl: "https://www.youtube.com/watch?v=u6boBRyLrY4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=40" },
+  { reference: 41, normalizedTitle: "30 que es la felicidad", youtubeUrl: "https://www.youtube.com/watch?v=P5PLYRXoBfk&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=41" },
+  { reference: 42, normalizedTitle: "31 rutina de lectura andres henao", youtubeUrl: "https://www.youtube.com/watch?v=FKSrBh54hr4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=42" },
+  { reference: 43, normalizedTitle: "33 que es el miedo", youtubeUrl: "https://www.youtube.com/watch?v=ycqzUO98oCM&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=43" },
+  { reference: 44, normalizedTitle: "35 como motivarme cuando no quiero hacer las cosas", youtubeUrl: "https://www.youtube.com/watch?v=-eZ_hoYQn0w&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=44" },
+  { reference: 45, normalizedTitle: "36 la importancia de saber relacionarte", youtubeUrl: "https://www.youtube.com/watch?v=ZZYdHIMO5aw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=45" },
+  { reference: 46, normalizedTitle: "37 meditacion relaciones", youtubeUrl: "https://www.youtube.com/watch?v=_105valhpgg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=46" },
+  { reference: 47, normalizedTitle: "43 meditacion recopilar informacion", youtubeUrl: "https://www.youtube.com/watch?v=DjqPbfYAQpA&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=47" },
+  { reference: 48, normalizedTitle: "39 la importancia de dar pedir recibir", youtubeUrl: "https://www.youtube.com/watch?v=51RqkedhjDE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=48" },
+  { reference: 49, normalizedTitle: "40 nos vamos a morir", youtubeUrl: "https://www.youtube.com/watch?v=I47KJvIKWWA&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=49" },
+  { reference: 50, normalizedTitle: "coach army", youtubeUrl: "https://www.youtube.com/watch?v=76ULWCTzgWo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=50" },
+  { reference: 51, normalizedTitle: "41 meditacion estas muerto", youtubeUrl: "https://www.youtube.com/watch?v=LRZAyr8HTEM&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=51" },
+  { reference: 52, normalizedTitle: "44 decreto final focus", youtubeUrl: "https://www.youtube.com/watch?v=1IR_8ASbe5k&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=52" },
+  { reference: 53, normalizedTitle: "57 meditacion de relajacion", youtubeUrl: "https://www.youtube.com/watch?v=hPeNb1UXakU&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=53" },
+  { reference: 54, normalizedTitle: "47 quien soy y como conoci a andres henao marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=SeTgpFuK_k0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=54" },
+  { reference: 55, normalizedTitle: "48 como llego a mi la bioreprogramacion marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=srd76h6h1os&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=55" },
+  { reference: 56, normalizedTitle: "55 y ahora que hago marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=tZDagYjWMNY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=56" },
+  { reference: 57, normalizedTitle: "54 meditacion circulo de la energia marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=nrVoFQxr43A&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=57" },
+  { reference: 58, normalizedTitle: "53 los estimulos nos programan marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=jd9pC_OzKII&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=58" },
+  { reference: 59, normalizedTitle: "52 impulsores y mandatos frenadores marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=XsWDRH3W1i4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=59" },
+  { reference: 60, normalizedTitle: "51 guion mental etapa 2 y 3 marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=EjrkY38hRgk&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=60" },
+  { reference: 61, normalizedTitle: "focus lectura 4", youtubeUrl: "https://www.youtube.com/watch?v=EVuy7N8Ol4A&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=61" },
+  { reference: 62, normalizedTitle: "00 el leon que todos llevamos dentro", youtubeUrl: "https://www.youtube.com/watch?v=qmI1iXUVmC8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=62" },
+  { reference: 63, normalizedTitle: "50 guion mental etapa 1 marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=rHwqizIZstE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=63" },
+  { reference: 64, normalizedTitle: "1 6 la practica hace al maestro", youtubeUrl: "https://www.youtube.com/watch?v=gjY6A91PWug&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=64" },
+  { reference: 65, normalizedTitle: "49 que es la bioreprogramacion marcela nunez", youtubeUrl: "https://www.youtube.com/watch?v=YL4G6Kab6eo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=65" },
+  { reference: 66, normalizedTitle: "59 presentacion magda mateus y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=P5mFFMWi3sI&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=66" },
+  { reference: 67, normalizedTitle: "58 rutina de lectura 9", youtubeUrl: "https://www.youtube.com/watch?v=adsT8ybp1Nk&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=67" },
+  { reference: 68, normalizedTitle: "60 3 distinciones del ser humano magda mateus", youtubeUrl: "https://www.youtube.com/watch?v=fZJwO1cv6_s&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=68" },
+  { reference: 69, normalizedTitle: "61 como soltar eventos del pasado magda mateus", youtubeUrl: "https://www.youtube.com/watch?v=FsKUcJ1z45k&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=69" },
+  { reference: 70, normalizedTitle: "62 meditacion se capitan de tu vida magda mateus", youtubeUrl: "https://www.youtube.com/watch?v=dZu3Y7EMQQc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=70" },
+  { reference: 71, normalizedTitle: "63 conoce las dos distinciones magda mateus", youtubeUrl: "https://www.youtube.com/watch?v=r_jRUNMtrdo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=71" },
+  { reference: 72, normalizedTitle: "64 meditacion de acuerdos rotos magda mateus", youtubeUrl: "https://www.youtube.com/watch?v=nGJ8yhV3e2U&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=72" },
+  { reference: 73, normalizedTitle: "65 como saber manejar tus emociones magda mateus", youtubeUrl: "https://www.youtube.com/watch?v=DOO5Y3375rM&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=73" },
+  { reference: 74, normalizedTitle: "66 meditacion padres magda mateus y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=sBLz60Efhjc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=74" },
+  { reference: 75, normalizedTitle: "67 rutina de lectura 10", youtubeUrl: "https://www.youtube.com/watch?v=42eE05O-8Ek&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=75" },
+  { reference: 76, normalizedTitle: "dia 26 magda 2 distinciones", youtubeUrl: "https://www.youtube.com/watch?v=h4tge2K2eeI&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=76" },
+  { reference: 77, normalizedTitle: "dia 26 magda emociones", youtubeUrl: "https://www.youtube.com/watch?v=_WjN8Nx7MF8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=77" },
+  { reference: 78, normalizedTitle: "dia 26 2 magda 3 distinciones final", youtubeUrl: "https://www.youtube.com/watch?v=T2qD0lQN7uw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=78" },
+  { reference: 79, normalizedTitle: "dia 26 4 magda meditacion capitan de tu propia vida final", youtubeUrl: "https://www.youtube.com/watch?v=7OjDBDz9s2w&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=79" },
+  { reference: 80, normalizedTitle: "dia 26 5 magda 2 distinciones final", youtubeUrl: "https://www.youtube.com/watch?v=4m35SRhtYJE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=80" },
+  { reference: 81, normalizedTitle: "dia 26 magda 2 distinciones 2", youtubeUrl: "https://www.youtube.com/watch?v=oiu6n6ASOAw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=81" },
+  { reference: 82, normalizedTitle: "dia 26 6 magda emociones", youtubeUrl: "https://www.youtube.com/watch?v=hR9XocnoK1U&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=82" },
+  { reference: 83, normalizedTitle: "145 rutina de lectura final", youtubeUrl: "https://www.youtube.com/watch?v=e7lJF1Y1Qw8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=83" },
+  { reference: 84, normalizedTitle: "dia 26 magda emociones final", youtubeUrl: "https://www.youtube.com/watch?v=vWzcivFkM5Y&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=84" },
+  { reference: 85, normalizedTitle: "dia 26 1 magda y andres introduccion final", youtubeUrl: "https://www.youtube.com/watch?v=cp3L19yOQ7o&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=85" },
+  { reference: 86, normalizedTitle: "79 rutina de lectura 10", youtubeUrl: "https://www.youtube.com/watch?v=Q6Ebz9wBXeo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=86" },
+  { reference: 87, normalizedTitle: "00 bienvenida andres henao y daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=p_ZXfiDOfsw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=87" },
+  { reference: 88, normalizedTitle: "77 como hacer un estudio de mercado daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=mXVk68PvH30&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=88" },
+  { reference: 89, normalizedTitle: "42 rutina de lectura 7", youtubeUrl: "https://www.youtube.com/watch?v=XjP8L-XkbC0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=89" },
+  { reference: 90, normalizedTitle: "76 como comprar tu primera propiedad daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=HGtOaB_6dww&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=90" },
+  { reference: 91, normalizedTitle: "75 como encontrar la propiedad ideal daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=0cwjcq2EE0U&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=91" },
+  { reference: 92, normalizedTitle: "79 rutina de lectura 11", youtubeUrl: "https://www.youtube.com/watch?v=0NkYeb7rqV0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=92" },
+  { reference: 93, normalizedTitle: "74 aprende a ver los numeros daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=d4m_Fryd2fw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=93" },
+  { reference: 94, normalizedTitle: "73 define la rentabilidad de tu inmueble daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=qRZegp5PWvA&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=94" },
+  { reference: 95, normalizedTitle: "38 rutina de lectura 6", youtubeUrl: "https://www.youtube.com/watch?v=WaSDKMDmny4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=95" },
+  { reference: 96, normalizedTitle: "72 define el objetivo par tu inmueble daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=sTQEBOHR5dc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=96" },
+  { reference: 97, normalizedTitle: "71 aprende a manejar tus finanzas daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=jR0QesaoF1c&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=97" },
+  { reference: 98, normalizedTitle: "00 deja de comprar ideas", youtubeUrl: "https://www.youtube.com/watch?v=VOVNXWTaAss&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=98" },
+  { reference: 99, normalizedTitle: "70 por que invertir en bienes raices daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=p9nDKlA2VPQ&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=99" },
+  { reference: 100, normalizedTitle: "69 el abc de los bienes raices daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=BmIsEmck5F0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=100" },
+  { reference: 101, normalizedTitle: "3 7 la lectura te hara libre el conocimiento te dara poder", youtubeUrl: "https://www.youtube.com/watch?v=WeXUDdOzljs&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=101" },
+  { reference: 102, normalizedTitle: "34 rutina de lectura 5", youtubeUrl: "https://www.youtube.com/watch?v=74JYdYbpBug&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=102" },
+  { reference: 103, normalizedTitle: "focus lectura 5", youtubeUrl: "https://www.youtube.com/watch?v=lp7Ch4mk-yM&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=103" },
+  { reference: 104, normalizedTitle: "00 para mi el perdon es", youtubeUrl: "https://www.youtube.com/watch?v=YGO6_8jeLKs&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=104" },
+  { reference: 105, normalizedTitle: "2 1 un lector vive mil veces antes de morir", youtubeUrl: "https://www.youtube.com/watch?v=2vingWclbV8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=105" },
+  { reference: 106, normalizedTitle: "el mundo de abrakadabra", youtubeUrl: "https://www.youtube.com/watch?v=fyOozWkGEsE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=106" },
+  { reference: 107, normalizedTitle: "abrakadabrarealm", youtubeUrl: "https://www.youtube.com/watch?v=m6TG-K6NoJw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=107" },
+  { reference: 108, normalizedTitle: "100 rutina de lectura 14", youtubeUrl: "https://www.youtube.com/watch?v=KbFJNgA0hEY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=108" },
+  { reference: 109, normalizedTitle: "136 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=jMz7miN6ORo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=109" },
+  { reference: 110, normalizedTitle: "144 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=hyic-X9WOOw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=110" },
+  { reference: 111, normalizedTitle: "32 rutina de lectura 4", youtubeUrl: "https://www.youtube.com/watch?v=yGKXkmgAxKc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=111" },
+  { reference: 112, normalizedTitle: "143 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=hru1hsuDOjw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=112" },
+  { reference: 113, normalizedTitle: "08 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=eIVaWrjMnvo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=113" },
+  { reference: 114, normalizedTitle: "124 rutina de lectura 15", youtubeUrl: "https://www.youtube.com/watch?v=jz30yMyWqkU&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=114" },
+  { reference: 115, normalizedTitle: "142 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=MbFAVHYyOy8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=115" },
+  { reference: 116, normalizedTitle: "141 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=YQh-5Txegis&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=116" },
+  { reference: 117, normalizedTitle: "56 rutina de lectura 8", youtubeUrl: "https://www.youtube.com/watch?v=mS9TWU0ZloY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=117" },
+  { reference: 118, normalizedTitle: "140 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=rULsu_VU7rw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=118" },
+  { reference: 119, normalizedTitle: "63 rutina de lectura andres henao", youtubeUrl: "https://www.youtube.com/watch?v=jwxUTw0D970&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=119" },
+  { reference: 120, normalizedTitle: "139 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=kJKCo3_XkOc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=120" },
+  { reference: 121, normalizedTitle: "138 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=9Zbo--UAzWc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=121" },
+  { reference: 122, normalizedTitle: "135 rutina de lectura 16", youtubeUrl: "https://www.youtube.com/watch?v=yrlT7OHk3KM&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=122" },
+  { reference: 123, normalizedTitle: "137 curso de trading por junior bejarano", youtubeUrl: "https://www.youtube.com/watch?v=gHbsX_HJdaA&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=123" },
+  { reference: 124, normalizedTitle: "78 meditacion de relajacion andres henao", youtubeUrl: "https://www.youtube.com/watch?v=y2KBWLRbU0c&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=124" },
+  { reference: 125, normalizedTitle: "48 rutina de lectura andres henao", youtubeUrl: "https://www.youtube.com/watch?v=pMt-vuwgPXQ&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=125" },
+  { reference: 126, normalizedTitle: "28 aprende a disfrutar el proceso", youtubeUrl: "https://www.youtube.com/watch?v=oqKWddXNJ8k&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=126" },
+  { reference: 127, normalizedTitle: "46 como crear una landing page desde cero natan nandez", youtubeUrl: "https://www.youtube.com/watch?v=I6Wc3vLP2C8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=127" },
+  { reference: 128, normalizedTitle: "45 como editar un video en adobe premiere por miguel truman", youtubeUrl: "https://www.youtube.com/watch?v=sIGB9FmeRyI&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=128" },
+  { reference: 129, normalizedTitle: "2 3 nunca pares de aprender la vida no deja de ensenar", youtubeUrl: "https://www.youtube.com/watch?v=dnzQ6BOKR_4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=129" },
+  { reference: 130, normalizedTitle: "80 desbloquea el siguiente nivel macadamia", youtubeUrl: "https://www.youtube.com/watch?v=LMn3SV4AnBg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=130" },
+  { reference: 131, normalizedTitle: "81 herramientas para el subconsciente macadamia", youtubeUrl: "https://www.youtube.com/watch?v=VK3I-z7WFlU&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=131" },
+  { reference: 132, normalizedTitle: "2 2 no hay nada mas atractivo para el sexo opuesto", youtubeUrl: "https://www.youtube.com/watch?v=9ANZwimWb0w&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=132" },
+  { reference: 133, normalizedTitle: "03 el poder del subcosciente macadamia", youtubeUrl: "https://www.youtube.com/watch?v=7MdlsYD_-y8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=133" },
+  { reference: 134, normalizedTitle: "82 reprograma tu mente macadamia", youtubeUrl: "https://www.youtube.com/watch?v=dfwiEwSkbsY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=134" },
+  { reference: 135, normalizedTitle: "3 8 te gustaria formarte con grandes lectores", youtubeUrl: "https://www.youtube.com/watch?v=t7cmCn2n2tw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=135" },
+  { reference: 136, normalizedTitle: "00 focus presencial", youtubeUrl: "https://www.youtube.com/watch?v=08lSqlFM7BE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=136" },
+  { reference: 137, normalizedTitle: "83 rutina de lectura 11", youtubeUrl: "https://www.youtube.com/watch?v=ZbOKodzEn4g&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=137" },
+  { reference: 138, normalizedTitle: "1 1 introduccion a la lectura", youtubeUrl: "https://www.youtube.com/watch?v=03frIC_if08&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=138" },
+  { reference: 139, normalizedTitle: "84 hipnosis y poder mental macadamia", youtubeUrl: "https://www.youtube.com/watch?v=F-Jq-YKyY-0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=139" },
+  { reference: 140, normalizedTitle: "85 terapia de win hof macadamia", youtubeUrl: "https://www.youtube.com/watch?v=5GFgD17NKXs&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=140" },
+  { reference: 141, normalizedTitle: "86 creencias limitantes macadamia", youtubeUrl: "https://www.youtube.com/watch?v=UTC1oTlOQRE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=141" },
+  { reference: 142, normalizedTitle: "87 video experiencial macadamia", youtubeUrl: "https://www.youtube.com/watch?v=7oR5bM5u6s0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=142" },
+  { reference: 143, normalizedTitle: "focus lectura 3", youtubeUrl: "https://www.youtube.com/watch?v=7PfPPZ3f81k&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=143" },
+  { reference: 144, normalizedTitle: "88 meditacion para modificar creencias limitantes macadamia", youtubeUrl: "https://www.youtube.com/watch?v=9lQOp3GxyyQ&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=144" },
+  { reference: 145, normalizedTitle: "89 rutina de lectura 12", youtubeUrl: "https://www.youtube.com/watch?v=VzrLGuw8Gas&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=145" },
+  { reference: 146, normalizedTitle: "90 reto macadamia", youtubeUrl: "https://www.youtube.com/watch?v=CWkoezsBwCg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=146" },
+  { reference: 147, normalizedTitle: "91 formulas para el exito macadamia", youtubeUrl: "https://www.youtube.com/watch?v=dMhgwtny_6M&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=147" },
+  { reference: 148, normalizedTitle: "92 vuelvete imparable macadamia", youtubeUrl: "https://www.youtube.com/watch?v=NYPDxN1BzLg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=148" },
+  { reference: 149, normalizedTitle: "93 preguntas poderosas macadamia", youtubeUrl: "https://www.youtube.com/watch?v=1s00J2RAH4E&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=149" },
+  { reference: 150, normalizedTitle: "94 meditacion de agradecimiento macadamia", youtubeUrl: "https://www.youtube.com/watch?v=I1EYIEHYnRs&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=150" },
+  { reference: 151, normalizedTitle: "95 rutina de lectura 13", youtubeUrl: "https://www.youtube.com/watch?v=kzukc1dhP54&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=151" },
+  { reference: 152, normalizedTitle: "96 que es un plan de accion macadamia", youtubeUrl: "https://www.youtube.com/watch?v=PSn-ccZiZZA&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=152" },
+  { reference: 153, normalizedTitle: "97 como hacer un plan de accion macadamia", youtubeUrl: "https://www.youtube.com/watch?v=jYEJkGzpx8U&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=153" },
+  { reference: 154, normalizedTitle: "private video", youtubeUrl: "https://www.youtube.com/watch?v=oRhfwaD81N0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=154" },
+  { reference: 155, normalizedTitle: "98 podcast plan de accion macadamia", youtubeUrl: "https://www.youtube.com/watch?v=ZBLyIc1tph0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=155" },
+  { reference: 156, normalizedTitle: "99 jorge borbon la entrevista que cambiara tu vida", youtubeUrl: "https://www.youtube.com/watch?v=XXKpeUQwcuc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=156" },
+  { reference: 157, normalizedTitle: "123 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=84u8g4M7J_Y&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=157" },
+  { reference: 158, normalizedTitle: "124 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=7pAtWIpmHJc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=158" },
+  { reference: 159, normalizedTitle: "125 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=Ohg7eYlS0Nc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=159" },
+  { reference: 160, normalizedTitle: "126 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=RrfM8hi8GIQ&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=160" },
+  { reference: 161, normalizedTitle: "127 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=_88tAt1zWq4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=161" },
+  { reference: 162, normalizedTitle: "128 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=JpXlS0J98U8&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=162" },
+  { reference: 163, normalizedTitle: "129 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=os8r5FsvtFo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=163" },
+  { reference: 164, normalizedTitle: "130 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=bXkU0ckHar4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=164" },
+  { reference: 165, normalizedTitle: "131 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=rN67G8Foi4s&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=165" },
+  { reference: 166, normalizedTitle: "132 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=_009cSy2kMU&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=166" },
+  { reference: 167, normalizedTitle: "133 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=bD1fU6WloLc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=167" },
+  { reference: 168, normalizedTitle: "private video", youtubeUrl: "https://www.youtube.com/watch?v=OLAs8lfKxfo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=168" },
+  { reference: 169, normalizedTitle: "134 como monetizar tu conocimiento daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=3P_CoDe14a4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=169" },
+  { reference: 170, normalizedTitle: "110 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=OdBh_3fLbjE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=170" },
+  { reference: 171, normalizedTitle: "103 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=qG7Od5SNtlE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=171" },
+  { reference: 172, normalizedTitle: "113 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=lFSaHDruZbo&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=172" },
+  { reference: 173, normalizedTitle: "101 reto imparable daniel rodriguez", youtubeUrl: "https://www.youtube.com/watch?v=oAVd1CWSNic&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=173" },
+  { reference: 174, normalizedTitle: "102 reto imparable andres henao", youtubeUrl: "https://www.youtube.com/watch?v=s08yVP3foy0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=174" },
+  { reference: 175, normalizedTitle: "120 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=GPK6lh72nrg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=175" },
+  { reference: 176, normalizedTitle: "104 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=F0ylZbahg4E&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=176" },
+  { reference: 177, normalizedTitle: "111 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=xoXNY-OEFuw&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=177" },
+  { reference: 178, normalizedTitle: "106 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=7lTGNy_Mtfk&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=178" },
+  { reference: 179, normalizedTitle: "105 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=Ty0dvhPMAks&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=179" },
+  { reference: 180, normalizedTitle: "112 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=m_qapyZNU-c&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=180" },
+  { reference: 181, normalizedTitle: "108 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=61V3iEBFUY4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=181" },
+  { reference: 182, normalizedTitle: "115 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=JAnDUCAL9l0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=182" },
+  { reference: 183, normalizedTitle: "117 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=k9dFOc4ZtqE&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=183" },
+  { reference: 184, normalizedTitle: "116 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=Pb5_skwPN2c&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=184" },
+  { reference: 185, normalizedTitle: "119 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=qTh-5M0nCoc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=185" },
+  { reference: 186, normalizedTitle: "122 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=SQxoCUpda6A&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=186" },
+  { reference: 187, normalizedTitle: "109 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=3XC280fmcZM&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=187" },
+  { reference: 188, normalizedTitle: "121 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=dSF9pcbHyaY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=188" },
+  { reference: 189, normalizedTitle: "118 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=UHPYbp9Piho&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=189" },
+  { reference: 190, normalizedTitle: "107 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=YU7IRFT1HA0&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=190" },
+  { reference: 191, normalizedTitle: "114 reto imparable daniel rodriguez y andres henao", youtubeUrl: "https://www.youtube.com/watch?v=btAkTScOXuc&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=191" },
+  { reference: 192, normalizedTitle: "29 por que es importante agradecer", youtubeUrl: "https://www.youtube.com/watch?v=TwjZb3Os73U&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=192" },
+  { reference: 193, normalizedTitle: "dia 26 5 magda 2 distinciones", youtubeUrl: "https://www.youtube.com/watch?v=aCZ3-tuVYUg&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=193" },
+  { reference: 194, normalizedTitle: "hipnosis", youtubeUrl: "https://www.youtube.com/watch?v=AuwMDMZ4q9M&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=194" },
+  { reference: 195, normalizedTitle: "09 formula c y h x a", youtubeUrl: "https://www.youtube.com/watch?v=iDg5hh20tk4&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=195" },
+]
+
+function normalizePlaylistTitle(value: string) {
+  return value
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\([^)]*\)/g, " ")
+    .replace(/[&+]/g, " y ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
+export function findPlaylistYoutubeUrl(reference: number, title: string) {
+  const normalizedTitle = normalizePlaylistTitle(title)
+  const exactTitleMatches = PLAYLIST_ENTRIES.filter((entry) => entry.normalizedTitle === normalizedTitle)
+
+  if (exactTitleMatches.length === 1) {
+    return exactTitleMatches[0].youtubeUrl
+  }
+
+  if (exactTitleMatches.length > 1) {
+    return (
+      exactTitleMatches.find((entry) => entry.reference === reference)?.youtubeUrl ??
+      exactTitleMatches[0].youtubeUrl
+    )
+  }
+
+  const fuzzyTitleMatch = PLAYLIST_ENTRIES.find(
+    (entry) =>
+      entry.normalizedTitle.includes(normalizedTitle) || normalizedTitle.includes(entry.normalizedTitle)
+  )
+
+  if (fuzzyTitleMatch) {
+    return fuzzyTitleMatch.youtubeUrl
+  }
+
+  return PLAYLIST_ENTRIES.find((entry) => entry.reference === reference)?.youtubeUrl
+}
