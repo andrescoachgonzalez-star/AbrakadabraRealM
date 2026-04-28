@@ -105,16 +105,16 @@ export function TestimonialsSection() {
         {/* Main Testimonial Display */}
         <ScrollReveal delay={100}>
           <div className="max-w-4xl mx-auto">
-            <div className="relative bg-card rounded-3xl p-8 md:p-12 border border-border shadow-xl">
+            <div className="relative rounded-3xl border border-border bg-card p-6 shadow-xl sm:p-8 md:p-12">
               {/* Quote Icon */}
-              <div className="absolute -top-6 left-12">
-                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center">
-                  <Quote className="w-6 h-6 text-primary-foreground" />
+              <div className="absolute -top-6 left-8 sm:left-12">
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-primary sm:h-14 sm:w-14">
+                  <Quote className="h-6 w-6 text-primary-foreground sm:h-7 sm:w-7" />
                 </div>
               </div>
 
               {/* Testimonial Content */}
-              <div className="relative min-h-[280px]">
+              <div className="relative min-h-[400px] sm:min-h-[420px] md:min-h-[320px]">
                 {testimonials.map((testimonial, index) => (
                   <div
                     key={testimonial.id}
@@ -128,11 +128,11 @@ export function TestimonialsSection() {
                     )}
                   >
                     {/* Stars */}
-                    <div className="flex gap-1 mb-6">
+                    <div className="mb-5 flex gap-1 sm:mb-6">
                       {[...Array(testimonial.rating)].map((_, i) => (
                         <Star
                           key={i}
-                          className="w-5 h-5 text-primary fill-primary"
+                          className="h-5 w-5 fill-primary text-primary"
                           style={{
                             animation: activeIndex === index ? `scale-in 0.3s ease-out ${i * 0.1}s both` : "none",
                           }}
@@ -141,28 +141,28 @@ export function TestimonialsSection() {
                     </div>
 
                     {/* Title & Text */}
-                    <h3 className="font-serif text-2xl font-bold text-foreground mb-4">
+                    <h3 className="mb-4 font-serif text-2xl font-bold text-foreground sm:text-3xl">
                       {testimonial.title}
                     </h3>
-                    <p className="text-muted-foreground leading-relaxed text-lg mb-8">
+                    <p className="mb-8 text-base leading-relaxed text-muted-foreground sm:text-lg">
                       &ldquo;{testimonial.text}&rdquo;
                     </p>
 
                     {/* Author Info */}
-                    <div className="flex items-center justify-between flex-wrap gap-4">
+                    <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                       <div className="flex items-center gap-4">
                         {/* Avatar Placeholder */}
-                        <div className="w-14 h-14 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 flex items-center justify-center">
+                        <div className="flex h-14 w-14 items-center justify-center rounded-full bg-gradient-to-br from-primary/20 to-primary/10">
                           <span className="font-serif text-xl font-bold text-primary">
                             {testimonial.name.charAt(0)}
                           </span>
                         </div>
-                        <div>
+                        <div className="min-w-0">
                           <p className="font-semibold text-foreground">{testimonial.name}</p>
                           <p className="text-sm text-muted-foreground">{testimonial.location}</p>
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="border-t border-border/60 pt-4 text-left sm:border-t-0 sm:pt-0 sm:text-right">
                         <p className="text-sm font-medium text-primary">{testimonial.product}</p>
                         <p className="text-xs text-muted-foreground">{testimonial.date}</p>
                       </div>
@@ -172,9 +172,9 @@ export function TestimonialsSection() {
               </div>
 
               {/* Navigation */}
-              <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
+              <div className="mt-8 flex flex-col gap-5 border-t border-border pt-6 sm:flex-row sm:items-center sm:justify-between">
                 {/* Dots */}
-                <div className="flex gap-2">
+                <div className="flex justify-center gap-2 sm:justify-start">
                   {testimonials.map((_, index) => (
                     <button
                       key={index}
@@ -192,20 +192,20 @@ export function TestimonialsSection() {
                 </div>
 
                 {/* Arrows */}
-                <div className="flex gap-2">
+                <div className="flex justify-center gap-2 sm:justify-end">
                   <button
                     onClick={prevTestimonial}
-                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
                     aria-label="Previous testimonial"
                   >
-                    <ChevronLeft className="w-5 h-5" />
+                    <ChevronLeft className="h-5 w-5" />
                   </button>
                   <button
                     onClick={nextTestimonial}
-                    className="w-10 h-10 rounded-full border border-border flex items-center justify-center text-muted-foreground hover:text-foreground hover:border-primary/50 transition-colors"
+                    className="flex h-10 w-10 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-foreground"
                     aria-label="Next testimonial"
                   >
-                    <ChevronRight className="w-5 h-5" />
+                    <ChevronRight className="h-5 w-5" />
                   </button>
                 </div>
               </div>

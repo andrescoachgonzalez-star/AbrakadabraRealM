@@ -1,7 +1,8 @@
 "use client"
 
+import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
-import { ArrowRight, Car, Shield, Star } from "lucide-react"
+import { ArrowRight, Car } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function RentalSection() {
@@ -89,7 +90,6 @@ export function RentalSection() {
             )}
           >
             <div className="relative">
-
               <div className="relative aspect-[4/3] w-full max-w-lg overflow-hidden rounded-2xl bg-gradient-to-br from-card/10 to-card/5 backdrop-blur-sm">
                 <div className="absolute inset-0 flex items-center justify-center">
                   <Car className="h-32 w-32 text-white/20" />
@@ -99,29 +99,6 @@ export function RentalSection() {
                   <span>MIAMI COLLECTION</span>
                   <span>2025</span>
                 </div>
-              </div>
-
-              {/* Floating Stats */}
-              <div className="absolute -right-4 top-1/4 rounded-lg bg-card p-4 shadow-xl animate-float">
-                <div className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-primary fill-primary" />
-                  <span className="text-sm font-semibold text-foreground">4.9</span>
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Premium Rating
-                </p>
-              </div>
-
-              <div className="absolute -left-4 bottom-1/4 rounded-lg bg-card p-4 shadow-xl animate-float animation-delay-500">
-                <div className="flex items-center gap-2">
-                  <Shield className="h-5 w-5 text-primary" />
-                  <span className="text-sm font-semibold text-foreground">
-                    100%
-                  </span>
-                </div>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  Insured
-                </p>
               </div>
             </div>
           </div>
@@ -162,12 +139,15 @@ export function RentalSection() {
               LAUNCH PRICE - LIMITED TIME
             </p>
 
-            <button className="group mt-10 w-full max-w-sm rounded-full bg-primary py-5 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.02]">
+            <Link
+              href="/car-rental"
+              className="group mt-10 flex w-full max-w-sm items-center justify-center rounded-full bg-primary py-5 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/25"
+            >
               <span className="inline-flex items-center gap-3">
                 RENT NOW
                 <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-2" />
               </span>
-            </button>
+            </Link>
 
             <div className="mt-8 flex items-center gap-6 text-sm text-white/60">
               <span className="flex items-center gap-2">

@@ -1,7 +1,8 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { useParams } from "next/navigation"
+import { useParams, useRouter } from "next/navigation"
+import { ArrowLeft } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { CONTACT_INFO } from "@/lib/contact-info"
 import { ScrollReveal } from "@/components/scroll-reveal"
@@ -26,6 +27,7 @@ const materialLabels: Record<string, string> = {
 
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const router = useRouter()
   const productId = Number(id)
 
   const product = useMemo(
@@ -100,11 +102,29 @@ export default function ProductDetailPage() {
   const smsColombiaHref = `${CONTACT_INFO.colombia.smsHref}?body=${encodeURIComponent(contactMessage)}`
   const smsUsaHref = `${CONTACT_INFO.usa.smsHref}?body=${encodeURIComponent(contactMessage)}`
 
+  const handleGoBack = () => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back()
+      return
+    }
+
+    router.push("/jewelry/shop")
+  }
+
   return (
     <div className="min-h-screen bg-background flex flex-col">
       {/* Breadcrumb */}
       <div className="border-b border-border">
         <div className="container mx-auto px-4 py-4">
+          <button
+            type="button"
+            onClick={handleGoBack}
+            className="mb-3 inline-flex items-center gap-2 rounded-full border border-border bg-background px-4 py-2 text-sm font-medium text-foreground transition-all duration-300 hover:border-primary hover:text-primary md:hidden"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Volver
+          </button>
+
           <nav className="flex items-center gap-2 text-sm text-muted-foreground">
             <a href="/jewelry" className="hover:text-primary transition-colors">
               Jewelry

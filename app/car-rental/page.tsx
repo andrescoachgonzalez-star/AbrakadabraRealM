@@ -154,7 +154,9 @@ function HeroCarousel() {
   const slide = heroSlides[current]
 
   return (
-    <section className={`relative min-h-screen flex items-center bg-gradient-to-br ${slide.color} overflow-hidden transition-all duration-1000`}>
+    <section
+      className={`relative flex min-h-screen items-start overflow-hidden bg-gradient-to-br pt-32 transition-all duration-1000 sm:pt-36 lg:items-center lg:pt-0 ${slide.color}`}
+    >
       {/* Subtle dot pattern */}
       <div
         className="absolute inset-0 opacity-10"
@@ -164,7 +166,7 @@ function HeroCarousel() {
         }}
       />
 
-      <div className="container mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center relative z-10">
+      <div className="container relative z-10 mx-auto grid items-center gap-12 px-6 lg:grid-cols-2">
         {/* Left - Car Image Area */}
         <motion.div
           key={current}
@@ -288,18 +290,6 @@ function HeroCarousel() {
           </motion.div>
         </div>
       </div>
-
-      {/* Scroll indicator */}
-      <motion.div
-        animate={{ y: [0, 10, 0] }}
-        transition={{ duration: 2, repeat: Infinity }}
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-      >
-        <span className="text-background/40 text-xs tracking-widest uppercase">Scroll</span>
-        <div className="w-6 h-10 border-2 border-background/30 rounded-full flex items-start justify-center pt-2">
-          <div className="w-1.5 h-3 bg-background/50 rounded-full" />
-        </div>
-      </motion.div>
     </section>
   )
 }

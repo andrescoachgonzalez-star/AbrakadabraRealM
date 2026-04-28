@@ -66,23 +66,20 @@ export function HeroSection() {
 
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden bg-background">
-
       {/* Badge */}
-      <div className="absolute top-32 left-1/2 -translate-x-1/2 z-10">
-        <p className="text-sm font-medium tracking-[0.3em] text-muted-foreground">
+      <div className="absolute top-28 left-1/2 z-10 -translate-x-1/2 sm:top-32">
+        <p className="text-xs font-medium tracking-[0.3em] text-muted-foreground sm:text-sm">
           LUXURY EXPERIENCE
         </p>
       </div>
 
-      <div className="relative flex min-h-screen items-center">
-        <div className="container mx-auto grid gap-8 px-4 pt-40 pb-20 lg:grid-cols-2 lg:gap-12 lg:pt-32">
-          
+      <div className="relative flex min-h-screen items-start lg:items-center">
+        <div className="container mx-auto grid gap-6 px-4 pt-36 pb-28 sm:gap-8 sm:pt-40 sm:pb-24 lg:grid-cols-2 lg:gap-12 lg:pt-32">
           {/* IMAGE SIDE */}
-          <div className="relative flex items-center justify-center">
+          <div className="relative flex flex-col items-center justify-center">
             <div className="relative">
-
               {/* Image container */}
-              <div className="relative w-[420px] sm:w-[480px] md:w-[560px] lg:w-[640px]">
+              <div className="relative min-h-[280px] w-[280px] sm:min-h-[420px] sm:w-[420px] md:min-h-[480px] md:w-[560px] lg:min-h-[540px] lg:w-[640px]">
                 {slides.map((slide, index) => (
                   <div
                     key={slide.id}
@@ -107,42 +104,62 @@ export function HeroSection() {
               <div className="absolute -left-10 bottom-1/4 h-12 w-12 rounded-full bg-primary/10 animate-float" />
               <div className="absolute left-10 -bottom-6 h-10 w-10 rounded-full bg-primary/10 animate-float" />
             </div>
+
+            <div className="mt-4 flex items-center justify-center gap-6 lg:hidden">
+              <button
+                type="button"
+                onClick={prevSlide}
+                className="rounded-full p-2 text-foreground/50 transition-colors duration-300 hover:bg-foreground/5 hover:text-foreground"
+                aria-label="Slide anterior"
+              >
+                <ChevronLeft className="h-8 w-8" />
+              </button>
+
+              <button
+                type="button"
+                onClick={nextSlide}
+                className="rounded-full p-2 text-foreground/50 transition-colors duration-300 hover:bg-foreground/5 hover:text-foreground"
+                aria-label="Siguiente slide"
+              >
+                <ChevronRight className="h-8 w-8" />
+              </button>
+            </div>
           </div>
 
           {/* CONTENT SIDE */}
-          <div className="relative flex flex-col justify-center h-[300px] lg:h-[400px]">
+          <div className="relative flex h-[320px] flex-col justify-start px-2 sm:h-[300px] sm:justify-center sm:px-0 lg:h-[400px]">
             {slides.map((slide, index) => (
               <div
                 key={slide.id}
                 className={cn(
-                  "absolute inset-0 flex flex-col justify-center transition-all duration-700",
+                  "absolute inset-0 flex flex-col justify-start text-left transition-all duration-700 sm:justify-center",
                   currentSlide === index
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-8 pointer-events-none"
                 )}
               >
-                <h1 className="font-serif text-5xl font-bold sm:text-6xl md:text-7xl lg:text-8xl">
+                <h1 className="max-w-[11ch] pr-10 font-serif text-4xl leading-[0.92] font-bold sm:max-w-none sm:pr-0 sm:text-5xl md:text-7xl lg:text-8xl">
                   {slide.title}
                 </h1>
 
-                <p className="mt-4 text-lg text-muted-foreground">
+                <p className="mt-4 text-base text-muted-foreground sm:text-lg">
                   {slide.subtitle}
                 </p>
 
-                <p className="mt-2 text-sm text-muted-foreground/70">
+                <p className="mt-2 max-w-xl text-sm text-muted-foreground/70">
                   {slide.description}
                 </p>
 
                 {slide.href ? (
                   <Link
                     href={slide.href}
-                    className="group mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg"
+                    className="group mt-8 inline-flex w-full items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg sm:w-fit"
                   >
                     {slide.cta}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                 ) : (
-                  <button className="group mt-8 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg">
+                  <button className="group mt-8 inline-flex w-full items-center justify-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:gap-5 hover:shadow-lg sm:w-fit">
                     {slide.cta}
                     <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                   </button>
@@ -155,21 +172,21 @@ export function HeroSection() {
         {/* Navigation arrows */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 rounded-full p-3 text-foreground/50 hover:bg-foreground/5"
+          className="absolute top-1/2 left-4 hidden -translate-y-1/2 rounded-full p-3 text-foreground/50 hover:bg-foreground/5 lg:block"
         >
           <ChevronLeft className="h-8 w-8" />
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-full p-3 text-foreground/50 hover:bg-foreground/5"
+          className="absolute top-1/2 right-4 hidden -translate-y-1/2 rounded-full p-3 text-foreground/50 hover:bg-foreground/5 lg:block"
         >
           <ChevronRight className="h-8 w-8" />
         </button>
       </div>
 
       {/* Indicators */}
-      <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 gap-3">
+      <div className="absolute bottom-10 left-1/2 flex -translate-x-1/2 gap-3 sm:bottom-8">
         {slides.map((_, index) => (
           <button
             key={index}
