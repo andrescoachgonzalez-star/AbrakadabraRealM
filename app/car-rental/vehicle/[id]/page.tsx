@@ -852,7 +852,7 @@ export default function VehicleDetailsPage() {
                     fill
                     priority
                     sizes="(max-width: 1024px) 100vw, 1000px"
-                    className="object-contain p-6 drop-shadow-xl"
+                    className="object-cover object-center drop-shadow-xl"
                   />
                 )}
               </div>
@@ -889,7 +889,7 @@ export default function VehicleDetailsPage() {
                     alt={`${vehicleData.name} - ${image.label}`}
                     fill
                     sizes="160px"
-                    className="object-cover"
+                    className="object-cover object-center"
                   />
                 )}
               </div>
@@ -1196,7 +1196,7 @@ export default function VehicleDetailsPage() {
                       alt="Satisfaction"
                       fill
                       sizes="(max-width: 1024px) 100vw, 600px"
-                      className="object-contain p-10"
+                      className="object-cover object-center"
                     />
                   </div>
                 </div>
