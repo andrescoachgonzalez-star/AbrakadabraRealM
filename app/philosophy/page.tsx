@@ -1468,7 +1468,7 @@ function Divider({ accent }: { accent?: boolean }) {
 export default function AbrakadabraRealm() {
   return (
     <main
-      className="dark relative min-h-screen"
+      className="dark relative min-h-screen overflow-x-hidden"
       style={{ backgroundColor: "hsl(0 0% 2%)", color: "hsl(0 0% 96%)" }}
     >
       <Suspense fallback={<LoadingScreen />}>

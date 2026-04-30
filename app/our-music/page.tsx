@@ -26,7 +26,7 @@ import {
 
 const ourMusicImages = {
   hero: "/Image-Our-Music/Imagen-1.webp",
-  abrakadabraLogo: "/Image-Our-Music/imagen-2.png",
+  abrakadabraLogo: "/Image-Our-Music/Imagen-2.png",
   moodchillLogo: "/Image-Our-Music/Imagen-3.png",
   activities: "/Image-Our-Music/Imagen-4.png",
 

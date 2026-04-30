@@ -295,14 +295,17 @@ export default function DJProducersPage() {
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#111]" />
 
-        <div className="relative text-center z-10">
+        <div className="relative z-10 w-full px-4 text-center">
           <motion.h1
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tight font-serif uppercase"
+            className="mx-auto max-w-[10ch] px-2 font-serif text-[clamp(3rem,14vw,7rem)] font-black uppercase leading-[0.88] tracking-tight text-white md:max-w-none md:px-0"
           >
-            OUR DJ/PRODUCERS
+            <span className="block">OUR</span>
+            <span className="block md:hidden">DJ /</span>
+            <span className="block md:hidden">PRODUCERS</span>
+            <span className="hidden md:block">DJ / PRODUCERS</span>
           </motion.h1>
 
           <motion.div
@@ -315,7 +318,7 @@ export default function DJProducersPage() {
               href={`#${DJ_SECTION_ID}`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="inline-flex px-10 py-4 bg-[oklch(0.55_0.18_20)] text-white font-bold tracking-wider rounded-lg hover:shadow-xl hover:shadow-[oklch(0.55_0.18_20)]/30 transition-all duration-300 items-center gap-3 mx-auto"
+              className="mx-auto inline-flex max-w-full items-center justify-center gap-3 rounded-lg bg-[oklch(0.55_0.18_20)] px-6 py-3 text-center text-base font-bold text-white transition-all duration-300 hover:shadow-xl hover:shadow-[oklch(0.55_0.18_20)]/30 sm:px-10 sm:py-4 sm:text-lg"
             >
               Hire DJ -- Producers
               <ChevronDown className="w-5 h-5" />
