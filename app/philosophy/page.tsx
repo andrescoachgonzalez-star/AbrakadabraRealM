@@ -43,6 +43,7 @@ const ROUTES = {
   djs: "/artists/dj-producers",
   clothing: "/clothing",
   cars: "/car-rental",
+  courses: "/cursos",
 }
 
 /* ─────────────────────────── useInView hook ─────────────────────────── */
@@ -248,7 +249,7 @@ const heroLinks = [
   { label: "Music", href: ROUTES.djs },
   { label: "Rentals", href: ROUTES.cars },
   { label: "Merch", href: ROUTES.clothing },
-  { label: "Courses", href: "#courses" },
+  { label: "Courses", href: ROUTES.courses },
 ]
 
 function HeroSection() {
@@ -1020,7 +1021,7 @@ function CoursesSection() {
             </div>
 
             <a
-              href="#cta"
+              href={ROUTES.courses}
               className="inline-flex items-center gap-3 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-sm tracking-wider uppercase hover:bg-primary/90 transition-colors duration-300 group"
             >
               Start Learning
@@ -1057,9 +1058,10 @@ function CoursesSection() {
           {courses.map((course, index) => {
             const Icon = course.icon
             return (
-              <div
+              <a
+                href={ROUTES.courses}
                 key={course.title}
-                className={`glass rounded-2xl p-8 group hover:border-primary/30 transition-all duration-700 relative ${
+                className={`glass block rounded-2xl p-8 group hover:border-primary/30 transition-all duration-700 relative cursor-pointer ${
                   isInView ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
                 }`}
                 style={{ transitionDelay: `${index * 100}ms` }}
@@ -1080,7 +1082,7 @@ function CoursesSection() {
                   <BookOpen className="w-4 h-4" />
                   <span>Enroll Free</span>
                 </div>
-              </div>
+              </a>
             )
           })}
         </div>
@@ -1404,7 +1406,7 @@ const navLinks = [
   { label: "Art", href: ROUTES.art },
   { label: "Emeralds", href: ROUTES.jewelry },
   { label: "Models", href: ROUTES.models },
-  { label: "Courses", href: "#courses" },
+  { label: "Courses", href: ROUTES.courses },
   { label: "Music", href: ROUTES.djs },
   { label: "Rentals", href: ROUTES.cars },
   { label: "Merch", href: ROUTES.clothing },
