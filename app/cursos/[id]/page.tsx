@@ -8,6 +8,7 @@ import {
   ChevronDown,
   ChevronUp,
   Clock,
+  HeartHandshake,
   Layers3,
   ListVideo,
   Play,
@@ -226,6 +227,36 @@ export default function CourseDetailPage() {
                   </div>
                 )}
 
+              </div>
+
+              <div className="mb-12 rounded-3xl border border-primary/20 bg-card p-6 shadow-sm">
+                <div className="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+                  <div className="flex gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                      <HeartHandshake className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+                        Apoya la academia
+                      </p>
+                      <h3 className="mt-1 font-serif text-xl font-bold text-foreground">
+                        Dona para seguir creando cursos gratis
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                        Tu aporte nos ayuda a seguir innovando, produciendo nuevos cursos y
+                        construyendo la filosofia de Abrakadabra para la comunidad.
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    disabled
+                    className="shrink-0 rounded-full border border-primary/30 px-6 py-3 text-sm font-bold tracking-wider text-primary opacity-70"
+                  >
+                    DONAR PRONTO
+                  </button>
+                </div>
               </div>
 
               <div>

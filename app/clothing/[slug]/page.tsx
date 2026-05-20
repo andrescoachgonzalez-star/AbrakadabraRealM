@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { ArrowLeft, ChevronRight, Truck, Shield, Star } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
+import { LuxuryFooter } from "@/components/luxury-footer"
 
 const allProducts: Record<
   string,
@@ -668,13 +669,7 @@ export default function ProductDetailPage() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-[#0a0a0a] py-12 border-t border-white/10">
-        <div className="container mx-auto px-6 text-center">
-          <p className="text-white/40 text-sm tracking-widest">{"ABRAKADABRA REALM – LUXURY MARKETPLACE"}</p>
-          <p className="text-white/30 text-xs mt-2">All rights reserved 2024</p>
-        </div>
-      </footer>
+      <LuxuryFooter />
     </main>
   )
 }

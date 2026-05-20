@@ -33,6 +33,7 @@ import {
   Camera,
   Crown,
 } from "lucide-react"
+import { LuxuryFooter } from "@/components/luxury-footer"
 
 /* ─────────────────────────── ROUTES ─────────────────────────── */
 
@@ -153,8 +154,8 @@ function GalaxyParticles({
   return (
     <points ref={pointsRef}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" count={count} array={positions} itemSize={3} />
-        <bufferAttribute attach="attributes-color" count={count} array={colors} itemSize={3} />
+        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
+        <bufferAttribute attach="attributes-color" args={[colors, 3]} />
       </bufferGeometry>
       <pointsMaterial
         size={size}
@@ -243,6 +244,7 @@ function LoadingScreen() {
 /* ─────────────────────────── Hero Section ─────────────────────────── */
 
 const heroLinks = [
+  { label: "Home", href: "/" },
   { label: "Emeralds", href: ROUTES.jewelry },
   { label: "Art", href: ROUTES.art },
   { label: "Models", href: ROUTES.models },
@@ -1399,59 +1401,6 @@ function CTASection() {
   )
 }
 
-/* ─────────────────────────── Footer ─────────────────────────── */
-
-const navLinks = [
-  { label: "Our Brand", href: "/our-brand" },
-  { label: "Art", href: ROUTES.art },
-  { label: "Emeralds", href: ROUTES.jewelry },
-  { label: "Models", href: ROUTES.models },
-  { label: "Courses", href: ROUTES.courses },
-  { label: "Music", href: ROUTES.djs },
-  { label: "Rentals", href: ROUTES.cars },
-  { label: "Merch", href: ROUTES.clothing },
-]
-
-function SiteFooter() {
-  return (
-    <footer className="relative border-t border-border/50 py-16 px-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-12">
-          <div>
-            <h3 className="font-serif text-2xl font-bold text-gradient-crimson">ABRAKADABRA</h3>
-            <p className="text-muted-foreground text-xs font-mono tracking-widest mt-1">REALM</p>
-          </div>
-
-          <nav className="flex flex-wrap items-center justify-center gap-6">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-foreground transition-colors font-mono tracking-wider uppercase"
-              >
-                {link.label}
-              </a>
-            ))}
-          </nav>
-        </div>
-
-        <div className="h-px bg-border/30 mb-8" />
-
-        <div className="flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-muted-foreground font-mono">
-          <p>{"\"More than a brand, we are a philosophy of life\""}</p>
-          <div className="flex items-center gap-4">
-            <span>Colombia</span>
-            <span className="w-1 h-1 rounded-full bg-primary" />
-            <span>Miami</span>
-            <span className="w-1 h-1 rounded-full bg-primary" />
-            <span>Spain</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-  )
-}
-
 /* ─────────────────────────── Divider ─────────────────────────── */
 
 function Divider({ accent }: { accent?: boolean }) {
@@ -1496,7 +1445,7 @@ export default function AbrakadabraRealm() {
 
         {/* <CTASection /> */}
 
-        <SiteFooter />
+        <LuxuryFooter />
       </div>
     </main>
   )

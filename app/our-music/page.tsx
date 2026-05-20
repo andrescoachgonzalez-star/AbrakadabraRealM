@@ -4,6 +4,7 @@ import { useState, useRef } from "react"
 import { motion, useScroll, useTransform, useInView, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import { LuxuryHeader } from "@/components/luxury-header"
+import { LuxuryFooter } from "@/components/luxury-footer"
 import {
   Globe,
   Trophy,
@@ -600,20 +601,6 @@ function SubmitDemoCTA() {
   )
 }
 
-/* --- Footer ------------------------------------------------------- */
-
-function MusicFooter() {
-  return (
-    <footer className="border-t border-white/5 py-12">
-      <div className="container mx-auto px-6 text-center">
-        <p className="text-white/20 text-xs tracking-widest font-sans">
-          ABRAKADABRA REALM — ALL RIGHTS RESERVED
-        </p>
-      </div>
-    </footer>
-  )
-}
-
 /* --- Main Page ---------------------------------------------------- */
 
 export default function OurMusicPage() {
@@ -671,7 +658,7 @@ export default function OurMusicPage() {
       <ServicesSection />
       <ActivitiesSection />
       <SubmitDemoCTA />
-      <MusicFooter />
+      <LuxuryFooter />
     </main>
   )
 }

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react"
 import Link from "next/link"
-import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
+import { ChevronLeft, ChevronRight, ArrowRight, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const slides = [
@@ -44,6 +44,7 @@ const slides = [
 export function HeroSection() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [isAnimating, setIsAnimating] = useState(false)
+  const [showEventPromo, setShowEventPromo] = useState(false)
 
   const nextSlide = useCallback(() => {
     if (isAnimating) return
@@ -64,8 +65,74 @@ export function HeroSection() {
     return () => clearInterval(interval)
   }, [nextSlide])
 
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      setShowEventPromo(true)
+    }, 1200)
+
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  const closeEventPromo = () => {
+    setShowEventPromo(false)
+  }
+
   return (
     <section id="hero" className="relative min-h-screen overflow-hidden bg-background">
+      {showEventPromo && (
+        <div className="absolute right-12 bottom-18 z-20 hidden w-[18rem] md:block lg:right-20 lg:bottom-16 xl:right-28 xl:bottom-20">
+          <div className="overflow-hidden rounded-[1.75rem] border border-[#9d1111]/30 bg-[#161616]/92 text-white shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-xl">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#b71c1c] to-transparent" />
+
+            <div className="p-5">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex items-center gap-2">
+                  <span className="h-2.5 w-2.5 rounded-full bg-[#c81d25] shadow-[0_0_14px_rgba(200,29,37,0.75)]" />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.32em] text-white/70">
+                    Proximo Evento
+                  </span>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={closeEventPromo}
+                  className="rounded-full border border-white/10 p-1.5 text-white/50 transition-colors duration-300 hover:border-white/20 hover:text-white"
+                  aria-label="Cerrar anuncio del evento"
+                >
+                  <X className="h-3.5 w-3.5" />
+                </button>
+              </div>
+
+              <div className="mt-4">
+                <p className="font-serif text-3xl leading-none font-bold tracking-[0.04em] text-white">
+                  ARKANA
+                </p>
+                <p className="mt-3 text-[11px] uppercase tracking-[0.28em] text-[#cb3a3a]">
+                  Abrakadabrarealm x Coffee Club
+                </p>
+                <p className="mt-4 max-w-[22ch] text-sm leading-relaxed text-white/68">
+                  El lujo es dominacion, misterio y el privilegio de lo prohibido.
+                </p>
+              </div>
+
+              <div className="mt-5 flex items-center gap-3">
+                <Link
+                  href="/events/arkana"
+                  className="group inline-flex items-center gap-2 rounded-full bg-[#b9252c] px-5 py-3 text-xs font-semibold uppercase tracking-[0.22em] text-white transition-all duration-300 hover:bg-[#cc3239] hover:shadow-[0_14px_34px_rgba(185,37,44,0.35)]"
+                >
+                  Ver Evento
+                  <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" />
+                </Link>
+
+                <span className="text-[11px] uppercase tracking-[0.24em] text-white/38">
+                  Ritual
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Badge */}
       <div className="absolute top-28 left-1/2 z-10 -translate-x-1/2 sm:top-32">
         <p className="text-xs font-medium tracking-[0.3em] text-muted-foreground sm:text-sm">

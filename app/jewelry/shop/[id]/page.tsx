@@ -402,6 +402,23 @@ export default function ProductDetailPage() {
                 or ask any questions.
               </p>
 
+              <div className="mb-6 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/10 via-primary/5 to-background px-5 py-4 shadow-sm">
+                <div className="flex items-start gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary/15 text-2xl">
+                    🐶
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                      Purchase with purpose
+                    </p>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      With your purchase, you are also helping support a dog rescue
+                      foundation. The foundation name will be announced soon.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <a
                 href={whatsappHref}
                 target="_blank"

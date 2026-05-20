@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { ChevronDown, Sparkles, ClipboardPen, MessageSquareText, Scale, BadgeCheck, ArrowRight } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
+import { LuxuryFooter } from "@/components/luxury-footer"
 
 // Exact image paths from /public/Image-Models
 const heroImage = "/Image-Models/model-1.webp"
@@ -214,7 +215,7 @@ export default function ModelsPage() {
         <img
           src={heroImage}
           alt="Our Models"
-          className="absolute inset-0 w-full h-full object-cover"
+          className="absolute inset-0 w-full h-full object-cover object-[18%_center] sm:object-[28%_center] md:object-center"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-[#111]" />
 
@@ -782,6 +783,7 @@ export default function ModelsPage() {
       </section>
 
       <div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
+      <LuxuryFooter />
     </main>
   )
 }

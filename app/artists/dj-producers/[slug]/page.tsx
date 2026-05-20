@@ -12,6 +12,7 @@ import {
   ExternalLink,
 } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
+import { LuxuryFooter } from "@/components/luxury-footer"
 
 type DJProfile = {
   name: string
@@ -309,6 +310,7 @@ export default function DJDetailPage() {
       </section>
 
       <div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
+      <LuxuryFooter />
     </main>
   )
 }

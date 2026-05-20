@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react"
 import Link from "next/link"
-import { ArrowRight, Clock3, Layers3, ListVideo, Search } from "lucide-react"
+import { ArrowRight, Clock3, HeartHandshake, Layers3, ListVideo, Search } from "lucide-react"
 import { LuxuryFooter } from "@/components/luxury-footer"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { cn } from "@/lib/utils"
@@ -114,6 +114,37 @@ export default function CursosPage() {
             <p className="mt-6 text-center text-sm text-muted-foreground">
               Mostrando {filteredCourses.length} de {courses.length} cursos
             </p>
+
+            <div className="mt-8 rounded-3xl border border-primary/20 bg-card p-5 shadow-sm sm:p-6">
+              <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
+                <div className="flex gap-4">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                    <HeartHandshake className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+                      Donaciones abiertas
+                    </p>
+                    <h2 className="mt-1 font-serif text-2xl font-bold text-foreground">
+                      Cursos gratis, crecimiento compartido
+                    </h2>
+                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
+                      Todos los cursos son gratis. Agradecemos donaciones para seguir
+                      innovando, crear nuevos programas y construir la filosofia de
+                      Abrakadabra.
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  disabled
+                  className="shrink-0 rounded-full border border-primary/30 px-6 py-3 text-sm font-bold tracking-wider text-primary opacity-70"
+                >
+                  DONAR PRONTO
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </section>

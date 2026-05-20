@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, Disc3, ClipboardPen, MessageSquareText, Scale, BadgeCheck, X } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
+import { LuxuryFooter } from "@/components/luxury-footer"
 
 type DJProducer = {
   name: string
@@ -718,6 +719,7 @@ export default function DJProducersPage() {
 */}
 
       <div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
+      <LuxuryFooter />
     </main>
   )
 }

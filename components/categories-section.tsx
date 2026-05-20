@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { BookOpen, Car, Palette, Gem, Shirt, Calendar, Music, Users, ArrowUpRight } from "lucide-react"
+import { BookOpen, Car, Palette, Gem, Shirt, Calendar, Music, Users, ArrowUpRight, Heart } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const categories = [
@@ -13,6 +13,7 @@ const categories = [
   { name: "DJS / PRODUCERS", icon: Music, href: "/artists/dj-producers", color: "from-cyan-500/20 to-cyan-500/5", accent: "group-hover:text-cyan-500" },
   { name: "MODELS", icon: Users, href: "/artists/models", color: "from-pink-500/20 to-pink-500/5", accent: "group-hover:text-pink-500" },
   { name: "COURSES", icon: BookOpen, href: "/cursos", color: "from-primary/20 to-primary/5", accent: "group-hover:text-primary" },
+  { name: "PHILOSOPHY", icon: Heart, href: "/philosophy", color: "from-red-500/20 to-red-500/5", accent: "group-hover:text-primary" },
 ]
 
 const bentoItems = [

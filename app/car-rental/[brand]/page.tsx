@@ -6,6 +6,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowLeft, X, ChevronRight } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
+import { LuxuryFooter } from "@/components/luxury-footer"
 
 type Vehicle = {
   id: string
@@ -391,6 +392,7 @@ export default function BrandPage() {
           </motion.div>
         </div>
       </div>
+      <LuxuryFooter />
     </main>
   )
 }

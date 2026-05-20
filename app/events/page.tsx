@@ -75,6 +75,15 @@ const galleryImages = [
   "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=600&q=80",
 ]
 
+const featuredEventExperience = {
+  title: "Arkana",
+  subtitle: "Abrakadabrarealm x Coffee Club",
+  description:
+    "Un nuevo concepto destacado inspirado directamente en la estetica del press kit: energia editorial oscura, rojos refinados, referencias de lujo y una narrativa mucho mas inmersiva.",
+  image: "/events/arkana/lounge.jpg",
+  href: "/events/arkana",
+}
+
 function AnimatedCounter({ target, suffix = "" }: { target: string; suffix?: string }) {
   const numericPart = target.replace(/[^0-9]/g, "")
   const suffixPart = target.replace(/[0-9]/g, "")
@@ -419,6 +428,57 @@ export default function EventsPage() {
               )}
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-[#090909] py-28">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(120,0,0,0.18),transparent_28%),radial-gradient(circle_at_bottom_left,rgba(90,10,10,0.14),transparent_32%)]" />
+        <div className="relative container mx-auto px-6">
+          <ScrollReveal>
+            <div className="text-center">
+              <span className="text-primary text-xs font-semibold tracking-[0.3em] uppercase">
+                Experiencia Destacada
+              </span>
+              <h2 className="mt-4 font-serif text-4xl font-bold text-white md:text-6xl">
+                Un Nuevo Punto Dentro De
+                <span className="ml-3 italic text-primary">Events</span>
+              </h2>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal delay={120}>
+            <div className="mt-14 grid items-center gap-10 overflow-hidden rounded-[2rem] border border-white/10 bg-black/40 p-6 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-sm lg:grid-cols-[1.05fr_0.95fr] lg:p-8">
+              <div className="relative overflow-hidden rounded-[1.5rem]">
+                <img
+                  src={featuredEventExperience.image}
+                  alt={featuredEventExperience.title}
+                  className="aspect-[4/3] w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              </div>
+
+              <div>
+                <span className="text-primary text-xs font-semibold tracking-[0.3em] uppercase">
+                  {featuredEventExperience.subtitle}
+                </span>
+                <h3 className="mt-4 font-serif text-4xl font-bold text-white md:text-5xl">
+                  {featuredEventExperience.title}
+                </h3>
+                <div className="mt-6 h-px w-20 bg-primary" />
+                <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/68">
+                  {featuredEventExperience.description}
+                </p>
+
+                <a
+                  href={featuredEventExperience.href}
+                  className="group mt-10 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:shadow-xl hover:shadow-primary/20"
+                >
+                  Entrar A Arkana
+                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                </a>
+              </div>
+            </div>
+          </ScrollReveal>
         </div>
       </section>
 

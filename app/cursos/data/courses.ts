@@ -251,14 +251,8 @@ const courseDrafts: CourseDraft[] = [
             "https://youtu.be/fyOozWkGEsE?si=IIv7egrNfDObZpjF"
           ),
           createReferencedEpisodeWithUrl(
-            107,
-            6,
-            "ABRAKADABRAREALM",
-            "https://youtu.be/m6TG-K6NoJw?si=k5tFFIgNo_MlyEwF"
-          ),
-          createReferencedEpisodeWithUrl(
             136,
-            7,
+            6,
             "00. FOCUS PRESENCIAL",
             "https://youtu.be/08lSqlFM7BE?si=QbtDChvLT2L3hh4j"
           ),
@@ -720,10 +714,16 @@ const courseDrafts: CourseDraft[] = [
         description: "Introduccion al curso y bases del subconsciente.",
         order: 1,
         episodes: [
-          createReferencedPendingEpisode(130, 1, "80. DESBLOQUEA EL SIGUIENTE NIVEL - MACADAMIA (Bienvenida y Reglas)"),
-          createReferencedPendingEpisode(131, 2, "81. HERRAMIENTAS PARA EL SUBCONSCIENTE - MACADAMIA"),
-          createReferencedPendingEpisode(133, 3, "03. EL PODER DEL SUBCOSCIENTE - MACADAMIA"),
-          createReferencedPendingEpisode(134, 4, "82. REPROGRAMA TU MENTE - MACADAMIA"),
+          createReferencedEpisodeWithUrl(
+            107,
+            1,
+            "ABRAKADABRAREALM",
+            "https://youtu.be/m6TG-K6NoJw?si=k5tFFIgNo_MlyEwF"
+          ),
+          createReferencedPendingEpisode(130, 2, "80. DESBLOQUEA EL SIGUIENTE NIVEL - MACADAMIA (Bienvenida y Reglas)"),
+          createReferencedPendingEpisode(131, 3, "81. HERRAMIENTAS PARA EL SUBCONSCIENTE - MACADAMIA"),
+          createReferencedPendingEpisode(133, 4, "03. EL PODER DEL SUBCOSCIENTE - MACADAMIA"),
+          createReferencedPendingEpisode(134, 5, "82. REPROGRAMA TU MENTE - MACADAMIA"),
         ],
       },
       {

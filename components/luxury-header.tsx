@@ -89,14 +89,14 @@ export function LuxuryHeader() {
       >
         <nav
           className={cn(
-            "relative flex items-center justify-center rounded-full transition-all duration-500",
+            "relative flex items-center justify-between rounded-full transition-all duration-500 xl:justify-center",
             isScrolled
-              ? "bg-foreground/90 px-6 py-3 backdrop-blur-md shadow-lg"
-              : "bg-foreground/80 px-8 py-4 backdrop-blur-sm"
+              ? "bg-foreground/90 px-5 py-3 backdrop-blur-md shadow-lg sm:px-6"
+              : "bg-foreground/80 px-5 py-4 backdrop-blur-sm sm:px-8"
           )}
         >
           {/* Desktop Navigation Left */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden xl:flex items-center gap-6">
             {navLinks.slice(0, desktopSplitIndex).map((link) => (
               <a
                 key={link.name}
@@ -222,7 +222,7 @@ export function LuxuryHeader() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden text-background"
+            className="xl:hidden text-background"
             aria-label="Toggle Menu"
           >
             {isMobileMenuOpen ? (
@@ -236,7 +236,7 @@ export function LuxuryHeader() {
         {/* Mobile Menu */}
         <div
           className={cn(
-            "absolute top-full left-0 right-0 mt-2 overflow-hidden rounded-2xl bg-foreground/95 backdrop-blur-md transition-all duration-300 lg:hidden",
+            "absolute top-full left-0 right-0 mt-2 overflow-hidden rounded-2xl bg-foreground/95 backdrop-blur-md transition-all duration-300 xl:hidden",
             isMobileMenuOpen && !isMinimized
               ? "max-h-[500px] opacity-100"
               : "max-h-0 opacity-0 pointer-events-none"

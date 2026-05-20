@@ -5,6 +5,7 @@ import Link from "next/link"
 import { useParams } from "next/navigation"
 import { ArrowLeft, MapPin, Instagram, Sparkles } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
+import { LuxuryFooter } from "@/components/luxury-footer"
 
 const modelsData: Record<
   string,
@@ -60,7 +61,7 @@ const modelsData: Record<
 
 export default function ModelDetailPage() {
   const params = useParams()
-  const slug = Array.isArray(params.slug) ? params.slug[0] : params.slug
+  const slug = (Array.isArray(params.slug) ? params.slug[0] : params.slug) ?? ""
   const model = modelsData[slug]
 
   if (!model) {
@@ -193,6 +194,7 @@ export default function ModelDetailPage() {
 
       {/* Red gradient bottom bar */}
       <div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
+      <LuxuryFooter />
     </main>
   )
 }

@@ -268,28 +268,6 @@ export const allProducts: JewelryProduct[] = [
   },
 
   {
-    id: 12,
-    name: "EMERALD PENDANT",
-    price: 0,
-    material: "emeralds",
-    type: "necklaces",
-    image: "/jewelry/emerald-pendant.webp",
-    images: ["/jewelry/emerald-pendant.webp",
-            "/jewelry/emerald-pendant2.webp",
-            "/jewelry/emerald-pendant3.webp",
-            "/jewelry/emerald-pendant4.webp"
-            ],
-    collection: "Necklaces",
-    description: `This elegant pendant featuring a rectangular emerald stands out for its crystalline beauty and minimalist sophistication. The precisely cut emerald is secured at its four corners by delicate Italian 18K gold prongs, elevating the gemstone and allowing light to pass freely through it, enhancing its natural brilliance and clarity.`,
-    specs: {
-      stone: "Emerald cut (green)",
-      metal: "Gold tone (suggested)",
-      finish: "Polished",
-      style: "Pendant",
-    },
-  },
-
-  {
     id: 13,
     name: "Said Round Green",
     price: 0,
