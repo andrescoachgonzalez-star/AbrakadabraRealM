@@ -6,7 +6,7 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
-    "start": "node scripts/start-next.mjs"
+    "start": "node server.js"
   },
   "dependencies": {
     "@emotion/is-prop-valid": "latest",
