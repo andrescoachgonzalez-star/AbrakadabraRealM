@@ -5,9 +5,14 @@ import { cn } from "@/lib/utils"
 import { SlidersHorizontal, X, ChevronDown, ChevronUp, Search } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { LuxuryFooter } from "@/components/luxury-footer"
-
-// ✅ IMPORTA la fuente única de productos (la que ya tienes en jewelry/data)
-import { allProducts } from "../data/jewelry-products"
+import {
+  formatJewelryPrice,
+  getJewelryProducts,
+  getStaticJewelryProducts,
+  isCatalogVisible,
+  sortCatalogProducts,
+  type JewelryProduct,
+} from "@/lib/jewelry-api"
 
 const materialFilters = [
   { id: "gold", label: "Gold", color: "bg-amber-500" },
@@ -21,8 +26,9 @@ const typeFilters = [
   { id: "necklaces", label: "Necklaces", disabled: false },
   { id: "bracelets", label: "Bracelets", disabled: false },
   { id: "earrings", label: "Earrings", disabled: false },
-  { id: "chains", label: "Chains", disabled: true },
-  { id: "watches", label: "Watches", disabled: true },
+  { id: "chains", label: "Chains", disabled: false },
+  { id: "charms", label: "Charms", disabled: false },
+  { id: "pendants", label: "Pendants", disabled: false },
 ]
 
 export default function ShopPage() {
@@ -34,6 +40,9 @@ export default function ShopPage() {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+  const [products, setProducts] = useState<JewelryProduct[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
 
   // Filter sections open state
   const [openSections, setOpenSections] = useState({
@@ -51,6 +60,37 @@ export default function ShopPage() {
       setSelectedTypes([initialType])
     }
   }, [initialMaterial, initialType])
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadProducts() {
+      setIsLoading(true)
+      setLoadError(null)
+
+      try {
+        const data = await getJewelryProducts()
+        if (isMounted) {
+          setProducts(data)
+        }
+      } catch (error) {
+        if (isMounted) {
+          setProducts(getStaticJewelryProducts())
+          setLoadError(error instanceof Error ? error.message : "Could not load jewelry catalog")
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    loadProducts()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   const toggleSection = (section: keyof typeof openSections) => {
     setOpenSections((prev) => ({ ...prev, [section]: !prev[section] }))
@@ -75,7 +115,7 @@ export default function ShopPage() {
   }
 
   const filteredProducts = useMemo(() => {
-    let filtered = [...allProducts]
+    let filtered = products.filter(isCatalogVisible)
 
     // Search filter
     if (searchQuery.trim()) {
@@ -83,7 +123,8 @@ export default function ShopPage() {
       filtered = filtered.filter(
         (p) =>
           p.name.toLowerCase().includes(query) ||
-          (p.collection?.toLowerCase?.() ?? "").includes(query)
+          (p.collection?.toLowerCase?.() ?? "").includes(query) ||
+          (p.sku?.toLowerCase?.() ?? "").includes(query)
       )
     }
 
@@ -95,8 +136,8 @@ export default function ShopPage() {
       filtered = filtered.filter((p) => selectedTypes.includes(p.type))
     }
 
-    return filtered
-  }, [selectedMaterials, selectedTypes, searchQuery])
+    return sortCatalogProducts(filtered)
+  }, [products, selectedMaterials, selectedTypes, searchQuery])
 
   const activeFiltersCount = selectedMaterials.length + selectedTypes.length
 
@@ -151,9 +192,17 @@ export default function ShopPage() {
                 )}
               </button>
               <p className="text-sm text-muted-foreground">
-                {filteredProducts.length} {filteredProducts.length === 1 ? "piece" : "pieces"}
+                {isLoading
+                  ? "Loading pieces..."
+                  : `${filteredProducts.length} ${filteredProducts.length === 1 ? "piece" : "pieces"}`}
               </p>
             </div>
+
+            {loadError && (
+              <p className="text-xs text-muted-foreground">
+                Showing the local catalog while the backend responds.
+              </p>
+            )}
 
             {/* Active Filters */}
             {activeFiltersCount > 0 && (
@@ -383,6 +432,12 @@ export default function ShopPage() {
                       </div>
                     )}
 
+                    {product.status === "sold_out" && (
+                      <div className="absolute top-3 right-3 px-2.5 py-1 bg-background/90 text-foreground text-xs font-semibold tracking-wider rounded-full border border-border">
+                        Agotado
+                      </div>
+                    )}
+
                     {/* View Details Overlay */}
                     <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
                       <span className="px-6 py-2.5 bg-background text-foreground rounded-full font-medium text-sm tracking-wider transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
@@ -395,6 +450,7 @@ export default function ShopPage() {
                   <div className="p-4">
                     <p className="text-xs font-medium tracking-wider text-primary uppercase mb-1">
                       {product.collection}
+                      {product.isFeatured ? " • Featured" : ""}
                     </p>
                     <h3 className="font-serif text-lg font-bold text-foreground line-clamp-1">
                       {product.name}
@@ -402,7 +458,7 @@ export default function ShopPage() {
 
                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
                       <span className="font-serif text-xl font-bold text-foreground">
-                        On Demand
+                        {product.status === "sold_out" ? "Agotado" : formatJewelryPrice(product)}
                       </span>
                       <div
                         className={cn(

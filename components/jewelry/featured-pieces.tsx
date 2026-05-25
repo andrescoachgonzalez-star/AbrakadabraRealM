@@ -1,24 +1,40 @@
 "use client"
 
-import Image from "next/image"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { cn } from "@/lib/utils"
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Eye } from "lucide-react"
-
-// ✅ Fuente única de productos (MISMA que usa /shop y /shop/[id])
-import { allProducts } from "../../app/jewelry/data/jewelry-products"
+import {
+  formatJewelryPrice,
+  getJewelryProducts,
+  getStaticJewelryProducts,
+  isCatalogVisible,
+  sortCatalogProducts,
+} from "@/lib/jewelry-api"
 
 type FeaturedPiece = {
-  id: number
+  id: string
   name: string
   category: "Ring" | "Necklace" | "Pendant" | "Charm" | "Bracelet" | "Earring" | "Chain"
   collection: string
-  badge?: "FREE SHIPPING" | "NEW" | "SALE"
+  badge?: "FEATURED" | "NEW" | "Agotado"
   stone?: string
   material?: string
+  priceLabel: string
+  status: string
   imageSrc: string
   imageAlt: string
+}
+
+function getBadge(piece: {
+  isNew: boolean
+  isFeatured: boolean
+  status: string
+}): FeaturedPiece["badge"] {
+  if (piece.status === "sold_out") return "Agotado"
+  if (piece.isNew) return "NEW"
+  if (piece.isFeatured) return "FEATURED"
+  return undefined
 }
 
 // Mapea el "type" interno a la etiqueta bonita que ya usas en UI
@@ -44,33 +60,54 @@ function mapTypeToCategory(type: string): FeaturedPiece["category"] {
 }
 
 export function FeaturedPieces() {
-  const [hoveredId, setHoveredId] = useState<number | null>(null)
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
+  const [products, setProducts] = useState(getStaticJewelryProducts())
+
+  useEffect(() => {
+    let isMounted = true
+
+    getJewelryProducts()
+      .then((data) => {
+        if (isMounted) {
+          setProducts(data)
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setProducts(getStaticJewelryProducts())
+        }
+      })
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
 
   // ✅ Selección destacada SIN duplicar data:
   // - Prioriza isNew si existe
   // - Si no hay suficientes, completa con los primeros
   // - Deja exactamente 6 como tu layout original
   const featuredPieces: FeaturedPiece[] = useMemo(() => {
-    const normalized = allProducts.map((p) => ({
+    const normalized = sortCatalogProducts(products.filter(isCatalogVisible)).map((p) => ({
       id: p.id,
       name: p.name,
       category: mapTypeToCategory(p.type),
       collection: p.collection ?? "Collection",
-      badge: (p as any).badge
-        ? ((p as any).badge as FeaturedPiece["badge"])
-        : (p.isNew ? "NEW" : "FREE SHIPPING"),
-      stone: (p as any).stone,
+      badge: getBadge(p),
+      stone: p.specs.Stone ?? p.specs.stone,
       material: p.material ? p.material.charAt(0).toUpperCase() + p.material.slice(1) : undefined,
       imageSrc: p.image,
       imageAlt: p.name,
+      priceLabel: p.status === "sold_out" ? "Agotado" : formatJewelryPrice(p),
+      status: p.status,
     }))
 
-    const news = normalized.filter((p) => p.badge === "NEW")
-    const rest = normalized.filter((p) => p.badge !== "NEW")
+    const priority = normalized.filter((p) => p.badge === "FEATURED" || p.badge === "NEW")
+    const rest = normalized.filter((p) => p.badge !== "FEATURED" && p.badge !== "NEW")
 
-    const selected = [...news, ...rest].slice(0, 6)
+    const selected = [...priority, ...rest].slice(0, 6)
     return selected
-  }, [])
+  }, [products])
 
   return (
     <section className="py-32 bg-background relative overflow-hidden">
@@ -106,13 +143,10 @@ export function FeaturedPieces() {
               >
                 {/* IMAGE */}
                 <div className="relative aspect-square bg-white overflow-hidden">
-                  <Image
+                  <img
                     src={piece.imageSrc}
                     alt={piece.imageAlt}
-                    fill
-                    className="object-contain p-10 transition-transform duration-500 group-hover:scale-[1.02]"
-                    priority={index < 3}
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="h-full w-full object-contain p-10 transition-transform duration-500 group-hover:scale-[1.02]"
                   />
 
                   {/* BADGE */}
@@ -159,7 +193,7 @@ export function FeaturedPieces() {
                   <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
                     <div className="flex items-baseline gap-3">
                       <span className="font-serif text-xl font-bold text-foreground">
-                        On Demand
+                        {piece.priceLabel}
                       </span>
                     </div>
 

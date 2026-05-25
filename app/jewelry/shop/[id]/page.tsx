@@ -7,9 +7,15 @@ import { cn } from "@/lib/utils"
 import { CONTACT_INFO } from "@/lib/contact-info"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { LuxuryFooter } from "@/components/luxury-footer"
-
-// ✅ Fuente única de productos
-import { allProducts } from "../../data/jewelry-products"
+import {
+  formatJewelryPrice,
+  getJewelryProduct,
+  getJewelryProducts,
+  getStaticJewelryProducts,
+  isCatalogVisible,
+  sortCatalogProducts,
+  type JewelryProduct,
+} from "@/lib/jewelry-api"
 
 const materialColors: Record<string, string> = {
   gold: "bg-amber-500",
@@ -28,13 +34,10 @@ const materialLabels: Record<string, string> = {
 export default function ProductDetailPage() {
   const { id } = useParams<{ id: string }>()
   const router = useRouter()
-  const productId = Number(id)
 
-  const product = useMemo(
-    () => allProducts.find((p) => p.id === productId),
-    [productId]
-  )
-
+  const [product, setProduct] = useState<JewelryProduct | null>(null)
+  const [products, setProducts] = useState<JewelryProduct[]>([])
+  const [isLoading, setIsLoading] = useState(true)
   const [selectedImageIndex, setSelectedImageIndex] = useState(0)
   const [isLoaded, setIsLoaded] = useState(false)
   const [activeTab, setActiveTab] = useState<"details" | "shipping" | "care">(
@@ -45,10 +48,73 @@ export default function ProductDetailPage() {
     setIsLoaded(true)
   }, [])
 
-  // ✅ si cambias de producto, vuelve a la primera imagen
   useEffect(() => {
     setSelectedImageIndex(0)
-  }, [productId])
+  }, [id])
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadProduct() {
+      setIsLoading(true)
+
+      try {
+        const [detail, catalog] = await Promise.all([
+          getJewelryProduct(id),
+          getJewelryProducts().catch(() => []),
+        ])
+
+        if (isMounted) {
+          setProduct(isCatalogVisible(detail) ? detail : null)
+          setProducts(catalog)
+        }
+      } catch {
+        const fallbackProducts = getStaticJewelryProducts()
+        if (isMounted) {
+          setProduct(fallbackProducts.find((item) => item.id === id) ?? null)
+          setProducts(fallbackProducts)
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoading(false)
+        }
+      }
+    }
+
+    loadProduct()
+
+    return () => {
+      isMounted = false
+    }
+  }, [id])
+
+  const galleryImages = useMemo(() => {
+    const resolved = product?.images?.length
+      ? product.images
+      : product?.image
+        ? [product.image]
+        : ["/placeholder.svg"]
+    return Array.from(new Set(resolved))
+  }, [product])
+
+  const safeIndex =
+    selectedImageIndex >= 0 && selectedImageIndex < galleryImages.length ? selectedImageIndex : 0
+
+  const relatedProducts = useMemo(() => {
+    if (!product) return []
+
+    return sortCatalogProducts(products.filter(isCatalogVisible))
+      .filter((p) => p.material === product.material && p.id !== product.id)
+      .slice(0, 4)
+  }, [product, products])
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <p className="text-sm text-muted-foreground">Loading piece...</p>
+      </div>
+    )
+  }
 
   if (!product) {
     return (
@@ -64,36 +130,6 @@ export default function ProductDetailPage() {
       </div>
     )
   }
-
-  // ✅ GALERÍA REAL: usa product.images si viene, si no usa product.image
-  const galleryImages = useMemo(() => {
-    const fromArray =
-      Array.isArray((product as any).images) && (product as any).images.length > 0
-        ? ((product as any).images as string[])
-        : []
-
-    const main =
-      typeof (product as any).image === "string" ? ((product as any).image as string) : ""
-
-    // Si hay images, úsalo. Si no, usa la principal. Si no hay nada, placeholder.
-    const resolved =
-      fromArray.length > 0 ? fromArray : main ? [main] : ["/placeholder.svg"]
-
-    // Quita duplicados por si el array repite la principal
-    return Array.from(new Set(resolved))
-  }, [product])
-
-  // ✅ evita crashear si el index quedó fuera
-  const safeIndex =
-    selectedImageIndex >= 0 && selectedImageIndex < galleryImages.length
-      ? selectedImageIndex
-      : 0
-
-  const relatedProducts = useMemo(() => {
-    return allProducts
-      .filter((p) => p.material === product.material && p.id !== product.id)
-      .slice(0, 4)
-  }, [product])
 
   const contactMessage = `Hi, I'm interested in the ${product.name} from the ${product.collection} Collection. Could you provide more details?`
   const whatsappHref = `https://wa.me/${CONTACT_INFO.colombia.whatsappNumber}?text=${encodeURIComponent(
@@ -172,6 +208,12 @@ export default function ProductDetailPage() {
                   NEW ARRIVAL
                 </div>
               )}
+
+              {product.status === "sold_out" && (
+                <div className="absolute top-4 right-4 px-3 py-1.5 bg-background/90 text-foreground text-xs font-bold tracking-wider rounded-full border border-border">
+                  Agotado
+                </div>
+              )}
             </div>
 
             {/* Thumbnails */}
@@ -230,8 +272,13 @@ export default function ProductDetailPage() {
             {/* Availability */}
             <div className="mb-8">
               <span className="font-serif text-3xl font-bold text-foreground">
-                On Demand
+                {product.status === "sold_out" ? "Agotado" : formatJewelryPrice(product)}
               </span>
+              {product.status === "sold_out" && (
+                <p className="mt-3 text-sm text-muted-foreground">
+                  This piece is currently unavailable. Contact us and we can help you find a similar option.
+                </p>
+              )}
             </div>
 
             {/* Divider */}
@@ -554,7 +601,7 @@ export default function ProductDetailPage() {
                       {item.name}
                     </h3>
                     <p className="font-serif text-foreground font-bold">
-                      On Demand
+                      {item.status === "sold_out" ? "Agotado" : formatJewelryPrice(item)}
                     </p>
                   </a>
                 </ScrollReveal>
