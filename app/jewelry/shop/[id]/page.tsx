@@ -8,7 +8,6 @@ import { CONTACT_INFO } from "@/lib/contact-info"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { LuxuryFooter } from "@/components/luxury-footer"
 import {
-  formatJewelryPrice,
   getJewelryProduct,
   getJewelryProducts,
   getStaticJewelryProducts,
@@ -29,6 +28,26 @@ const materialLabels: Record<string, string> = {
   diamonds: "Diamonds",
   emeralds: "Emeralds",
   rubies: "Rubies",
+}
+
+function formatDisplayPrice(product: JewelryProduct) {
+  if (product.status === "sold_out") {
+    return "Agotado"
+  }
+
+  const price = Number(product.price)
+
+  if (!Number.isFinite(price) || price <= 0) {
+    return "On Demand"
+  }
+
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "code",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price)
 }
 
 export default function ProductDetailPage() {
@@ -65,13 +84,16 @@ export default function ProductDetailPage() {
         ])
 
         if (isMounted) {
-          setProduct(isCatalogVisible(detail) ? detail : null)
+          setProduct(detail && isCatalogVisible(detail) ? detail : null)
           setProducts(catalog)
         }
       } catch {
         const fallbackProducts = getStaticJewelryProducts()
+
         if (isMounted) {
-          setProduct(fallbackProducts.find((item) => item.id === id) ?? null)
+          setProduct(
+            fallbackProducts.find((item) => String(item.id) === String(id)) ?? null
+          )
           setProducts(fallbackProducts)
         }
       } finally {
@@ -94,11 +116,14 @@ export default function ProductDetailPage() {
       : product?.image
         ? [product.image]
         : ["/placeholder.svg"]
+
     return Array.from(new Set(resolved))
   }, [product])
 
   const safeIndex =
-    selectedImageIndex >= 0 && selectedImageIndex < galleryImages.length ? selectedImageIndex : 0
+    selectedImageIndex >= 0 && selectedImageIndex < galleryImages.length
+      ? selectedImageIndex
+      : 0
 
   const relatedProducts = useMemo(() => {
     if (!product) return []
@@ -135,8 +160,12 @@ export default function ProductDetailPage() {
   const whatsappHref = `https://wa.me/${CONTACT_INFO.colombia.whatsappNumber}?text=${encodeURIComponent(
     contactMessage
   )}`
-  const smsColombiaHref = `${CONTACT_INFO.colombia.smsHref}?body=${encodeURIComponent(contactMessage)}`
-  const smsUsaHref = `${CONTACT_INFO.usa.smsHref}?body=${encodeURIComponent(contactMessage)}`
+  const smsColombiaHref = `${CONTACT_INFO.colombia.smsHref}?body=${encodeURIComponent(
+    contactMessage
+  )}`
+  const smsUsaHref = `${CONTACT_INFO.usa.smsHref}?body=${encodeURIComponent(
+    contactMessage
+  )}`
 
   const handleGoBack = () => {
     if (typeof window !== "undefined" && window.history.length > 1) {
@@ -200,7 +229,6 @@ export default function ProductDetailPage() {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
 
-              {/* Shimmer effect */}
               <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
 
               {product.isNew && (
@@ -246,7 +274,6 @@ export default function ProductDetailPage() {
               isLoaded ? "opacity-100 translate-x-0" : "opacity-0 translate-x-8"
             )}
           >
-            {/* Collection & Material */}
             <div className="flex items-center gap-3 mb-4">
               <span className="text-xs font-semibold tracking-[0.2em] text-primary uppercase">
                 {product.collection} Collection
@@ -264,16 +291,16 @@ export default function ProductDetailPage() {
               </div>
             </div>
 
-            {/* Name */}
             <h1 className="font-serif text-3xl md:text-4xl lg:text-5xl font-bold text-foreground leading-tight mb-6 text-balance">
               {product.name}
             </h1>
 
-            {/* Availability */}
+            {/* Price */}
             <div className="mb-8">
               <span className="font-serif text-3xl font-bold text-foreground">
-                {product.status === "sold_out" ? "Agotado" : formatJewelryPrice(product)}
+                {formatDisplayPrice(product)}
               </span>
+
               {product.status === "sold_out" && (
                 <p className="mt-3 text-sm text-muted-foreground">
                   This piece is currently unavailable. Contact us and we can help you find a similar option.
@@ -281,7 +308,6 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* Divider */}
             <div className="h-px bg-gradient-to-r from-border via-primary/20 to-border mb-8" />
 
             {/* Tabs */}
@@ -302,7 +328,6 @@ export default function ProductDetailPage() {
               ))}
             </div>
 
-            {/* Tab Content */}
             <div className="min-h-[200px]">
               {activeTab === "details" && (
                 <div className="animate-in fade-in duration-500">
@@ -310,7 +335,6 @@ export default function ProductDetailPage() {
                     {product.description ?? "Details coming soon."}
                   </p>
 
-                  {/* Specs Grid */}
                   <div className="grid grid-cols-2 gap-4">
                     {Object.entries(product.specs ?? {}).map(([key, value]) => (
                       <div
@@ -436,7 +460,7 @@ export default function ProductDetailPage() {
               )}
             </div>
 
-            {/* Interested Section (igual que tu código) */}
+            {/* Interested Section */}
             <div className="mt-10 bg-secondary/50 rounded-2xl p-6 border border-border">
               <p className="text-xs font-semibold tracking-[0.2em] text-primary uppercase mb-2">
                 Made to Order
@@ -597,11 +621,13 @@ export default function ProductDetailPage() {
                         </span>
                       </div>
                     </div>
+
                     <h3 className="font-serif font-bold text-foreground text-sm mb-1 group-hover:text-primary transition-colors duration-300">
                       {item.name}
                     </h3>
+
                     <p className="font-serif text-foreground font-bold">
-                      {item.status === "sold_out" ? "Agotado" : formatJewelryPrice(item)}
+                      {formatDisplayPrice(item)}
                     </p>
                   </a>
                 </ScrollReveal>

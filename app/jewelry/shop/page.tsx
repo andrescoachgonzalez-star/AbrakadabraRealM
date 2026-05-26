@@ -1,12 +1,11 @@
 "use client"
 
-import { useState, useEffect, useMemo } from "react"
+import { Suspense, useEffect, useMemo, useState } from "react"
 import { cn } from "@/lib/utils"
 import { SlidersHorizontal, X, ChevronDown, ChevronUp, Search } from "lucide-react"
 import { useSearchParams } from "next/navigation"
 import { LuxuryFooter } from "@/components/luxury-footer"
 import {
-  formatJewelryPrice,
   getJewelryProducts,
   getStaticJewelryProducts,
   isCatalogVisible,
@@ -31,7 +30,27 @@ const typeFilters = [
   { id: "pendants", label: "Pendants", disabled: false },
 ]
 
-export default function ShopPage() {
+function formatDisplayPrice(product: JewelryProduct) {
+  if (product.status === "sold_out") {
+    return "Agotado"
+  }
+
+  const price = Number(product.price)
+
+  if (!Number.isFinite(price) || price <= 0) {
+    return "On Demand"
+  }
+
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    currencyDisplay: "code",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price)
+}
+
+function ShopPageContent() {
   const searchParams = useSearchParams()
   const initialMaterial = searchParams.get("material")
   const initialType = searchParams.get("type")
@@ -44,18 +63,17 @@ export default function ShopPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
 
-  // Filter sections open state
   const [openSections, setOpenSections] = useState({
     material: true,
     type: true,
     price: true,
   })
 
-  // Apply URL params on mount
   useEffect(() => {
     if (initialMaterial) {
       setSelectedMaterials([initialMaterial])
     }
+
     if (initialType && typeFilters.some((type) => type.id === initialType && !type.disabled)) {
       setSelectedTypes([initialType])
     }
@@ -70,6 +88,7 @@ export default function ShopPage() {
 
       try {
         const data = await getJewelryProducts()
+
         if (isMounted) {
           setProducts(data)
         }
@@ -97,7 +116,9 @@ export default function ShopPage() {
   }
 
   const toggleMaterial = (id: string) => {
-    setSelectedMaterials((prev) => (prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]))
+    setSelectedMaterials((prev) =>
+      prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
+    )
   }
 
   const toggleType = (id: string) => {
@@ -105,7 +126,9 @@ export default function ShopPage() {
       return
     }
 
-    setSelectedTypes((prev) => (prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]))
+    setSelectedTypes((prev) =>
+      prev.includes(id) ? prev.filter((t) => t !== id) : [...prev, id]
+    )
   }
 
   const clearAllFilters = () => {
@@ -117,9 +140,9 @@ export default function ShopPage() {
   const filteredProducts = useMemo(() => {
     let filtered = products.filter(isCatalogVisible)
 
-    // Search filter
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase()
+
       filtered = filtered.filter(
         (p) =>
           p.name.toLowerCase().includes(query) ||
@@ -143,11 +166,9 @@ export default function ShopPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
-      {/* Simple Header - Not sticky */}
       <div className="border-b border-border bg-card/50">
         <div className="container mx-auto px-4 py-6">
           <div className="flex flex-col gap-4">
-            {/* Title Row */}
             <div className="flex items-center justify-between">
               <div>
                 <a
@@ -159,13 +180,13 @@ export default function ShopPage() {
                   </svg>
                   Back to Collection
                 </a>
+
                 <h1 className="font-serif text-3xl md:text-4xl font-bold text-foreground">
                   Shop Collection
                 </h1>
               </div>
             </div>
 
-            {/* Search Bar */}
             <div className="relative max-w-md">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <input
@@ -177,7 +198,6 @@ export default function ShopPage() {
               />
             </div>
 
-            {/* Mobile Filter Button + Results Count */}
             <div className="flex items-center justify-between">
               <button
                 onClick={() => setIsFilterOpen(true)}
@@ -191,6 +211,7 @@ export default function ShopPage() {
                   </span>
                 )}
               </button>
+
               <p className="text-sm text-muted-foreground">
                 {isLoading
                   ? "Loading pieces..."
@@ -204,11 +225,11 @@ export default function ShopPage() {
               </p>
             )}
 
-            {/* Active Filters */}
             {activeFiltersCount > 0 && (
               <div className="flex flex-wrap items-center gap-2">
                 {selectedMaterials.map((m) => {
                   const material = materialFilters.find((f) => f.id === m)
+
                   return (
                     <button
                       key={m}
@@ -220,8 +241,10 @@ export default function ShopPage() {
                     </button>
                   )
                 })}
+
                 {selectedTypes.map((t) => {
                   const type = typeFilters.find((f) => f.id === t)
+
                   return (
                     <button
                       key={t}
@@ -233,6 +256,7 @@ export default function ShopPage() {
                     </button>
                   )
                 })}
+
                 <button
                   onClick={clearAllFilters}
                   className="text-xs text-muted-foreground hover:text-foreground transition-colors underline"
@@ -247,10 +271,8 @@ export default function ShopPage() {
 
       <div className="container mx-auto px-4 py-8 flex-1">
         <div className="flex gap-8">
-          {/* Sidebar Filters - Desktop */}
           <aside className="hidden lg:block w-64 flex-shrink-0">
             <div className="sticky top-8 space-y-6">
-              {/* Material Filter */}
               <div className="border-b border-border pb-6">
                 <button
                   onClick={() => toggleSection("material")}
@@ -263,6 +285,7 @@ export default function ShopPage() {
                     <ChevronDown className="w-4 h-4" />
                   )}
                 </button>
+
                 {openSections.material && (
                   <div className="mt-4 space-y-3">
                     {materialFilters.map((material) => (
@@ -295,7 +318,9 @@ export default function ShopPage() {
                             </svg>
                           )}
                         </div>
+
                         <div className={cn("w-3 h-3 rounded-full", material.color)} />
+
                         <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">
                           {material.label}
                         </span>
@@ -305,7 +330,6 @@ export default function ShopPage() {
                 )}
               </div>
 
-              {/* Type Filter */}
               <div className="border-b border-border pb-6">
                 <button
                   onClick={() => toggleSection("type")}
@@ -318,6 +342,7 @@ export default function ShopPage() {
                     <ChevronDown className="w-4 h-4" />
                   )}
                 </button>
+
                 {openSections.type && (
                   <div className="mt-4 space-y-3">
                     {typeFilters.map((type) => (
@@ -355,6 +380,7 @@ export default function ShopPage() {
                             </svg>
                           )}
                         </div>
+
                         <span
                           className={cn(
                             "text-sm text-muted-foreground transition-colors",
@@ -369,7 +395,6 @@ export default function ShopPage() {
                 )}
               </div>
 
-              {/* Price Filter */}
               <div className="pb-6">
                 <button
                   onClick={() => toggleSection("price")}
@@ -382,11 +407,13 @@ export default function ShopPage() {
                     <ChevronDown className="w-4 h-4" />
                   )}
                 </button>
+
                 {openSections.price && (
                   <div className="mt-4">
                     <div className="mb-3 flex items-center justify-between text-sm">
                       <span className="text-muted-foreground">On Demand</span>
                     </div>
+
                     <input
                       type="range"
                       min={0}
@@ -397,6 +424,7 @@ export default function ShopPage() {
                       aria-disabled="true"
                       className="h-2 w-full cursor-not-allowed appearance-none rounded-full bg-secondary accent-primary opacity-50"
                     />
+
                     <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
                       <span>Lower</span>
                       <span>Higher</span>
@@ -407,7 +435,6 @@ export default function ShopPage() {
             </div>
           </aside>
 
-          {/* Products Grid - Always 3 columns */}
           <div className="flex-1">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProducts.map((product, index) => (
@@ -417,7 +444,6 @@ export default function ShopPage() {
                   className="group relative bg-card rounded-2xl overflow-hidden border border-border transition-all duration-500 hover:shadow-2xl hover:border-primary/20 hover:-translate-y-1 block"
                   style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  {/* Image */}
                   <div className="relative bg-gradient-to-br from-secondary via-muted to-secondary overflow-hidden aspect-square">
                     <img
                       src={product.image || "/placeholder.svg"}
@@ -425,7 +451,6 @@ export default function ShopPage() {
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
 
-                    {/* New Badge */}
                     {product.isNew && (
                       <div className="absolute top-3 left-3 px-2.5 py-1 bg-primary text-primary-foreground text-xs font-semibold tracking-wider rounded-full">
                         NEW
@@ -438,7 +463,6 @@ export default function ShopPage() {
                       </div>
                     )}
 
-                    {/* View Details Overlay */}
                     <div className="absolute inset-0 bg-foreground/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
                       <span className="px-6 py-2.5 bg-background text-foreground rounded-full font-medium text-sm tracking-wider transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
                         View Details
@@ -446,20 +470,21 @@ export default function ShopPage() {
                     </div>
                   </div>
 
-                  {/* Content */}
                   <div className="p-4">
                     <p className="text-xs font-medium tracking-wider text-primary uppercase mb-1">
                       {product.collection}
                       {product.isFeatured ? " • Featured" : ""}
                     </p>
+
                     <h3 className="font-serif text-lg font-bold text-foreground line-clamp-1">
                       {product.name}
                     </h3>
 
                     <div className="flex items-center justify-between mt-3 pt-3 border-t border-border">
                       <span className="font-serif text-xl font-bold text-foreground">
-                        {product.status === "sold_out" ? "Agotado" : formatJewelryPrice(product)}
+                        {formatDisplayPrice(product)}
                       </span>
+
                       <div
                         className={cn(
                           "w-3 h-3 rounded-full",
@@ -472,10 +497,10 @@ export default function ShopPage() {
               ))}
             </div>
 
-            {/* No Results */}
-            {filteredProducts.length === 0 && (
+            {!isLoading && filteredProducts.length === 0 && (
               <div className="text-center py-20">
                 <p className="text-muted-foreground mb-4">No pieces match your filters</p>
+
                 <button
                   onClick={clearAllFilters}
                   className="px-6 py-2 bg-primary text-primary-foreground rounded-full font-medium text-sm hover:bg-primary/90 transition-colors"
@@ -488,31 +513,29 @@ export default function ShopPage() {
         </div>
       </div>
 
-      {/* Mobile Filter Drawer */}
       <div
         className={cn(
           "fixed inset-0 z-50 lg:hidden transition-all duration-300",
           isFilterOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
         )}
       >
-        {/* Backdrop */}
         <div
           className="absolute inset-0 bg-foreground/50 backdrop-blur-sm"
           onClick={() => setIsFilterOpen(false)}
         />
 
-        {/* Drawer */}
         <div
           className={cn(
             "absolute bottom-0 left-0 right-0 bg-background rounded-t-3xl max-h-[80vh] overflow-y-auto transition-transform duration-300",
             isFilterOpen ? "translate-y-0" : "translate-y-full"
           )}
         >
-          {/* Handle */}
           <div className="sticky top-0 bg-background pt-4 pb-2 px-6 border-b border-border">
             <div className="w-12 h-1.5 bg-muted rounded-full mx-auto mb-4" />
+
             <div className="flex items-center justify-between">
               <h2 className="font-serif text-xl font-bold">Filters</h2>
+
               <button
                 onClick={() => setIsFilterOpen(false)}
                 className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center"
@@ -523,9 +546,9 @@ export default function ShopPage() {
           </div>
 
           <div className="p-6 space-y-6">
-            {/* Material Filter */}
             <div>
               <h3 className="font-semibold text-foreground mb-4">Material</h3>
+
               <div className="flex flex-wrap gap-2">
                 {materialFilters.map((material) => (
                   <button
@@ -545,9 +568,9 @@ export default function ShopPage() {
               </div>
             </div>
 
-            {/* Type Filter */}
             <div>
               <h3 className="font-semibold text-foreground mb-4">Type</h3>
+
               <div className="flex flex-wrap gap-2">
                 {typeFilters.map((type) => (
                   <button
@@ -559,8 +582,8 @@ export default function ShopPage() {
                       type.disabled
                         ? "cursor-not-allowed border-border text-muted-foreground/40"
                         : selectedTypes.includes(type.id)
-                        ? "border-primary bg-primary/10 text-primary"
-                        : "border-border text-muted-foreground hover:border-primary/50"
+                          ? "border-primary bg-primary/10 text-primary"
+                          : "border-border text-muted-foreground hover:border-primary/50"
                     )}
                   >
                     {type.label}
@@ -569,13 +592,14 @@ export default function ShopPage() {
               </div>
             </div>
 
-            {/* Price Filter */}
             <div>
               <h3 className="font-semibold text-foreground mb-4">Price Range</h3>
+
               <div>
                 <div className="mb-3 flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">On Demand</span>
                 </div>
+
                 <input
                   type="range"
                   min={0}
@@ -586,6 +610,7 @@ export default function ShopPage() {
                   aria-disabled="true"
                   className="h-2 w-full cursor-not-allowed appearance-none rounded-full bg-secondary accent-primary opacity-50"
                 />
+
                 <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
                   <span>Lower</span>
                   <span>Higher</span>
@@ -594,7 +619,6 @@ export default function ShopPage() {
             </div>
           </div>
 
-          {/* Apply Button */}
           <div className="sticky bottom-0 bg-background p-6 border-t border-border">
             <div className="flex gap-3">
               <button
@@ -603,6 +627,7 @@ export default function ShopPage() {
               >
                 Clear All
               </button>
+
               <button
                 onClick={() => setIsFilterOpen(false)}
                 className="flex-1 py-3 bg-foreground text-background rounded-full font-medium hover:bg-foreground/90 transition-colors"
@@ -614,8 +639,15 @@ export default function ShopPage() {
         </div>
       </div>
 
-      {/* Footer */}
       <LuxuryFooter />
     </div>
+  )
+}
+
+export default function ShopPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background" />}>
+      <ShopPageContent />
+    </Suspense>
   )
 }

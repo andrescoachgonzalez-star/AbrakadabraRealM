@@ -5,11 +5,11 @@ import { cn } from "@/lib/utils"
 import { useEffect, useMemo, useState } from "react"
 import { Eye } from "lucide-react"
 import {
-  formatJewelryPrice,
   getJewelryProducts,
   getStaticJewelryProducts,
   isCatalogVisible,
   sortCatalogProducts,
+  type JewelryProduct,
 } from "@/lib/jewelry-api"
 
 type FeaturedPiece = {
@@ -37,7 +37,6 @@ function getBadge(piece: {
   return undefined
 }
 
-// Mapea el "type" interno a la etiqueta bonita que ya usas en UI
 function mapTypeToCategory(type: string): FeaturedPiece["category"] {
   switch (type) {
     case "rings":
@@ -59,9 +58,42 @@ function mapTypeToCategory(type: string): FeaturedPiece["category"] {
   }
 }
 
+function formatDisplayPrice(product: JewelryProduct) {
+  const item = product as JewelryProduct & {
+    priceMode?: string
+    price_mode?: string
+    currency?: string
+    status?: string
+  }
+
+  if (item.status === "sold_out") {
+    return "Agotado"
+  }
+
+  const priceMode = item.priceMode ?? item.price_mode
+
+  if (priceMode === "on_demand") {
+    return "On Demand"
+  }
+
+  const price = Number(item.price)
+
+  if (!Number.isFinite(price) || price <= 0) {
+    return "On Demand"
+  }
+
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: item.currency || "USD",
+    currencyDisplay: "code",
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price)
+}
+
 export function FeaturedPieces() {
   const [hoveredId, setHoveredId] = useState<string | null>(null)
-  const [products, setProducts] = useState(getStaticJewelryProducts())
+  const [products, setProducts] = useState<JewelryProduct[]>(getStaticJewelryProducts())
 
   useEffect(() => {
     let isMounted = true
@@ -83,29 +115,47 @@ export function FeaturedPieces() {
     }
   }, [])
 
-  // ✅ Selección destacada SIN duplicar data:
-  // - Prioriza isNew si existe
-  // - Si no hay suficientes, completa con los primeros
-  // - Deja exactamente 6 como tu layout original
   const featuredPieces: FeaturedPiece[] = useMemo(() => {
-    const normalized = sortCatalogProducts(products.filter(isCatalogVisible)).map((p) => ({
-      id: p.id,
-      name: p.name,
-      category: mapTypeToCategory(p.type),
-      collection: p.collection ?? "Collection",
-      badge: getBadge(p),
-      stone: p.specs.Stone ?? p.specs.stone,
-      material: p.material ? p.material.charAt(0).toUpperCase() + p.material.slice(1) : undefined,
-      imageSrc: p.image,
-      imageAlt: p.name,
-      priceLabel: p.status === "sold_out" ? "Agotado" : formatJewelryPrice(p),
-      status: p.status,
-    }))
+    const normalized = sortCatalogProducts(products.filter(isCatalogVisible)).map((p) => {
+      const item = p as JewelryProduct & {
+        is_featured?: boolean
+        is_new?: boolean
+        status?: string
+      }
 
-    const priority = normalized.filter((p) => p.badge === "FEATURED" || p.badge === "NEW")
-    const rest = normalized.filter((p) => p.badge !== "FEATURED" && p.badge !== "NEW")
+      const specs = p.specs ?? {}
+
+      return {
+        id: String(p.id),
+        name: p.name,
+        category: mapTypeToCategory(p.type),
+        collection: p.collection ?? "Collection",
+        badge: getBadge({
+          isNew: Boolean(p.isNew || item.is_new),
+          isFeatured: Boolean(p.isFeatured || item.is_featured),
+          status: item.status ?? "available",
+        }),
+        stone: specs.Stone ?? specs.stone,
+        material: p.material
+          ? p.material.charAt(0).toUpperCase() + p.material.slice(1)
+          : undefined,
+        imageSrc: p.image || "/placeholder.svg",
+        imageAlt: p.name,
+        priceLabel: formatDisplayPrice(p),
+        status: item.status ?? "available",
+      }
+    })
+
+    const priority = normalized.filter(
+      (p) => p.badge === "FEATURED" || p.badge === "NEW"
+    )
+
+    const rest = normalized.filter(
+      (p) => p.badge !== "FEATURED" && p.badge !== "NEW"
+    )
 
     const selected = [...priority, ...rest].slice(0, 6)
+
     return selected
   }, [products])
 
@@ -121,11 +171,11 @@ export function FeaturedPieces() {
               <p className="text-xs font-semibold tracking-[0.3em] text-primary uppercase mb-4">
                 Curated Selection
               </p>
+
               <h2 className="font-serif text-4xl sm:text-5xl md:text-6xl font-bold text-foreground text-balance">
                 Featured Pieces
               </h2>
             </div>
-            
           </div>
         </ScrollReveal>
 
@@ -158,11 +208,13 @@ export function FeaturedPieces() {
                     </div>
                   )}
 
-                  {/* ACTIONS (solo "ver") */}
+                  {/* ACTIONS */}
                   <div
                     className={cn(
                       "absolute top-4 right-4 flex flex-col gap-2 transition-all duration-300",
-                      hoveredId === piece.id ? "opacity-100 translate-x-0" : "opacity-0 translate-x-4"
+                      hoveredId === piece.id
+                        ? "opacity-100 translate-x-0"
+                        : "opacity-0 translate-x-4"
                     )}
                   >
                     <a
@@ -182,7 +234,9 @@ export function FeaturedPieces() {
                     {piece.collection} • {piece.category}
                   </p>
 
-                  <h3 className="font-serif text-lg font-bold text-foreground mt-1">{piece.name}</h3>
+                  <h3 className="font-serif text-lg font-bold text-foreground mt-1">
+                    {piece.name}
+                  </h3>
 
                   <div className="flex items-center gap-4 mt-4 text-xs text-muted-foreground">
                     <span>{piece.material ?? "—"}</span>
@@ -237,7 +291,12 @@ export function FeaturedPieces() {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17 8l4 4m0 0l-4 4m4-4H3"
+                />
               </svg>
             </a>
           </div>
