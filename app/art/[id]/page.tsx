@@ -387,7 +387,6 @@ export default function ArtDetailPage() {
           </div>
         </div>
       </section>
-
       <LuxuryFooter />
     </main>
   )

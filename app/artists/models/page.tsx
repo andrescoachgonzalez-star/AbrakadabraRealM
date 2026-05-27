@@ -6,6 +6,7 @@ import Link from "next/link"
 import { ChevronDown, Sparkles, ClipboardPen, MessageSquareText, Scale, BadgeCheck, ArrowRight } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
+import { PublicForm } from "@/components/public-form"
 
 // Exact image paths from /public/Image-Models
 const heroImage = "/Image-Models/model-1.webp"
@@ -658,129 +659,14 @@ export default function ModelsPage() {
         </div>
       </section>
 
-      {/* Hire Form Section */}
-      <section id="hire-form" className="py-0 overflow-hidden">
-        <div className="flex flex-col lg:flex-row min-h-[700px]">
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="lg:w-1/2 relative"
-          >
-            <img
-              src={formImage}
-              alt="Model"
-              className="w-full h-full object-cover min-h-[400px]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent to-black/20" />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="lg:w-1/2 bg-white p-12 md:p-16 flex flex-col justify-center"
-          >
-            <h3 className="text-2xl font-bold text-[oklch(0.55_0.18_20)] text-center mb-1 font-serif italic">
-              Complete the form
-            </h3>
-            <p className="text-black/50 text-center mb-8">to hire our models</p>
-
-            <div className="space-y-4 max-w-lg mx-auto w-full">
-              <input
-                type="text"
-                placeholder="First Name"
-                value={formData.firstName}
-                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
-              />
-
-              <input
-                type="text"
-                placeholder="Last Name"
-                value={formData.lastName}
-                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
-              />
-
-              <input
-                type="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
-              />
-
-              <div className="grid grid-cols-2 gap-4">
-                <select
-                  value={formData.country}
-                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-                  className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black/40 bg-white"
-                >
-                  <option value="">Select Country</option>
-                  <option value="colombia">Colombia</option>
-                  <option value="usa">United States</option>
-                  <option value="mexico">Mexico</option>
-                  <option value="spain">Spain</option>
-                  <option value="other">Other</option>
-                </select>
-
-                <input
-                  type="tel"
-                  placeholder="Phone"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black placeholder:text-black/40"
-                />
-              </div>
-
-              <select
-                value={formData.artist}
-                onChange={(e) => setFormData({ ...formData, artist: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black/40 bg-white"
-              >
-                <option value="">Select Artist</option>
-                {models.map((m) => (
-                  <option key={m.name} value={m.name}>
-                    {m.name}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={formData.eventType}
-                onChange={(e) => setFormData({ ...formData, eventType: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors text-black/40 bg-white"
-              >
-                <option value="">Event Type</option>
-                <option value="fashion">Fashion Show</option>
-                <option value="photoshoot">Photoshoot</option>
-                <option value="commercial">Commercial</option>
-                <option value="music-video">Music Video</option>
-                <option value="private">Private Event</option>
-                <option value="other">Other</option>
-              </select>
-
-              <textarea
-                placeholder="Tell us more about your event, location, number of guests, what do you have in mind?"
-                rows={4}
-                value={formData.message}
-                onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                className="w-full px-5 py-3.5 border border-black/20 rounded-lg text-sm focus:outline-none focus:border-[oklch(0.55_0.18_20)] transition-colors resize-none text-black placeholder:text-black/40"
-              />
-
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full py-4 bg-gradient-to-r from-[oklch(0.55_0.18_20)] to-[oklch(0.45_0.2_10)] text-white font-bold tracking-wider rounded-lg hover:shadow-xl hover:shadow-[oklch(0.55_0.18_20)]/30 transition-all duration-300"
-              >
-                Coming Soon
-              </motion.button>
-            </div>
-          </motion.div>
-        </div>
-      </section>
+     <PublicForm
+  id="hire-form"
+  interest="Modelos"
+  title="Complete the form"
+  subtitle="to hire one of our models"
+  image={formImage}
+  imageAlt="Model"
+/>
 
       <div className="h-2 bg-gradient-to-r from-[oklch(0.55_0.18_20)] via-[oklch(0.45_0.2_10)] to-[oklch(0.55_0.18_20)]" />
       <LuxuryFooter />

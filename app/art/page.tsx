@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
 import { getAllArtProducts } from "./data/art-products"
+import { PublicForm } from "@/components/public-form"
 
 // ScrollReveal Component
 function ScrollReveal({
@@ -510,6 +511,12 @@ export default function ArtPage() {
         </div>
       </section>
 
+   <PublicForm
+  id="art-contact"
+  interest="Art"
+  title={`Interested in our art? Let's talk!`}
+  subtitle="Send us your information and we will contact you"
+/>
       <LuxuryFooter />
     </main>
   )

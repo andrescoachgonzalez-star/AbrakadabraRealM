@@ -6,6 +6,7 @@ import { CONTACT_INFO } from "@/lib/contact-info"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
 import { ScrollReveal } from "@/components/scroll-reveal"
+import { PublicForm } from "@/components/public-form"
 
 const roles = [
   {
@@ -520,6 +521,12 @@ export default function JoinUsPage() {
         </div>
       </section>
 
+<PublicForm
+  id="join-contact"
+  interest="Join Us"
+  title="Let's Talk About Your Application"
+  subtitle="Tell us how you want to join Abrakadabra Realm"
+/>
       <LuxuryFooter />
     </main>
   )

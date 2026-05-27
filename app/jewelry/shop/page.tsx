@@ -22,7 +22,6 @@ const materialFilters = [
 
 const typeFilters = [
   { id: "rings", label: "Rings", disabled: false },
-  { id: "necklaces", label: "Necklaces", disabled: false },
   { id: "bracelets", label: "Bracelets", disabled: false },
   { id: "earrings", label: "Earrings", disabled: false },
   { id: "chains", label: "Chains", disabled: false },

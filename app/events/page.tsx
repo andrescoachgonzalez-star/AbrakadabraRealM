@@ -6,6 +6,7 @@ import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { Sparkles, FileCheck, Users2, Handshake, Globe, ArrowRight, Play } from "lucide-react"
+import { PublicForm } from "@/components/public-form"
 
 // Contact numbers
 const CO_WA_NUMBER = "573103920569"
@@ -644,6 +645,13 @@ export default function EventsPage() {
           </ScrollReveal>
         </div>
       </section>
+
+      <PublicForm
+  id="events-form"
+  interest="Eventos"
+  title="Plan your next experience"
+  subtitle="Tell us about your event"
+/>
 
       <LuxuryFooter />
     </main>
