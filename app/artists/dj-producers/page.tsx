@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { ChevronDown, Disc3, ClipboardPen, MessageSquareText, Scale, BadgeCheck, X } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
-import { PublicForm } from "@/components/public-form"
+import { DjsPublicForm } from "@/components/djs-public-form"
 
 type DJProducer = {
   name: string
@@ -718,9 +718,8 @@ export default function DJProducersPage() {
   </div>
 </section>
 */}
-<PublicForm
+<DjsPublicForm
   id="hire-form"
-  interest="DJs"
   title="Complete the form"
   subtitle="to hire our DJ producers"
   image={pageImages.form}

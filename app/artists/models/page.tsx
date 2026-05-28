@@ -6,7 +6,7 @@ import Link from "next/link"
 import { ChevronDown, Sparkles, ClipboardPen, MessageSquareText, Scale, BadgeCheck, ArrowRight } from "lucide-react"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
-import { PublicForm } from "@/components/public-form"
+import { ModelsPublicForm } from "@/components/models-public-form"
 
 // Exact image paths from /public/Image-Models
 const heroImage = "/Image-Models/model-1.webp"
@@ -659,9 +659,8 @@ export default function ModelsPage() {
         </div>
       </section>
 
-     <PublicForm
+<ModelsPublicForm
   id="hire-form"
-  interest="Modelos"
   title="Complete the form"
   subtitle="to hire one of our models"
   image={formImage}
