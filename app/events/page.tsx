@@ -6,7 +6,7 @@ import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { Sparkles, FileCheck, Users2, Handshake, Globe, ArrowRight, Play } from "lucide-react"
-import { PublicForm } from "@/components/public-form"
+import { EventsPublicForm } from "@/components/events-public-form"
 
 // Contact numbers
 const CO_WA_NUMBER = "573103920569"
@@ -570,6 +570,12 @@ export default function EventsPage() {
         </div>
       </section>
 
+      <EventsPublicForm
+      id="events-form"
+      title="Plan your next experience"
+      subtitle="Tell us about your event"
+      />
+
       {/* CTA Section */}
       <section className="relative py-32 overflow-hidden">
         <div className="absolute inset-0">
@@ -645,13 +651,6 @@ export default function EventsPage() {
           </ScrollReveal>
         </div>
       </section>
-
-      <PublicForm
-  id="events-form"
-  interest="Eventos"
-  title="Plan your next experience"
-  subtitle="Tell us about your event"
-/>
 
       <LuxuryFooter />
     </main>

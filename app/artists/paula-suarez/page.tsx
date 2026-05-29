@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
-import { ArtistContactCard } from "@/components/artists/artist-contact-card"
+import { PaulaPublicForm } from "@/components/paula-public-form"
 import { ArrowRight, Play, Star, Award, Tv, Film, Camera } from "lucide-react"
 
 // TV Shows / Brand logos
@@ -578,57 +578,12 @@ export default function PaulaSuarezPage() {
           </div>
         </div>
       </section>
-
-      {/* ======== HIRE CONTACT - Elegant ======== */}
-      <section id="hire-paula" className="py-28 lg:py-36 bg-background scroll-mt-24">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-16 items-start max-w-6xl mx-auto">
-            {/* Left - Info */}
-            <ScrollReveal direction="left">
-              <div className="lg:sticky lg:top-32">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="h-px w-12 bg-primary" />
-                  <p className="text-xs font-semibold tracking-[0.3em] text-primary uppercase">Get in Touch</p>
-                </div>
-                <h2 className="font-serif text-5xl md:text-6xl font-bold text-foreground mb-6 leading-tight">
-                  Work with<br /><span className="text-primary italic">Paula</span>
-                </h2>
-                <p className="text-muted-foreground leading-relaxed text-lg mb-10 max-w-md">
-                  Available for modeling, acting, TV presenting, brand ambassadorships, events, and music video appearances.
-                </p>
-
-                {/* Quick Stats */}
-                <div className="space-y-4">
-                  {[
-                    { label: "Modeling", detail: "Fashion, Editorial, Commercial" },
-                    { label: "Acting", detail: "Film, Television, Theater" },
-                    { label: "Presenting", detail: "TV, Events, Live" },
-                    { label: "Brand Ambassador", detail: "Fashion, Beauty, Lifestyle" },
-                  ].map((item, i) => (
-                    <div key={item.label} className="flex items-center gap-4 p-4 rounded-xl bg-secondary/50 border border-border hover:border-primary/20 transition-colors duration-300">
-                      <div className="w-2 h-2 rounded-full bg-primary" />
-                      <div>
-                        <p className="text-sm font-semibold text-foreground">{item.label}</p>
-                        <p className="text-xs text-muted-foreground">{item.detail}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </ScrollReveal>
-
-            {/* Right - Contact */}
-            <ScrollReveal direction="right" delay={200}>
-              <ArtistContactCard
-                artistName="Paula"
-                inquiryLabel="modeling, acting, presenting, or brand work"
-                services={["Modeling", "Acting", "Presenting", "Brand Campaigns"]}
-              />
-            </ScrollReveal>
-          </div>
-        </div>
-      </section>
-
+      
+       <PaulaPublicForm
+  id="hire-paula"
+  title="Work with Paula"
+  subtitle="Available for modeling, acting, TV presenting, brand ambassadorships, events, and music video appearances."
+/>
       <LuxuryFooter />
     </main>
   )
