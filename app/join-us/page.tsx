@@ -12,7 +12,8 @@ const roles = [
     id: "courses",
     title: "FREE COURSES",
     description: "ALL OUR COURSES AT $0 USD FOREVER",
-    longDescription: "Access our entire library of professional courses in music production, design, photography, and more. Learn at your own pace with industry-leading content.",
+    longDescription:
+      "Access our entire library of professional courses in music production, design, photography, and more. Learn at your own pace with industry-leading content.",
     cta: "START NOW",
     image: "/joinus/joinus1.webp",
     accent: "from-amber-500/20 to-orange-500/20",
@@ -22,7 +23,8 @@ const roles = [
     id: "audiovisuals",
     title: "AUDIOVISUALS",
     description: "DESIGNERS, PHOTOGRAPHERS, VIDEO EDITORS JOIN US AND CREATE THE UNEXPECTED!",
-    longDescription: "Bring your creative vision to life. Work with cutting-edge tools and collaborate with a global network of visual storytellers.",
+    longDescription:
+      "Bring your creative vision to life. Work with cutting-edge tools and collaborate with a global network of visual storytellers.",
     cta: "APPLY",
     image: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=800&q=80",
     accent: "from-cyan-500/20 to-blue-500/20",
@@ -32,7 +34,8 @@ const roles = [
     id: "sellers",
     title: "OFFICIAL SELLERS",
     description: "BE PART OF OUR GROUP AND RECEIVE EXCLUSIVE DISCOUNTS",
-    longDescription: "Join our worldwide seller network. Get priority access to new collections, exclusive pricing, and dedicated support to grow your business.",
+    longDescription:
+      "Join our worldwide seller network. Get priority access to new collections, exclusive pricing, and dedicated support to grow your business.",
     cta: "APPLY",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80",
     accent: "from-emerald-500/20 to-green-500/20",
@@ -42,7 +45,8 @@ const roles = [
     id: "promotors",
     title: "EVENT PROMOTORS",
     description: "TAKING THE MESSAGE OF ABRACADABRA TO EVERY CORNER.",
-    longDescription: "Become the face of Abrakadabra in your city. Organize events, build communities, and spread the culture of music and art worldwide.",
+    longDescription:
+      "Become the face of Abrakadabra in your city. Organize events, build communities, and spread the culture of music and art worldwide.",
     cta: "APPLY",
     image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80",
     accent: "from-rose-500/20 to-red-500/20",
@@ -52,29 +56,29 @@ const roles = [
     id: "creativity",
     title: "UNLEASH CREATIVITY",
     description: "GOT VISION AND TALENT? JOIN ABRAKADABRA AND ELEVATE YOUR ART TO NEW HEIGHTS.",
-    longDescription: "Whether you paint, sculpt, compose, or create digital art, we provide the platform and audience to showcase your talent to the world.",
+    longDescription:
+      "Whether you paint, sculpt, compose, or create digital art, we provide the platform and audience to showcase your talent to the world.",
     cta: "JOIN",
     image: "/joinus/joinus2.webp",
     accent: "from-violet-500/20 to-purple-500/20",
     iconColor: "text-violet-500",
   },
-
-   {
+  {
     id: "models",
     title: "MODELS",
-    formValue: "Modelo",
+    formValue: "MODELS",
     description: "JOIN ABRAKADABRA AS A MODEL AND CREATE UNIQUE VISUAL EXPERIENCES.",
     longDescription:
       "Become part of our creative network as a model for campaigns, events, audiovisual projects, fashion productions and brand experiences.",
     cta: "APPLY",
-    image: "/joinus/joinus1.webp",
+    image: "/home/rentcar-home.jpg",
     accent: "from-pink-500/20 to-rose-500/20",
     iconColor: "text-pink-500",
   },
   {
     id: "marketing",
     title: "MARKETING",
-    formValue: "Marketing",
+    formValue: "MARKETING",
     description: "HELP US GROW THE ABRAKADABRA BRAND THROUGH STRATEGY AND CONTENT.",
     longDescription:
       "Join our marketing team to create campaigns, manage content, support launches, build community and help expand Abrakadabra Realm globally.",
@@ -86,7 +90,7 @@ const roles = [
   {
     id: "programming",
     title: "PROGRAMMING",
-    formValue: "Programación",
+    formValue: "PROGRAMMING",
     description: "BUILD DIGITAL TOOLS, PLATFORMS AND EXPERIENCES FOR THE REALM.",
     longDescription:
       "Work with us on web platforms, automations, digital products and technical solutions that support our artists, events and creative ecosystem.",
@@ -98,24 +102,24 @@ const roles = [
   {
     id: "artists",
     title: "ARTISTS",
-    formValue: "Artistas",
+    formValue: "ARTISTS",
     description: "SHOWCASE YOUR TALENT AND COLLABORATE WITH OUR CREATIVE COMMUNITY.",
     longDescription:
       "Whether you paint, sculpt, produce music, perform, design or create digital art, Abrakadabra can become a platform to amplify your work.",
     cta: "APPLY",
-    image: "/joinus/joinus2.webp",
+    image: "/home/abrakadabra-p-home.jpg",
     accent: "from-violet-500/20 to-purple-500/20",
     iconColor: "text-violet-500",
   },
   {
     id: "brand-promoters",
     title: "BRAND PROMOTERS",
-    formValue: "Promotores de la marca",
+    formValue: "BRAND PROMOTERS",
     description: "TAKE THE MESSAGE OF ABRAKADABRA TO EVERY CORNER.",
     longDescription:
       "Become the face of Abrakadabra in your city or community. Help us promote events, build connections and grow our cultural movement.",
     cta: "APPLY",
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80",
+    image: "/home/events-home.webp",
     accent: "from-emerald-500/20 to-green-500/20",
     iconColor: "text-emerald-500",
   },
@@ -145,7 +149,7 @@ const benefits = [
     description: "No degrees required. We value passion, creativity, and the willingness to learn.",
     icon: (
       <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+        <path strokeLinecap="round" strokeLinejoin="round" d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 01112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
       </svg>
     ),
   },
@@ -178,7 +182,9 @@ export default function JoinUsPage() {
       },
       { threshold: 0.3 }
     )
+
     if (counterRef.current) observer.observe(counterRef.current)
+
     return () => observer.disconnect()
   }, [])
 
@@ -186,9 +192,7 @@ export default function JoinUsPage() {
     <main className="bg-background overflow-x-hidden">
       <LuxuryHeader />
 
-      {/* Hero Section */}
       <section className="relative min-h-screen flex items-end overflow-hidden">
-        {/* Background */}
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80"
@@ -201,7 +205,6 @@ export default function JoinUsPage() {
           <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-black/30" />
         </div>
 
-        {/* Floating particles */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {[...Array(15)].map((_, i) => (
             <div
@@ -220,30 +223,37 @@ export default function JoinUsPage() {
           ))}
         </div>
 
-        {/* Content */}
         <div className="relative container mx-auto px-4 pb-24 pt-40">
-          <div className={cn(
-            "transition-all duration-1000",
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          )}>
+          <div
+            className={cn(
+              "transition-all duration-1000",
+              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            )}
+          >
             <span className="inline-block px-4 py-1.5 border border-primary/40 rounded-full text-primary text-xs font-semibold tracking-[0.3em] mb-6">
               CAREERS
             </span>
           </div>
 
-          <h1 className={cn(
-            "font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white leading-[0.9] mb-8 transition-all duration-1000 delay-200",
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          )}>
+          <h1
+            className={cn(
+              "font-serif text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white leading-[0.9] mb-8 transition-all duration-1000 delay-200",
+              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            )}
+          >
             <span className="block">Join</span>
             <span className="block text-primary italic">Us</span>
           </h1>
 
-          <p className={cn(
-            "max-w-xl text-white/70 text-lg leading-relaxed transition-all duration-1000 delay-400",
-            isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
-          )}>
-            {"Magic doesn't just happen, it takes brilliant minds and creative souls to take it to the next level. The Abrakadabra Crew is a family of dreamers, artists and experts who create something greater than the sum of its parts."}
+          <p
+            className={cn(
+              "max-w-xl text-white/70 text-lg leading-relaxed transition-all duration-1000 delay-400",
+              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
+            )}
+          >
+            {
+              "Magic doesn't just happen, it takes brilliant minds and creative souls to take it to the next level. The Abrakadabra Crew is a family of dreamers, artists and experts who create something greater than the sum of its parts."
+            }
           </p>
 
           <a
@@ -262,7 +272,6 @@ export default function JoinUsPage() {
         </div>
       </section>
 
-      {/* Stats Bar */}
       <section ref={counterRef} className="relative bg-foreground py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
@@ -288,12 +297,13 @@ export default function JoinUsPage() {
         </div>
       </section>
 
-      {/* Roles Section */}
       <section id="roles" className="py-24 lg:py-32 scroll-mt-24">
         <div className="container mx-auto px-4">
           <ScrollReveal>
             <div className="text-center mb-20">
-              <span className="text-xs font-semibold tracking-[0.3em] text-primary uppercase">Opportunities</span>
+              <span className="text-xs font-semibold tracking-[0.3em] text-primary uppercase">
+                Opportunities
+              </span>
               <h2 className="font-serif text-4xl md:text-6xl font-bold text-foreground mt-4 text-balance">
                 Join Our Team
               </h2>
@@ -303,7 +313,6 @@ export default function JoinUsPage() {
             </div>
           </ScrollReveal>
 
-          {/* Role Cards */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {roles.map((role, index) => (
               <ScrollReveal key={role.id} delay={index * 100}>
@@ -312,12 +321,14 @@ export default function JoinUsPage() {
                   onMouseEnter={() => setActiveRole(role.id)}
                   onMouseLeave={() => setActiveRole(null)}
                 >
-                  {/* Card */}
-                  <div className={cn(
-                    "relative h-full bg-card rounded-2xl overflow-hidden border transition-all duration-700",
-                    activeRole === role.id ? "border-primary/40 shadow-2xl shadow-primary/10 -translate-y-2" : "border-border"
-                  )}>
-                    {/* Image */}
+                  <div
+                    className={cn(
+                      "relative h-full bg-card rounded-2xl overflow-hidden border transition-all duration-700",
+                      activeRole === role.id
+                        ? "border-primary/40 shadow-2xl shadow-primary/10 -translate-y-2"
+                        : "border-border"
+                    )}
+                  >
                     <div className="relative h-56 overflow-hidden">
                       <img
                         src={role.image || "/placeholder.svg"}
@@ -327,17 +338,21 @@ export default function JoinUsPage() {
                           activeRole === role.id ? "scale-110 brightness-75" : "scale-100"
                         )}
                       />
-                      <div className={cn(
-                        "absolute inset-0 bg-gradient-to-br opacity-0 transition-opacity duration-500",
-                        role.accent,
-                        activeRole === role.id && "opacity-60"
-                      )} />
 
-                      {/* Floating CTA on hover */}
-                      <div className={cn(
-                        "absolute inset-0 flex items-center justify-center transition-all duration-500",
-                        activeRole === role.id ? "opacity-100" : "opacity-0"
-                      )}>
+                      <div
+                        className={cn(
+                          "absolute inset-0 bg-gradient-to-br opacity-0 transition-opacity duration-500",
+                          role.accent,
+                          activeRole === role.id && "opacity-60"
+                        )}
+                      />
+
+                      <div
+                        className={cn(
+                          "absolute inset-0 flex items-center justify-center transition-all duration-500",
+                          activeRole === role.id ? "opacity-100" : "opacity-0"
+                        )}
+                      >
                         <a
                           href="#join-contact"
                           className={cn(
@@ -350,22 +365,28 @@ export default function JoinUsPage() {
                       </div>
                     </div>
 
-                    {/* Content */}
                     <div className="p-6">
-                      <h3 className="font-serif text-xl font-bold text-foreground tracking-wide mb-2">{role.title}</h3>
-                      <p className="text-sm text-muted-foreground leading-relaxed mb-4">{role.description}</p>
+                      <h3 className="font-serif text-xl font-bold text-foreground tracking-wide mb-2">
+                        {role.title}
+                      </h3>
 
-                      {/* Expanded description on hover */}
-                      <div className={cn(
-                        "overflow-hidden transition-all duration-700",
-                        activeRole === role.id ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-                      )}>
+                      <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                        {role.description}
+                      </p>
+
+                      <div
+                        className={cn(
+                          "overflow-hidden transition-all duration-700",
+                          activeRole === role.id ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                        )}
+                      >
                         <div className="pt-4 border-t border-border">
-                          <p className="text-sm text-foreground/80 leading-relaxed">{role.longDescription}</p>
+                          <p className="text-sm text-foreground/80 leading-relaxed">
+                            {role.longDescription}
+                          </p>
                         </div>
                       </div>
 
-                      {/* Arrow indicator */}
                       <a
                         href="#join-contact"
                         className="inline-flex items-center gap-2 mt-4 text-primary transition-all duration-300 hover:gap-3"
@@ -376,7 +397,9 @@ export default function JoinUsPage() {
                             "w-4 h-4 transition-transform duration-500",
                             activeRole === role.id && "translate-x-2"
                           )}
-                          fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
                         >
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
@@ -390,19 +413,19 @@ export default function JoinUsPage() {
         </div>
       </section>
 
-      {/* Benefits Section */}
       <section className="relative py-24 lg:py-32 bg-foreground overflow-hidden">
-        {/* Background Texture */}
         <div className="absolute inset-0 opacity-5">
-          <div className="absolute inset-0" style={{
-            backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
-            backgroundSize: "40px 40px"
-          }} />
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: "radial-gradient(circle at 1px 1px, white 1px, transparent 0)",
+              backgroundSize: "40px 40px",
+            }}
+          />
         </div>
 
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            {/* Left - Image + Quote */}
             <ScrollReveal>
               <div className="relative">
                 <div className="relative rounded-2xl overflow-hidden">
@@ -421,16 +444,16 @@ export default function JoinUsPage() {
                   </div>
                 </div>
 
-                {/* Decorative elements */}
                 <div className="absolute -top-4 -left-4 w-24 h-24 border border-primary/30 rounded-2xl -z-10" />
                 <div className="absolute -bottom-4 -right-4 w-32 h-32 border border-primary/20 rounded-2xl -z-10" />
               </div>
             </ScrollReveal>
 
-            {/* Right - Benefits */}
             <div>
               <ScrollReveal>
-                <span className="text-xs font-semibold tracking-[0.3em] text-primary uppercase">Why Join</span>
+                <span className="text-xs font-semibold tracking-[0.3em] text-primary uppercase">
+                  Why Join
+                </span>
                 <h2 className="font-serif text-4xl md:text-5xl font-bold text-background mt-4 mb-12">
                   Benefits of Working With Us
                 </h2>
@@ -449,26 +472,34 @@ export default function JoinUsPage() {
                       onMouseEnter={() => setHoveredBenefit(i)}
                       onMouseLeave={() => setHoveredBenefit(null)}
                     >
-                      {/* Icon */}
-                      <div className={cn(
-                        "shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-500",
-                        hoveredBenefit === i ? "bg-primary text-primary-foreground scale-110" : "bg-background/10 text-background/60"
-                      )}>
+                      <div
+                        className={cn(
+                          "shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-all duration-500",
+                          hoveredBenefit === i
+                            ? "bg-primary text-primary-foreground scale-110"
+                            : "bg-background/10 text-background/60"
+                        )}
+                      >
                         {benefit.icon}
                       </div>
 
-                      {/* Text */}
                       <div>
-                        <h3 className={cn(
-                          "font-bold tracking-wider text-sm transition-colors duration-300",
-                          hoveredBenefit === i ? "text-primary" : "text-background"
-                        )}>
+                        <h3
+                          className={cn(
+                            "font-bold tracking-wider text-sm transition-colors duration-300",
+                            hoveredBenefit === i ? "text-primary" : "text-background"
+                          )}
+                        >
                           {benefit.title}
                         </h3>
-                        <p className={cn(
-                          "text-sm leading-relaxed mt-1 transition-all duration-500",
-                          hoveredBenefit === i ? "text-background/80 max-h-20 opacity-100" : "text-background/50 max-h-0 opacity-0 overflow-hidden"
-                        )}>
+                        <p
+                          className={cn(
+                            "text-sm leading-relaxed mt-1 transition-all duration-500",
+                            hoveredBenefit === i
+                              ? "text-background/80 max-h-20 opacity-100"
+                              : "text-background/50 max-h-0 opacity-0 overflow-hidden"
+                          )}
+                        >
                           {benefit.description}
                         </p>
                       </div>
@@ -481,13 +512,13 @@ export default function JoinUsPage() {
         </div>
       </section>
 
+      <JoinUsPublicForm
+        id="join-contact"
+        title="Let's Talk About Your Application"
+        subtitle="Tell us how you want to join Abrakadabra Realm"
+        roleOptions={roles.map((role) => role.title)}
+      />
 
-<JoinUsPublicForm
-  id="join-contact"
-  title="Let's Talk About Your Application"
-  subtitle="Tell us how you want to join Abrakadabra Realm"
-  roleOptions={roles.map((role) => role.title)}
-/>
       <LuxuryFooter />
     </main>
   )
