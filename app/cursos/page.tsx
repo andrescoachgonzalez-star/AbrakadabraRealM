@@ -1,239 +1,476 @@
 "use client"
 
-import { useMemo, useState } from "react"
+import {
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from "react"
 import Link from "next/link"
-import { ArrowRight, Clock3, HeartHandshake, Layers3, ListVideo, Search } from "lucide-react"
-import { LuxuryFooter } from "@/components/luxury-footer"
-import { LuxuryHeader } from "@/components/luxury-header"
-import { cn } from "@/lib/utils"
-import { courseCategories, courses } from "./data/courses"
+import {
+  BookOpen,
+  ExternalLink,
+  FileText,
+  HeartHandshake,
+  PlayCircle,
+  Search,
+} from "lucide-react"
 
-function normalizeFilterValue(value: string) {
+import { LuxuryHeader } from "@/components/luxury-header"
+import { LuxuryFooter } from "@/components/luxury-footer"
+import { courses, type Course } from "./data/courses"
+
+type ContentType = "video" | "pdf"
+
+type CatalogCourse = Course & {
+  contentType: ContentType
+  pdfUrl?: string
+  pdfFileName?: string
+}
+
+type PdfCoursesResponse = {
+  success: boolean
+  total: number
+  courses: CatalogCourse[]
+  message?: string
+}
+
+type CourseCardLinkProps = {
+  course: CatalogCourse
+  children: ReactNode
+  className: string
+}
+
+function normalizeText(value: string) {
   return value
-    .toLowerCase()
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/\s+/g, " ")
+    .toLowerCase()
     .trim()
 }
 
-export default function CursosPage() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("Todos")
+function normalizeStaticCourse(course: Course): CatalogCourse {
+  const extendedCourse = course as Course & {
+    contentType?: ContentType
+    pdfUrl?: string
+    pdfFileName?: string
+  }
 
-  const categoryFilters = useMemo(
-    () =>
-      courseCategories.map((category) => ({
-        label: category,
-        value: normalizeFilterValue(category),
-      })),
-    []
-  )
+  return {
+    ...extendedCourse,
+    contentType:
+      extendedCourse.contentType ??
+      (extendedCourse.pdfUrl ? "pdf" : "video"),
+  }
+}
 
-  const filteredCourses = useMemo(() => {
-    const normalizedQuery = searchQuery.trim().toLowerCase()
-    const activeCategory = normalizeFilterValue(selectedCategory)
+function getCourseUniqueKey(course: CatalogCourse) {
+  if (course.contentType === "pdf") {
+    const pdfIdentifier =
+      course.pdfUrl ||
+      course.pdfFileName ||
+      course.slug ||
+      course.id
 
-    return courses.filter((course) => {
-      const matchesSearch =
-        normalizedQuery.length === 0 ||
-        course.title.toLowerCase().includes(normalizedQuery) ||
-        course.instructor?.toLowerCase().includes(normalizedQuery) ||
-        course.category?.toLowerCase().includes(normalizedQuery) ||
-        course.shortDescription?.toLowerCase().includes(normalizedQuery)
+    return "pdf:" + pdfIdentifier
+  }
 
-      const courseCategory = normalizeFilterValue(course.category ?? "")
-      const matchesCategory = activeCategory === "todos" || courseCategory === activeCategory
+  return "video:" + course.id
+}
 
-      return matchesSearch && matchesCategory
-    })
-  }, [searchQuery, selectedCategory])
+function CourseCardLink({
+  course,
+  children,
+  className,
+}: CourseCardLinkProps) {
+  if (course.contentType === "pdf") {
+    if (!course.pdfUrl) {
+      return (
+        <div
+          className={`${className} cursor-not-allowed opacity-60`}
+        >
+          {children}
+        </div>
+      )
+    }
+
+    return (
+      <a
+        href={course.pdfUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={className}
+        aria-label={`Abrir ${course.title} en una pestaña nueva`}
+      >
+        {children}
+      </a>
+    )
+  }
 
   return (
-    <main className="relative min-h-screen bg-background">
+    <Link
+      href={`/cursos/${course.slug}`}
+      className={className}
+    >
+      {children}
+    </Link>
+  )
+}
+
+export default function CoursesPage() {
+  const [search, setSearch] = useState("")
+  const [selectedCategory, setSelectedCategory] =
+    useState("Todos")
+
+  const [pdfCourses, setPdfCourses] = useState<
+    CatalogCourse[]
+  >([])
+
+  const [isLoadingPdfs, setIsLoadingPdfs] =
+    useState(true)
+
+  const [pdfError, setPdfError] = useState("")
+
+  useEffect(() => {
+    let isMounted = true
+
+    async function loadPdfCourses() {
+      try {
+        setIsLoadingPdfs(true)
+        setPdfError("")
+
+        const response = await fetch("/api/pdf-courses", {
+          method: "GET",
+          cache: "no-store",
+        })
+
+        const result =
+          (await response.json()) as PdfCoursesResponse
+
+        if (!response.ok || !result.success) {
+          throw new Error(
+            result.message ||
+              "No se pudieron cargar los cursos PDF."
+          )
+        }
+
+        if (isMounted) {
+          setPdfCourses(
+            Array.isArray(result.courses)
+              ? result.courses
+              : []
+          )
+        }
+      } catch (error) {
+        console.error(
+          "Error loading PDF courses:",
+          error
+        )
+
+        if (isMounted) {
+          setPdfCourses([])
+          setPdfError(
+            "No se pudieron cargar los cursos PDF. Revisa la carpeta public/Pdfs-Cursos."
+          )
+        }
+      } finally {
+        if (isMounted) {
+          setIsLoadingPdfs(false)
+        }
+      }
+    }
+
+    loadPdfCourses()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  const allCourses = useMemo<CatalogCourse[]>(() => {
+    const staticCourses =
+      courses.map(normalizeStaticCourse)
+
+    const mergedCourses = [
+      ...staticCourses,
+      ...pdfCourses,
+    ]
+
+    const seenCourses = new Set<string>()
+
+    return mergedCourses.filter((course) => {
+      const uniqueKey = getCourseUniqueKey(course)
+
+      if (seenCourses.has(uniqueKey)) {
+        return false
+      }
+
+      seenCourses.add(uniqueKey)
+      return true
+    })
+  }, [pdfCourses])
+
+  const categories = useMemo(() => {
+    const uniqueCategories = Array.from(
+      new Set(
+        allCourses
+          .map((course) => course.category)
+          .filter(
+            (category): category is string =>
+              Boolean(category)
+          )
+      )
+    )
+
+    return ["Todos", ...uniqueCategories]
+  }, [allCourses])
+
+  const filteredCourses = useMemo(() => {
+    const query = normalizeText(search)
+
+    return allCourses.filter((course) => {
+      const matchesCategory =
+        selectedCategory === "Todos" ||
+        course.category === selectedCategory
+
+      const searchableText = normalizeText(
+        [
+          course.title,
+          course.shortDescription,
+          course.fullDescription,
+          course.instructor,
+          course.category,
+          course.level,
+          course.pdfFileName,
+        ]
+          .filter(Boolean)
+          .join(" ")
+      )
+
+      const matchesSearch =
+        !query || searchableText.includes(query)
+
+      return matchesCategory && matchesSearch
+    })
+  }, [
+    allCourses,
+    search,
+    selectedCategory,
+  ])
+
+  return (
+    <main
+      className="min-h-screen bg-background"
+      style={{
+        backgroundImage:
+          "radial-gradient(circle, rgba(0, 0, 0, 0.055) 1px, transparent 1px)",
+        backgroundSize: "18px 18px",
+      }}
+    >
       <LuxuryHeader />
 
-      <section className="relative overflow-hidden pt-32 pb-16">
-        <div className="pointer-events-none absolute inset-0 opacity-[0.02]">
-          <div
-            className="absolute inset-0"
-            style={{
-              backgroundImage:
-                "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
-              backgroundSize: "40px 40px",
-            }}
-          />
-        </div>
-
-        <div className="relative z-10 container mx-auto px-4">
-          <div className="mx-auto max-w-3xl text-center">
-            <p className="mb-4 text-sm font-medium tracking-[0.3em] text-primary">
+      <section className="px-4 pb-16 pt-36 md:pb-20 md:pt-40">
+        <div className="mx-auto max-w-7xl">
+          <div className="text-center">
+            <p className="text-xs font-semibold uppercase tracking-[0.42em] text-primary md:text-sm">
               ACADEMIA ABRAKADABRA
             </p>
-            <h1 className="mb-6 font-serif text-4xl font-bold text-foreground md:text-5xl lg:text-6xl">
+
+            <h1 className="mt-5 font-serif text-5xl font-bold leading-none text-foreground sm:text-6xl md:text-7xl">
               Nuestros Cursos
             </h1>
-            <p className="mb-12 text-lg text-muted-foreground">
-              Explora nuestra biblioteca de formacion y entra directo al curso que quieras abrir.
+
+            <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              Explora nuestra biblioteca de formación y entra
+              directo al curso que quieras abrir.
             </p>
           </div>
 
-          <div className="mx-auto max-w-4xl">
-            <div className="flex flex-col items-center justify-center gap-4 md:flex-row">
-              <div className="relative w-full md:w-96">
-                <Search className="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Buscar cursos..."
-                  value={searchQuery}
-                  onChange={(event) => setSearchQuery(event.target.value)}
-                  className="w-full rounded-full border border-border bg-card py-4 pr-4 pl-12 text-foreground placeholder:text-muted-foreground transition-all duration-300 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20"
-                />
-              </div>
+          <div className="mt-12 grid items-start gap-8 lg:grid-cols-[260px_1fr]">
+            <div className="relative">
+              <Search className="pointer-events-none absolute left-5 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
 
-              <div className="relative z-10 flex flex-wrap justify-center gap-2">
-                {categoryFilters.map((category) => (
-                  <button
-                    key={category.value}
-                    type="button"
-                    onClick={() => setSelectedCategory(category.label)}
-                    aria-pressed={selectedCategory === category.label}
-                    className={cn(
-                      "rounded-full px-5 py-3 text-xs font-semibold tracking-wider transition-all duration-300",
-                      selectedCategory === category.label
-                        ? "bg-primary text-primary-foreground shadow-lg shadow-primary/25"
-                        : "border border-border bg-card text-muted-foreground hover:border-primary hover:text-foreground"
-                    )}
-                  >
-                    {category.label}
-                  </button>
-                ))}
-              </div>
+              <input
+                type="search"
+                value={search}
+                onChange={(event) =>
+                  setSearch(event.target.value)
+                }
+                placeholder="Buscar cursos..."
+                className="h-14 w-full rounded-full border border-border bg-background px-6 pl-14 text-base text-foreground shadow-sm outline-none transition placeholder:text-muted-foreground focus:border-primary focus:ring-4 focus:ring-primary/10"
+              />
             </div>
 
-            <p className="mt-6 text-center text-sm text-muted-foreground">
-              Mostrando {filteredCourses.length} de {courses.length} cursos
-            </p>
+            <div className="flex flex-wrap justify-center gap-2.5 lg:justify-start">
+              {categories.map((category) => {
+                const active =
+                  selectedCategory === category
 
-            <div className="mt-8 rounded-3xl border border-primary/20 bg-card p-5 shadow-sm sm:p-6">
-              <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-                <div className="flex gap-4">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                    <HeartHandshake className="h-6 w-6" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
-                      Donaciones abiertas
-                    </p>
-                    <h2 className="mt-1 font-serif text-2xl font-bold text-foreground">
-                      Cursos gratis, crecimiento compartido
-                    </h2>
-                    <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-                      Todos los cursos son gratis. Agradecemos donaciones para seguir
-                      innovando, crear nuevos programas y construir la filosofia de
-                      Abrakadabra.
-                    </p>
-                  </div>
+                return (
+                  <button
+                    key={category}
+                    type="button"
+                    onClick={() =>
+                      setSelectedCategory(category)
+                    }
+                    className={`min-h-11 rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-wide transition-all duration-300 ${
+                      active
+                        ? "border border-primary bg-primary text-primary-foreground shadow-lg shadow-primary/20"
+                        : "border border-border bg-background text-foreground hover:border-primary/50 hover:text-primary"
+                    }`}
+                  >
+                    {category}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="mt-7 text-center">
+            <p className="text-sm text-muted-foreground">
+              {isLoadingPdfs
+                ? "Cargando documentos PDF..."
+                : `Mostrando ${filteredCourses.length} de ${allCourses.length} cursos`}
+            </p>
+          </div>
+
+          {pdfError && (
+            <div className="mx-auto mt-6 max-w-4xl rounded-2xl border border-red-500/30 bg-red-500/10 px-5 py-4 text-center text-sm text-red-600">
+              {pdfError}
+            </div>
+          )}
+
+          <div className="mt-8 rounded-[26px] border border-primary/30 bg-background px-6 py-6 shadow-[0_4px_14px_rgba(0,0,0,0.08)] md:px-8 md:py-7">
+            <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div className="flex items-start gap-5">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <HeartHandshake className="h-6 w-6" />
                 </div>
 
-                <button
-                  type="button"
-                  disabled
-                  className="shrink-0 rounded-full border border-primary/30 px-6 py-3 text-sm font-bold tracking-wider text-primary opacity-70"
-                >
-                  DONAR PRONTO
-                </button>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
+                    DONACIONES ABIERTAS
+                  </p>
+
+                  <h2 className="mt-2 font-serif text-2xl font-bold leading-tight text-foreground md:text-3xl">
+                    Cursos gratis, crecimiento compartido
+                  </h2>
+
+                  <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
+                    Todos los cursos son gratis. Agradecemos
+                    donaciones para seguir innovando, crear
+                    nuevos programas y construir la filosofía de
+                    Abrakadabra.
+                  </p>
+                </div>
               </div>
+
+              <button
+                type="button"
+                disabled
+                className="shrink-0 cursor-not-allowed rounded-full border border-primary/30 px-7 py-3.5 text-sm font-semibold uppercase tracking-wide text-primary/70"
+              >
+                DONAR PRONTO
+              </button>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="pb-24">
-        <div className="container mx-auto max-w-6xl px-4">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-            {filteredCourses.map((course, index) => (
-              <Link
-                key={course.id}
-                href={`/cursos/${course.slug}`}
-                className="group relative overflow-hidden rounded-3xl border border-border bg-card transition-all duration-500 hover:-translate-y-2 hover:border-primary/30 hover:shadow-2xl hover:shadow-primary/10"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <img
-                    src={course.thumbnail ?? course.coverImage ?? "/image-Philosophy/Cursos.png"}
-                    alt={course.title}
-                    loading={index < 3 ? "eager" : "lazy"}
-                    decoding="async"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute top-4 left-4">
-                    <span className="rounded-full bg-primary px-4 py-2 text-[11px] font-bold tracking-wider text-primary-foreground shadow-lg">
-                      {course.status === "coming_soon" ? "PROXIMAMENTE" : course.level}
-                    </span>
-                  </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
-                </div>
+      <section className="px-4 pb-24">
+        <div className="mx-auto max-w-7xl">
+          {filteredCourses.length > 0 ? (
+            <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
+              {filteredCourses.map((course) => {
+                const isPdf =
+                  course.contentType === "pdf"
 
-                <div className="p-6">
-                  <h3 className="mb-4 line-clamp-2 font-serif text-xl font-bold text-foreground transition-colors duration-300 group-hover:text-primary">
-                    {course.title}
-                  </h3>
+                return (
+                  <CourseCardLink
+                    key={getCourseUniqueKey(course)}
+                    course={course}
+                    className="group block overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10"
+                  >
+                    <div className="relative h-60 overflow-hidden bg-muted">
+                      <img
+                        src={
+                          course.thumbnail ||
+                          course.coverImage ||
+                          "/placeholder.svg"
+                        }
+                        alt={course.title}
+                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                      />
 
-                  <div className="mb-5 flex items-center gap-4 text-sm text-muted-foreground">
-                    {course.totalSections > 0 && (
-                      <div className="flex items-center gap-1.5">
-                        <Layers3 className="h-4 w-4" />
-                        <span>{course.totalSections}</span>
-                      </div>
-                    )}
-                    {course.totalEpisodes > 0 && (
-                      <div className="flex items-center gap-1.5">
-                        <ListVideo className="h-4 w-4" />
-                        <span>{course.totalEpisodes}</span>
-                      </div>
-                    )}
-                    {course.duration && (
-                      <div className="flex items-center gap-1.5">
-                        <Clock3 className="h-4 w-4" />
-                        <span>{course.duration}</span>
-                      </div>
-                    )}
-                  </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
 
-                  <div className="mb-6 flex items-center gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
-                      {course.instructor?.charAt(0) ?? "A"}
+                      <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-black/70 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md">
+                        {isPdf ? (
+                          <FileText className="h-4 w-4" />
+                        ) : (
+                          <PlayCircle className="h-4 w-4" />
+                        )}
+
+                        {isPdf ? "PDF" : "VIDEO"}
+                      </div>
+
+                      <div className="absolute bottom-5 left-5 right-5">
+                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                          {course.category || "CURSO"}
+                        </p>
+
+                        <h2 className="mt-2 font-serif text-2xl font-bold leading-tight text-white">
+                          {course.title}
+                        </h2>
+                      </div>
                     </div>
-                    <div className="min-w-0 flex-1">
-                      <p className="text-xs text-muted-foreground">
-                        por <span className="font-semibold text-foreground">{course.instructor ?? "Abrakadabra"}</span>
+
+                    <div className="p-6">
+                      <p className="min-h-[72px] text-sm leading-relaxed text-muted-foreground">
+                        {course.shortDescription ||
+                          "Explora el contenido completo de este curso."}
                       </p>
-                      <p className="truncate text-[11px] text-muted-foreground/70">
-                        en {course.category}
-                      </p>
+
+                      <div className="mt-6 flex items-center justify-between gap-4 border-t border-border pt-5">
+                        <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
+                          <BookOpen className="h-4 w-4 text-primary" />
+
+                          <span>
+                            {course.duration ||
+                              course.level ||
+                              (isPdf
+                                ? "PDF completo"
+                                : "Curso")}
+                          </span>
+                        </div>
+
+                        <span className="inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-primary transition-transform duration-300 group-hover:translate-x-1">
+                          {isPdf ? (
+                            <>
+                              Abrir PDF
+                              <ExternalLink className="h-4 w-4" />
+                            </>
+                          ) : (
+                            "Ver curso →"
+                          )}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  </CourseCardLink>
+                )
+              })}
+            </div>
+          ) : (
+            <div className="rounded-3xl border border-dashed border-border bg-background px-6 py-20 text-center">
+              <BookOpen className="mx-auto h-12 w-12 text-muted-foreground" />
 
-                  <span className="flex w-full items-center justify-center gap-2 rounded-full border-2 border-primary py-3.5 text-sm font-bold tracking-wider text-primary transition-all duration-300 group-hover:bg-primary group-hover:text-primary-foreground">
-                    {course.status === "coming_soon" ? "Ver avance" : "Ver curso"}
-                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
-
-          {filteredCourses.length === 0 && (
-            <div className="py-20 text-center">
-              <div className="mx-auto mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-muted">
-                <Search className="h-8 w-8 text-muted-foreground" />
-              </div>
-              <h3 className="mb-2 font-serif text-2xl font-bold text-foreground">
+              <h2 className="mt-5 font-serif text-3xl font-bold text-foreground">
                 No se encontraron cursos
-              </h3>
-              <p className="text-muted-foreground">
-                Intenta con otros terminos de busqueda o cambia los filtros.
+              </h2>
+
+              <p className="mt-3 text-muted-foreground">
+                Prueba con otra búsqueda o selecciona otra
+                categoría.
               </p>
             </div>
           )}

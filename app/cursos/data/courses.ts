@@ -1,55 +1,84 @@
-import { findPlaylistYoutubeUrl } from "./playlist-links"
+import { findPlaylistYoutubeUrl } from "./playlist-links";
 
 export type Episode = {
-  id: string
-  title: string
-  description?: string
-  youtubeUrl: string
-  youtubeVideoId?: string
-  duration?: string
-  order: number
-  isPreview?: boolean
-}
+  id: string;
+  title: string;
+  description?: string;
+  youtubeUrl: string;
+  youtubeVideoId?: string;
+  duration?: string;
+  order: number;
+  isPreview?: boolean;
+};
 
 export type CourseSection = {
-  id: string
-  title: string
-  description?: string
-  order: number
-  episodes: Episode[]
-}
+  id: string;
+  title: string;
+  description?: string;
+  order: number;
+  episodes: Episode[];
+};
+
+export type CourseContentType = "video" | "pdf";
 
 export type Course = {
-  id: string
-  slug: string
-  title: string
-  shortDescription?: string
-  fullDescription?: string
-  instructor?: string
-  category?: string
-  level?: string
-  thumbnail?: string
-  coverImage?: string
-  duration?: string
-  totalSections: number
-  totalEpisodes: number
-  status?: "published" | "coming_soon"
-  sections: CourseSection[]
-}
+  id: string;
+  slug: string;
+  title: string;
+  shortDescription?: string;
+  fullDescription?: string;
+  instructor?: string;
+  category?: string;
+  level?: string;
+  thumbnail?: string;
+  coverImage?: string;
+  duration?: string;
+  totalSections: number;
+  totalEpisodes: number;
+  status?: "published" | "coming_soon";
+  contentType: CourseContentType;
+  pdfUrl?: string;
+  pdfFileName?: string;
+  pages?: number;
+  sections: CourseSection[];
+};
 
-type EpisodeDraft = Omit<Episode, "id" | "youtubeVideoId">
+type EpisodeDraft = Omit<Episode, "id" | "youtubeVideoId">;
 type CourseSectionDraft = Omit<CourseSection, "id" | "episodes"> & {
-  episodes: EpisodeDraft[]
-}
+  episodes: EpisodeDraft[];
+};
 type CourseDraft = Omit<
   Course,
-  "id" | "slug" | "thumbnail" | "coverImage" | "totalSections" | "totalEpisodes" | "sections"
+  | "id"
+  | "slug"
+  | "thumbnail"
+  | "coverImage"
+  | "totalSections"
+  | "totalEpisodes"
+  | "contentType"
+  | "pdfUrl"
+  | "pdfFileName"
+  | "pages"
+  | "sections"
 > & {
-  coverImage?: string
-  sections: CourseSectionDraft[]
-}
+  coverImage?: string;
+  sections: CourseSectionDraft[];
+};
 
-const PENDING_YOUTUBE_URL = "https://www.youtube.com/@abrakadabrarealm"
+type PdfCourseDraft = {
+  slug: string;
+  title: string;
+  shortDescription: string;
+  fullDescription?: string;
+  instructor?: string;
+  category?: string;
+  level?: string;
+  coverImage: string;
+  pdfFileName: string;
+  pages: number;
+};
+
+const PENDING_YOUTUBE_URL = "https://www.youtube.com/@abrakadabrarealm";
 
 function slugify(value: string) {
   return value
@@ -57,66 +86,76 @@ function slugify(value: string) {
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
+    .replace(/^-+|-+$/g, "");
 }
 
 export function getYoutubeVideoId(url?: string) {
-  if (!url) return undefined
+  if (!url) return undefined;
 
   try {
-    const parsedUrl = new URL(url)
+    const parsedUrl = new URL(url);
 
     if (parsedUrl.hostname === "youtu.be") {
-      return parsedUrl.pathname.replace("/", "") || undefined
+      return parsedUrl.pathname.replace("/", "") || undefined;
     }
 
     if (parsedUrl.hostname.includes("youtube.com")) {
       if (parsedUrl.pathname === "/watch") {
-        return parsedUrl.searchParams.get("v") ?? undefined
+        return parsedUrl.searchParams.get("v") ?? undefined;
       }
 
       if (parsedUrl.pathname.startsWith("/embed/")) {
-        return parsedUrl.pathname.split("/embed/")[1] || undefined
+        return parsedUrl.pathname.split("/embed/")[1] || undefined;
       }
 
       if (parsedUrl.pathname.startsWith("/shorts/")) {
-        return parsedUrl.pathname.split("/shorts/")[1] || undefined
+        return parsedUrl.pathname.split("/shorts/")[1] || undefined;
       }
     }
   } catch {
-    return undefined
+    return undefined;
   }
 
-  return undefined
+  return undefined;
 }
 
 export function getYoutubeThumbnail(url?: string) {
-  const videoId = getYoutubeVideoId(url)
-  return videoId ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg` : undefined
+  const videoId = getYoutubeVideoId(url);
+  return videoId
+    ? `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`
+    : undefined;
 }
 
 export function getFirstEpisode(course: Pick<Course, "sections">) {
-  const orderedSections = [...course.sections].sort((left, right) => left.order - right.order)
-  const firstSection = orderedSections[0]
-  if (!firstSection) return undefined
+  const orderedSections = [...course.sections].sort(
+    (left, right) => left.order - right.order,
+  );
+  const firstSection = orderedSections[0];
+  if (!firstSection) return undefined;
 
-  return [...firstSection.episodes].sort((left, right) => left.order - right.order)[0]
+  return [...firstSection.episodes].sort(
+    (left, right) => left.order - right.order,
+  )[0];
 }
 
 export function countTotalEpisodes(course: Pick<Course, "sections">) {
-  return course.sections.reduce((total, section) => total + section.episodes.length, 0)
+  return course.sections.reduce(
+    (total, section) => total + section.episodes.length,
+    0,
+  );
 }
 
 function pendingEpisodeDescription(description?: string) {
-  const note = "PENDIENTE: reemplazar con el link exacto de YouTube de este episodio."
-  return description ? `${description} ${note}` : note
+  const note =
+    "PENDIENTE: reemplazar con el link exacto de YouTube de este episodio.";
+  return description ? `${description} ${note}` : note;
 }
 
 function createPendingEpisode(
   order: number,
   title: string,
   description?: string,
-  duration?: string
+  duration?: string,
 ): EpisodeDraft {
   return {
     title,
@@ -125,11 +164,15 @@ function createPendingEpisode(
     youtubeUrl: PENDING_YOUTUBE_URL,
     description: pendingEpisodeDescription(description),
     isPreview: order === 1,
-  }
+  };
 }
 
-function createReferencedPendingEpisode(reference: number, order: number, title: string) {
-  const youtubeUrl = findPlaylistYoutubeUrl(reference, title)
+function createReferencedPendingEpisode(
+  reference: number,
+  order: number,
+  title: string,
+) {
+  const youtubeUrl = findPlaylistYoutubeUrl(reference, title);
 
   if (youtubeUrl) {
     return {
@@ -138,17 +181,21 @@ function createReferencedPendingEpisode(reference: number, order: number, title:
       youtubeUrl,
       description: `Referencia original de playlist [${reference}]. Vinculado automaticamente desde CSV.`,
       isPreview: order === 1,
-    }
+    };
   }
 
-  return createPendingEpisode(order, title, `Referencia original de playlist [${reference}].`)
+  return createPendingEpisode(
+    order,
+    title,
+    `Referencia original de playlist [${reference}].`,
+  );
 }
 
 function createReferencedEpisodeWithUrl(
   reference: number,
   order: number,
   title: string,
-  youtubeUrl: string
+  youtubeUrl: string,
 ): EpisodeDraft {
   return {
     title,
@@ -156,11 +203,11 @@ function createReferencedEpisodeWithUrl(
     youtubeUrl,
     description: `Referencia original de playlist [${reference}].`,
     isPreview: order === 1,
-  }
+  };
 }
 
-function createCourse(draft: CourseDraft): Course {
-  const slug = slugify(draft.title)
+function createVideoCourse(draft: CourseDraft): Course {
+  const slug = slugify(draft.title);
   const sections = draft.sections
     .slice()
     .sort((left, right) => left.order - right.order)
@@ -175,34 +222,35 @@ function createCourse(draft: CourseDraft): Course {
           id: `${slug}-section-${section.order}-episode-${episode.order}`,
           youtubeVideoId: getYoutubeVideoId(episode.youtubeUrl),
         })),
-    }))
+    }));
 
   const course: Course = {
     ...draft,
     id: slug,
     slug,
+    contentType: "video",
     sections,
     totalSections: sections.length,
     totalEpisodes: countTotalEpisodes({ sections }),
     thumbnail: undefined,
     coverImage: draft.coverImage,
-  }
+  };
 
-  const firstEpisode = getFirstEpisode(course)
-  const firstEpisodeThumbnail = getYoutubeThumbnail(firstEpisode?.youtubeUrl)
+  const firstEpisode = getFirstEpisode(course);
+  const firstEpisodeThumbnail = getYoutubeThumbnail(firstEpisode?.youtubeUrl);
 
-  course.thumbnail = firstEpisodeThumbnail ?? draft.coverImage
-  course.coverImage = draft.coverImage ?? course.thumbnail
+  course.thumbnail = firstEpisodeThumbnail ?? draft.coverImage;
+  course.coverImage = draft.coverImage ?? course.thumbnail;
   course.duration =
     draft.duration ??
     (course.status === "published"
       ? `${course.totalEpisodes} episodio${course.totalEpisodes === 1 ? "" : "s"}`
-      : undefined)
+      : undefined);
 
-  return course
+  return course;
 }
 
-const courseDrafts: CourseDraft[] = [
+const videoCourseDrafts: CourseDraft[] = [
   {
     title: "Presentacion, promos, testimonios y comunidad",
     shortDescription:
@@ -217,44 +265,45 @@ const courseDrafts: CourseDraft[] = [
     sections: [
       {
         title: "Seccion 1: Promocion y contexto",
-        description: "Promos, manifiestos y piezas de introduccion a la comunidad.",
+        description:
+          "Promos, manifiestos y piezas de introduccion a la comunidad.",
         order: 1,
         episodes: [
           createReferencedEpisodeWithUrl(
             2,
             1,
             "00. NO SE TRATA DE MOTIVACION, SE TRATA DE MOVERTE",
-            "https://www.youtube.com/watch?v=CJKRRR0EWjY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=2"
+            "https://www.youtube.com/watch?v=CJKRRR0EWjY&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=2",
           ),
           createReferencedEpisodeWithUrl(
             7,
             2,
             "EL CURSO QUE REVOLUCIONA LA EDUCACION - FOCUS PROGRAM (GRATIS EN NUESTRO PERFIL)",
-            "https://www.youtube.com/watch?v=-EoFq_awQ5k&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=7"
+            "https://www.youtube.com/watch?v=-EoFq_awQ5k&list=PL7CVTLJ8b8aIPe0OyhTgm70MdL0er_ONQ&index=7",
           ),
           createReferencedEpisodeWithUrl(
             62,
             3,
             "00. EL LEON QUE TODOS LLEVAMOS DENTRO",
-            "https://youtu.be/qmI1iXUVmC8?si=rjJv8peNyNMWn7Va"
+            "https://youtu.be/qmI1iXUVmC8?si=rjJv8peNyNMWn7Va",
           ),
           createReferencedEpisodeWithUrl(
             98,
             4,
             "00. DEJA DE COMPRAR IDEAS",
-            "https://youtu.be/VOVNXWTaAss?si=V9BNn25m0ZITgU2C"
+            "https://youtu.be/VOVNXWTaAss?si=V9BNn25m0ZITgU2C",
           ),
           createReferencedEpisodeWithUrl(
             106,
             5,
             "EL MUNDO DE ABRAKADABRA",
-            "https://youtu.be/fyOozWkGEsE?si=IIv7egrNfDObZpjF"
+            "https://youtu.be/fyOozWkGEsE?si=IIv7egrNfDObZpjF",
           ),
           createReferencedEpisodeWithUrl(
             136,
             6,
             "00. FOCUS PRESENCIAL",
-            "https://youtu.be/08lSqlFM7BE?si=QbtDChvLT2L3hh4j"
+            "https://youtu.be/08lSqlFM7BE?si=QbtDChvLT2L3hh4j",
           ),
         ],
       },
@@ -263,22 +312,51 @@ const courseDrafts: CourseDraft[] = [
         description: "Historias y resultados de estudiantes y miembros.",
         order: 2,
         episodes: [
-          createReferencedPendingEpisode(1, 1, "23. TESTIMONIO SOBRE EL MAPA DE SUENOS - TUTO OMAR"),
+          createReferencedPendingEpisode(
+            1,
+            1,
+            "23. TESTIMONIO SOBRE EL MAPA DE SUENOS - TUTO OMAR",
+          ),
           createReferencedPendingEpisode(3, 2, "TESTIMONIOS FOCUS PROGRAM"),
-          createReferencedPendingEpisode(36, 3, "25. TESTIMONIO SOBRE DEL MAPA DE SUENOS - WILMARK MUNOZ"),
-          createReferencedPendingEpisode(155, 4, "99. JORGE BORBON - LA ENTREVISTA QUE CAMBIARA TU VIDA"),
+          createReferencedPendingEpisode(
+            36,
+            3,
+            "25. TESTIMONIO SOBRE DEL MAPA DE SUENOS - WILMARK MUNOZ",
+          ),
+          createReferencedPendingEpisode(
+            155,
+            4,
+            "99. JORGE BORBON - LA ENTREVISTA QUE CAMBIARA TU VIDA",
+          ),
         ],
       },
       {
         title: "Seccion 3: Presentaciones de invitados",
-        description: "Introducciones de los invitados que participan en la academia.",
+        description:
+          "Introducciones de los invitados que participan en la academia.",
         order: 3,
         episodes: [
           createReferencedPendingEpisode(4, 1, "00. PRESENTACION MAGDA MATEUS"),
-          createReferencedPendingEpisode(5, 2, "68. BIENVENIDA - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(6, 3, "00. QUIEN SOY Y COMO CONOCI A ANDRES HENAO - MARCELA NUNEZ"),
-          createReferencedPendingEpisode(66, 4, "59. PRESENTACION MAGDA MATEUS Y ANDRES HENAO"),
-          createReferencedPendingEpisode(87, 5, "00. BIENVENIDA ANDRES HENAO Y DANIEL RODRIGUEZ"),
+          createReferencedPendingEpisode(
+            5,
+            2,
+            "68. BIENVENIDA - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            6,
+            3,
+            "00. QUIEN SOY Y COMO CONOCI A ANDRES HENAO - MARCELA NUNEZ",
+          ),
+          createReferencedPendingEpisode(
+            66,
+            4,
+            "59. PRESENTACION MAGDA MATEUS Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            87,
+            5,
+            "00. BIENVENIDA ANDRES HENAO Y DANIEL RODRIGUEZ",
+          ),
         ],
       },
     ],
@@ -301,19 +379,36 @@ const courseDrafts: CourseDraft[] = [
         order: 1,
         episodes: [
           createReferencedPendingEpisode(8, 1, "00. BIENVENIDA FOCUS PROGRAM"),
-          createReferencedPendingEpisode(9, 2, "01. POR QUE SE CREO FOCUS PROGRAM?"),
-          createReferencedPendingEpisode(10, 3, "02. LA IMPORTANCIA DE LOS 3 HABITOS"),
+          createReferencedPendingEpisode(
+            9,
+            2,
+            "01. POR QUE SE CREO FOCUS PROGRAM?",
+          ),
+          createReferencedPendingEpisode(
+            10,
+            3,
+            "02. LA IMPORTANCIA DE LOS 3 HABITOS",
+          ),
           createReferencedPendingEpisode(12, 4, "03. REGLAS DEL JUEGO"),
         ],
       },
       {
         title: "Seccion 2: Potencial, valores y creencias",
-        description: "Exploracion de potencial, valores y meditacion de bienvenida.",
+        description:
+          "Exploracion de potencial, valores y meditacion de bienvenida.",
         order: 2,
         episodes: [
-          createReferencedPendingEpisode(13, 1, "04. PREGUNTAS PARA SABER SI ESTAS DESARROLLANDO TU POTENCIAL"),
+          createReferencedPendingEpisode(
+            13,
+            1,
+            "04. PREGUNTAS PARA SABER SI ESTAS DESARROLLANDO TU POTENCIAL",
+          ),
           createReferencedPendingEpisode(14, 2, "05. VALORES Y CREENCIAS"),
-          createReferencedPendingEpisode(15, 3, "06. VALORES Y CREENCIAS - CONCLUSION"),
+          createReferencedPendingEpisode(
+            15,
+            3,
+            "06. VALORES Y CREENCIAS - CONCLUSION",
+          ),
           createReferencedPendingEpisode(16, 4, "07. MEDITACION BIENVENIDA"),
         ],
       },
@@ -323,8 +418,16 @@ const courseDrafts: CourseDraft[] = [
         order: 3,
         episodes: [
           createReferencedPendingEpisode(17, 1, "08. FORMULA C + H x A"),
-          createReferencedPendingEpisode(20, 2, "09. LA FORMULA DEFINITIVA DEL EXITO"),
-          createReferencedPendingEpisode(21, 3, "10. FORMULA SENTIR, PENSAR, DECIR, HACER"),
+          createReferencedPendingEpisode(
+            20,
+            2,
+            "09. LA FORMULA DEFINITIVA DEL EXITO",
+          ),
+          createReferencedPendingEpisode(
+            21,
+            3,
+            "10. FORMULA SENTIR, PENSAR, DECIR, HACER",
+          ),
           createReferencedPendingEpisode(22, 4, "11. FORMULA DEL EXITO"),
           createReferencedPendingEpisode(23, 5, "12. FORMULA AMC"),
           createReferencedPendingEpisode(193, 6, "09. FORMULA C + H x A"),
@@ -336,9 +439,21 @@ const courseDrafts: CourseDraft[] = [
         order: 4,
         episodes: [
           createReferencedPendingEpisode(24, 1, "13. EL PODER DEL YO SOY"),
-          createReferencedPendingEpisode(25, 2, "14. MEDITACION DECRETO YO SOY"),
-          createReferencedPendingEpisode(27, 3, "16. COMO SER FELIZ CON LO QUE HACES"),
-          createReferencedPendingEpisode(28, 4, "17. COMO SER FELIZ CON LO QUE HACES - FILOSOFIA DE VIDA"),
+          createReferencedPendingEpisode(
+            25,
+            2,
+            "14. MEDITACION DECRETO YO SOY",
+          ),
+          createReferencedPendingEpisode(
+            27,
+            3,
+            "16. COMO SER FELIZ CON LO QUE HACES",
+          ),
+          createReferencedPendingEpisode(
+            28,
+            4,
+            "17. COMO SER FELIZ CON LO QUE HACES - FILOSOFIA DE VIDA",
+          ),
         ],
       },
       {
@@ -346,23 +461,52 @@ const courseDrafts: CourseDraft[] = [
         description: "Proposito de vida, rueda de la vida y mapa de suenos.",
         order: 5,
         episodes: [
-          createReferencedPendingEpisode(29, 1, "18. EL DIA QUE PERDI LA VISTA, APRENDI A VER"),
+          createReferencedPendingEpisode(
+            29,
+            1,
+            "18. EL DIA QUE PERDI LA VISTA, APRENDI A VER",
+          ),
           createReferencedPendingEpisode(30, 2, "19. LA RUEDA DE LA VIDA"),
-          createReferencedPendingEpisode(31, 3, "20. MEDITACION PROPOSITO DE VIDA"),
-          createReferencedPendingEpisode(33, 4, "22. APRENDE A MARCAR ESTANDARES"),
-          createReferencedPendingEpisode(35, 5, "24. EL PODER DEL MAPA DE SUENOS"),
+          createReferencedPendingEpisode(
+            31,
+            3,
+            "20. MEDITACION PROPOSITO DE VIDA",
+          ),
+          createReferencedPendingEpisode(
+            33,
+            4,
+            "22. APRENDE A MARCAR ESTANDARES",
+          ),
+          createReferencedPendingEpisode(
+            35,
+            5,
+            "24. EL PODER DEL MAPA DE SUENOS",
+          ),
         ],
       },
       {
         title: "Seccion 6: Abundancia, gratitud y felicidad",
-        description: "Meditaciones y reflexiones sobre abundancia, gratitud y felicidad.",
+        description:
+          "Meditaciones y reflexiones sobre abundancia, gratitud y felicidad.",
         order: 6,
         episodes: [
           createReferencedPendingEpisode(37, 1, "26. MEDITACION DE ABUNDANCIA"),
-          createReferencedPendingEpisode(39, 2, "28 POR QUE ES IMPORTANTE AGRADECER ANDRES HENAO"),
-          createReferencedPendingEpisode(40, 3, "31. MEDITACION AGRADECIMIENTO"),
+          createReferencedPendingEpisode(
+            39,
+            2,
+            "28 POR QUE ES IMPORTANTE AGRADECER ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            40,
+            3,
+            "31. MEDITACION AGRADECIMIENTO",
+          ),
           createReferencedPendingEpisode(41, 4, "30. QUE ES LA FELICIDAD"),
-          createReferencedPendingEpisode(190, 5, "29. POR QUE ES IMPORTANTE AGRADECER"),
+          createReferencedPendingEpisode(
+            190,
+            5,
+            "29. POR QUE ES IMPORTANTE AGRADECER",
+          ),
         ],
       },
       {
@@ -371,24 +515,49 @@ const courseDrafts: CourseDraft[] = [
         order: 7,
         episodes: [
           createReferencedPendingEpisode(43, 1, "33. QUE ES EL MIEDO"),
-          createReferencedPendingEpisode(44, 2, "35. COMO MOTIVARME CUANDO NO QUIERO HACER LAS COSAS"),
-          createReferencedPendingEpisode(45, 3, "36. LA IMPORTANCIA DE SABER RELACIONARTE"),
+          createReferencedPendingEpisode(
+            44,
+            2,
+            "35. COMO MOTIVARME CUANDO NO QUIERO HACER LAS COSAS",
+          ),
+          createReferencedPendingEpisode(
+            45,
+            3,
+            "36. LA IMPORTANCIA DE SABER RELACIONARTE",
+          ),
           createReferencedPendingEpisode(46, 4, "37. MEDITACION RELACIONES"),
         ],
       },
       {
         title: "Seccion 8: Reflexion profunda y cierre",
-        description: "Meditaciones finales, reflexion profunda y cierre del programa.",
+        description:
+          "Meditaciones finales, reflexion profunda y cierre del programa.",
         order: 8,
         episodes: [
-          createReferencedPendingEpisode(47, 1, "43. MEDITACION RECOPILAR INFORMACION"),
-          createReferencedPendingEpisode(48, 2, "39. LA IMPORTANCIA DE DAR, PEDIR, RECIBIR"),
+          createReferencedPendingEpisode(
+            47,
+            1,
+            "43. MEDITACION RECOPILAR INFORMACION",
+          ),
+          createReferencedPendingEpisode(
+            48,
+            2,
+            "39. LA IMPORTANCIA DE DAR, PEDIR, RECIBIR",
+          ),
           createReferencedPendingEpisode(49, 3, "40. NOS VAMOS A MORIR"),
           createReferencedPendingEpisode(51, 4, "41. MEDITACION ESTAS MUERTO"),
           createReferencedPendingEpisode(52, 5, "44. DECRETO FINAL FOCUS"),
           createReferencedPendingEpisode(53, 6, "57. MEDITACION DE RELAJACION"),
-          createReferencedPendingEpisode(124, 7, "78. MEDITACION DE RELAJACION - ANDRES HENAO"),
-          createReferencedPendingEpisode(126, 8, "28. APRENDE A DISFRUTAR EL PROCESO"),
+          createReferencedPendingEpisode(
+            124,
+            7,
+            "78. MEDITACION DE RELAJACION - ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            126,
+            8,
+            "28. APRENDE A DISFRUTAR EL PROCESO",
+          ),
         ],
       },
     ],
@@ -410,9 +579,21 @@ const courseDrafts: CourseDraft[] = [
         description: "Presentacion del enfoque y origen del trabajo.",
         order: 1,
         episodes: [
-          createReferencedPendingEpisode(54, 1, "47. QUIEN SOY Y COMO CONOCI A ANDRES HENAO - MARCELA NUNEZ"),
-          createReferencedPendingEpisode(65, 2, "49. QUE ES LA BIOREPROGRAMACION - MARCELA NUNEZ"),
-          createReferencedPendingEpisode(55, 3, "48. COMO LLEGO A MI LA BIOREPROGRAMACION - MARCELA NUNEZ"),
+          createReferencedPendingEpisode(
+            54,
+            1,
+            "47. QUIEN SOY Y COMO CONOCI A ANDRES HENAO - MARCELA NUNEZ",
+          ),
+          createReferencedPendingEpisode(
+            65,
+            2,
+            "49. QUE ES LA BIOREPROGRAMACION - MARCELA NUNEZ",
+          ),
+          createReferencedPendingEpisode(
+            55,
+            3,
+            "48. COMO LLEGO A MI LA BIOREPROGRAMACION - MARCELA NUNEZ",
+          ),
         ],
       },
       {
@@ -420,10 +601,26 @@ const courseDrafts: CourseDraft[] = [
         description: "Etapas de guion mental, mandatos y programacion.",
         order: 2,
         episodes: [
-          createReferencedPendingEpisode(63, 1, "50. GUION MENTAL ETAPA 1 - MARCELA NUNEZ"),
-          createReferencedPendingEpisode(60, 2, "51. GUION MENTAL ETAPA 2 Y 3 - MARCELA NUNEZ"),
-          createReferencedPendingEpisode(59, 3, "52. IMPULSORES Y MANDATOS FRENADORES - MARCELA NUNEZ"),
-          createReferencedPendingEpisode(58, 4, "53. LOS ESTIMULOS NOS PROGRAMAN - MARCELA NUNEZ"),
+          createReferencedPendingEpisode(
+            63,
+            1,
+            "50. GUION MENTAL ETAPA 1 - MARCELA NUNEZ",
+          ),
+          createReferencedPendingEpisode(
+            60,
+            2,
+            "51. GUION MENTAL ETAPA 2 Y 3 - MARCELA NUNEZ",
+          ),
+          createReferencedPendingEpisode(
+            59,
+            3,
+            "52. IMPULSORES Y MANDATOS FRENADORES - MARCELA NUNEZ",
+          ),
+          createReferencedPendingEpisode(
+            58,
+            4,
+            "53. LOS ESTIMULOS NOS PROGRAMAN - MARCELA NUNEZ",
+          ),
         ],
       },
       {
@@ -431,8 +628,16 @@ const courseDrafts: CourseDraft[] = [
         description: "Meditacion y aplicacion practica del proceso.",
         order: 3,
         episodes: [
-          createReferencedPendingEpisode(57, 1, "54. MEDITACION CIRCULO DE LA ENERGIA - MARCELA NUNEZ"),
-          createReferencedPendingEpisode(56, 2, "55. Y AHORA QUE HAGO - MARCELA NUNEZ"),
+          createReferencedPendingEpisode(
+            57,
+            1,
+            "54. MEDITACION CIRCULO DE LA ENERGIA - MARCELA NUNEZ",
+          ),
+          createReferencedPendingEpisode(
+            56,
+            2,
+            "55. Y AHORA QUE HAGO - MARCELA NUNEZ",
+          ),
         ],
       },
     ],
@@ -454,9 +659,21 @@ const courseDrafts: CourseDraft[] = [
         description: "Presentacion y primeras bases del curso.",
         order: 1,
         episodes: [
-          createReferencedPendingEpisode(66, 1, "59. PRESENTACION MAGDA MATEUS Y ANDRES HENAO"),
-          createReferencedPendingEpisode(68, 2, "60. 3 DISTINCIONES DEL SER HUMANO - MAGDA MATEUS"),
-          createReferencedPendingEpisode(85, 3, "DIA 26 1 Magda y Andres Introduccion FINAL"),
+          createReferencedPendingEpisode(
+            66,
+            1,
+            "59. PRESENTACION MAGDA MATEUS Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            68,
+            2,
+            "60. 3 DISTINCIONES DEL SER HUMANO - MAGDA MATEUS",
+          ),
+          createReferencedPendingEpisode(
+            85,
+            3,
+            "DIA 26 1 Magda y Andres Introduccion FINAL",
+          ),
         ],
       },
       {
@@ -464,12 +681,32 @@ const courseDrafts: CourseDraft[] = [
         description: "Desarrollo del bloque de distinciones.",
         order: 2,
         episodes: [
-          createReferencedPendingEpisode(71, 1, "63. CONOCE LAS DOS DISTINCIONES - MAGDA MATEUS"),
+          createReferencedPendingEpisode(
+            71,
+            1,
+            "63. CONOCE LAS DOS DISTINCIONES - MAGDA MATEUS",
+          ),
           createReferencedPendingEpisode(76, 2, "DIA 26 Magda 2 Distinciones"),
-          createReferencedPendingEpisode(78, 3, "DIA 26 2 Magda 3 distinciones FINAL"),
-          createReferencedPendingEpisode(80, 4, "DIA 26 5 Magda 2 distinciones FINAL"),
-          createReferencedPendingEpisode(81, 5, "DIA 26 Magda 2 Distinciones 2"),
-          createReferencedPendingEpisode(191, 6, "DIA 26 5 Magda 2 distinciones"),
+          createReferencedPendingEpisode(
+            78,
+            3,
+            "DIA 26 2 Magda 3 distinciones FINAL",
+          ),
+          createReferencedPendingEpisode(
+            80,
+            4,
+            "DIA 26 5 Magda 2 distinciones FINAL",
+          ),
+          createReferencedPendingEpisode(
+            81,
+            5,
+            "DIA 26 Magda 2 Distinciones 2",
+          ),
+          createReferencedPendingEpisode(
+            191,
+            6,
+            "DIA 26 5 Magda 2 distinciones",
+          ),
         ],
       },
       {
@@ -477,9 +714,21 @@ const courseDrafts: CourseDraft[] = [
         description: "Soltar pasado, acuerdos y manejo de emociones.",
         order: 3,
         episodes: [
-          createReferencedPendingEpisode(69, 1, "61. COMO SOLTAR EVENTOS DEL PASADO - MAGDA MATEUS"),
-          createReferencedPendingEpisode(72, 2, "64. MEDITACION DE ACUERDOS ROTOS - MAGDA MATEUS"),
-          createReferencedPendingEpisode(73, 3, "65. COMO SABER MANEJAR TUS EMOCIONES - MAGDA MATEUS"),
+          createReferencedPendingEpisode(
+            69,
+            1,
+            "61. COMO SOLTAR EVENTOS DEL PASADO - MAGDA MATEUS",
+          ),
+          createReferencedPendingEpisode(
+            72,
+            2,
+            "64. MEDITACION DE ACUERDOS ROTOS - MAGDA MATEUS",
+          ),
+          createReferencedPendingEpisode(
+            73,
+            3,
+            "65. COMO SABER MANEJAR TUS EMOCIONES - MAGDA MATEUS",
+          ),
           createReferencedPendingEpisode(77, 4, "DIA 26 Magda Emociones"),
           createReferencedPendingEpisode(82, 5, "DIA 26 6 Magda Emociones"),
           createReferencedPendingEpisode(84, 6, "DIA 26 Magda Emociones FINAL"),
@@ -490,9 +739,21 @@ const courseDrafts: CourseDraft[] = [
         description: "Meditaciones centrales de integracion del curso.",
         order: 4,
         episodes: [
-          createReferencedPendingEpisode(70, 1, "62. MEDITACION SE CAPITAN DE TU VIDA - MAGDA MATEUS"),
-          createReferencedPendingEpisode(79, 2, "DIA 26 4 Magda Meditacion Capitan de tu propia vida FINAL"),
-          createReferencedPendingEpisode(74, 3, "66. MEDITACION PADRES - MAGDA MATEUS Y ANDRES HENAO"),
+          createReferencedPendingEpisode(
+            70,
+            1,
+            "62. MEDITACION SE CAPITAN DE TU VIDA - MAGDA MATEUS",
+          ),
+          createReferencedPendingEpisode(
+            79,
+            2,
+            "DIA 26 4 Magda Meditacion Capitan de tu propia vida FINAL",
+          ),
+          createReferencedPendingEpisode(
+            74,
+            3,
+            "66. MEDITACION PADRES - MAGDA MATEUS Y ANDRES HENAO",
+          ),
         ],
       },
     ],
@@ -514,19 +775,44 @@ const courseDrafts: CourseDraft[] = [
         description: "Bases de bienes raices y finanzas personales.",
         order: 1,
         episodes: [
-          createReferencedPendingEpisode(100, 1, "69. EL ABC DE LOS BIENES RAICES - DANIEL RODRIGUEZ"),
-          createReferencedPendingEpisode(99, 2, "70. POR QUE INVERTIR EN BIENES RAICES - DANIEL RODRIGUEZ"),
-          createReferencedPendingEpisode(97, 3, "71. APRENDE A MANEJAR TUS FINANZAS - DANIEL RODRIGUEZ"),
+          createReferencedPendingEpisode(
+            100,
+            1,
+            "69. EL ABC DE LOS BIENES RAICES - DANIEL RODRIGUEZ",
+          ),
+          createReferencedPendingEpisode(
+            99,
+            2,
+            "70. POR QUE INVERTIR EN BIENES RAICES - DANIEL RODRIGUEZ",
+          ),
+          createReferencedPendingEpisode(
+            97,
+            3,
+            "71. APRENDE A MANEJAR TUS FINANZAS - DANIEL RODRIGUEZ",
+          ),
         ],
       },
       {
         title: "Seccion 2: Objetivo, rentabilidad y numeros",
-        description: "Analisis de objetivo, rentabilidad y numeros del inmueble.",
+        description:
+          "Analisis de objetivo, rentabilidad y numeros del inmueble.",
         order: 2,
         episodes: [
-          createReferencedPendingEpisode(96, 1, "72. DEFINE EL OBJETIVO PAR TU INMUEBLE - DANIEL RODRIGUEZ"),
-          createReferencedPendingEpisode(94, 2, "73. DEFINE LA RENTABILIDAD DE TU INMUEBLE - DANIEL RODRIGUEZ"),
-          createReferencedPendingEpisode(93, 3, "74. APRENDE A VER LOS NUMEROS - DANIEL RODRIGUEZ"),
+          createReferencedPendingEpisode(
+            96,
+            1,
+            "72. DEFINE EL OBJETIVO PAR TU INMUEBLE - DANIEL RODRIGUEZ",
+          ),
+          createReferencedPendingEpisode(
+            94,
+            2,
+            "73. DEFINE LA RENTABILIDAD DE TU INMUEBLE - DANIEL RODRIGUEZ",
+          ),
+          createReferencedPendingEpisode(
+            93,
+            3,
+            "74. APRENDE A VER LOS NUMEROS - DANIEL RODRIGUEZ",
+          ),
         ],
       },
       {
@@ -534,9 +820,21 @@ const courseDrafts: CourseDraft[] = [
         description: "Busqueda de propiedad y decisiones de compra.",
         order: 3,
         episodes: [
-          createReferencedPendingEpisode(91, 1, "75. COMO ENCONTRAR LA PROPIEDAD IDEAL - DANIEL RODRIGUEZ"),
-          createReferencedPendingEpisode(90, 2, "76. COMO COMPRAR TU PRIMERA PROPIEDAD - DANIEL RODRIGUEZ"),
-          createReferencedPendingEpisode(88, 3, "77. COMO HACER UN ESTUDIO DE MERCADO - DANIEL RODRIGUEZ"),
+          createReferencedPendingEpisode(
+            91,
+            1,
+            "75. COMO ENCONTRAR LA PROPIEDAD IDEAL - DANIEL RODRIGUEZ",
+          ),
+          createReferencedPendingEpisode(
+            90,
+            2,
+            "76. COMO COMPRAR TU PRIMERA PROPIEDAD - DANIEL RODRIGUEZ",
+          ),
+          createReferencedPendingEpisode(
+            88,
+            3,
+            "77. COMO HACER UN ESTUDIO DE MERCADO - DANIEL RODRIGUEZ",
+          ),
         ],
       },
     ],
@@ -558,8 +856,16 @@ const courseDrafts: CourseDraft[] = [
         description: "Apertura del tema y bases del curso.",
         order: 1,
         episodes: [
-          createReferencedPendingEpisode(156, 1, "123. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(157, 2, "124. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
+          createReferencedPendingEpisode(
+            156,
+            1,
+            "123. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            157,
+            2,
+            "124. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
         ],
       },
       {
@@ -567,11 +873,31 @@ const courseDrafts: CourseDraft[] = [
         description: "Desarrollo principal del contenido.",
         order: 2,
         episodes: [
-          createReferencedPendingEpisode(158, 1, "125. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(159, 2, "126. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(160, 3, "127. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(161, 4, "128. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(162, 5, "129. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
+          createReferencedPendingEpisode(
+            158,
+            1,
+            "125. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            159,
+            2,
+            "126. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            160,
+            3,
+            "127. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            161,
+            4,
+            "128. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            162,
+            5,
+            "129. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
         ],
       },
       {
@@ -579,11 +905,31 @@ const courseDrafts: CourseDraft[] = [
         description: "Cierre del curso y contenido bonus.",
         order: 3,
         episodes: [
-          createReferencedPendingEpisode(163, 1, "130. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO (BONUS)"),
-          createReferencedPendingEpisode(164, 2, "131. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(165, 3, "132. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(166, 4, "133. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(167, 5, "134. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO"),
+          createReferencedPendingEpisode(
+            163,
+            1,
+            "130. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO (BONUS)",
+          ),
+          createReferencedPendingEpisode(
+            164,
+            2,
+            "131. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            165,
+            3,
+            "132. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            166,
+            4,
+            "133. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            167,
+            5,
+            "134. COMO MONETIZAR TU CONOCIMIENTO - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
         ],
       },
     ],
@@ -605,8 +951,16 @@ const courseDrafts: CourseDraft[] = [
         description: "Entrada al reto desde las dos voces del programa.",
         order: 1,
         episodes: [
-          createReferencedPendingEpisode(171, 1, "101. RETO IMPARABLE (BIENVENIDA) - DANIEL RODRIGUEZ"),
-          createReferencedPendingEpisode(172, 2, "102. RETO IMPARABLE (BIENVENIDA) - ANDRES HENAO"),
+          createReferencedPendingEpisode(
+            171,
+            1,
+            "101. RETO IMPARABLE (BIENVENIDA) - DANIEL RODRIGUEZ",
+          ),
+          createReferencedPendingEpisode(
+            172,
+            2,
+            "102. RETO IMPARABLE (BIENVENIDA) - ANDRES HENAO",
+          ),
         ],
       },
       {
@@ -614,14 +968,46 @@ const courseDrafts: CourseDraft[] = [
         description: "Primer tramo del reto.",
         order: 2,
         episodes: [
-          createReferencedPendingEpisode(169, 1, "103. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(174, 2, "104. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(177, 3, "105. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(176, 4, "106. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(188, 5, "107. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(179, 6, "108. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(185, 7, "109. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(168, 8, "110. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
+          createReferencedPendingEpisode(
+            169,
+            1,
+            "103. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            174,
+            2,
+            "104. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            177,
+            3,
+            "105. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            176,
+            4,
+            "106. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            188,
+            5,
+            "107. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            179,
+            6,
+            "108. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            185,
+            7,
+            "109. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            168,
+            8,
+            "110. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
         ],
       },
       {
@@ -629,14 +1015,46 @@ const courseDrafts: CourseDraft[] = [
         description: "Segundo bloque del reto.",
         order: 3,
         episodes: [
-          createReferencedPendingEpisode(175, 1, "111. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(178, 2, "112. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(170, 3, "113. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(189, 4, "114. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(180, 5, "115. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(182, 6, "116. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(181, 7, "117. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(187, 8, "118. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
+          createReferencedPendingEpisode(
+            175,
+            1,
+            "111. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            178,
+            2,
+            "112. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            170,
+            3,
+            "113. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            189,
+            4,
+            "114. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            180,
+            5,
+            "115. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            182,
+            6,
+            "116. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            181,
+            7,
+            "117. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            187,
+            8,
+            "118. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
         ],
       },
       {
@@ -644,10 +1062,26 @@ const courseDrafts: CourseDraft[] = [
         description: "Cierre del reto en su tramo final.",
         order: 4,
         episodes: [
-          createReferencedPendingEpisode(183, 1, "119. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(173, 2, "120. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(186, 3, "121. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
-          createReferencedPendingEpisode(184, 4, "122. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO"),
+          createReferencedPendingEpisode(
+            183,
+            1,
+            "119. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            173,
+            2,
+            "120. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            186,
+            3,
+            "121. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            184,
+            4,
+            "122. RETO IMPARABLE - DANIEL RODRIGUEZ Y ANDRES HENAO",
+          ),
         ],
       },
     ],
@@ -669,8 +1103,16 @@ const courseDrafts: CourseDraft[] = [
         description: "Apertura e introduccion al curso de trading.",
         order: 1,
         episodes: [
-          createReferencedPendingEpisode(109, 1, "136. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
-          createReferencedPendingEpisode(113, 2, "08. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
+          createReferencedPendingEpisode(
+            109,
+            1,
+            "136. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
+          createReferencedPendingEpisode(
+            113,
+            2,
+            "08. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
         ],
       },
       {
@@ -678,13 +1120,41 @@ const courseDrafts: CourseDraft[] = [
         description: "Desarrollo principal del curso.",
         order: 2,
         episodes: [
-          createReferencedPendingEpisode(123, 1, "137. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
-          createReferencedPendingEpisode(121, 2, "138. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
-          createReferencedPendingEpisode(120, 3, "139. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
-          createReferencedPendingEpisode(118, 4, "140. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
-          createReferencedPendingEpisode(116, 5, "141. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
-          createReferencedPendingEpisode(115, 6, "142. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
-          createReferencedPendingEpisode(112, 7, "143. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
+          createReferencedPendingEpisode(
+            123,
+            1,
+            "137. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
+          createReferencedPendingEpisode(
+            121,
+            2,
+            "138. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
+          createReferencedPendingEpisode(
+            120,
+            3,
+            "139. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
+          createReferencedPendingEpisode(
+            118,
+            4,
+            "140. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
+          createReferencedPendingEpisode(
+            116,
+            5,
+            "141. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
+          createReferencedPendingEpisode(
+            115,
+            6,
+            "142. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
+          createReferencedPendingEpisode(
+            112,
+            7,
+            "143. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
         ],
       },
       {
@@ -692,7 +1162,11 @@ const courseDrafts: CourseDraft[] = [
         description: "Cierre del bloque de trading.",
         order: 3,
         episodes: [
-          createReferencedPendingEpisode(110, 1, "144. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO"),
+          createReferencedPendingEpisode(
+            110,
+            1,
+            "144. CURSO DE TRADING (Gratis) POR JUNIOR BEJARANO",
+          ),
         ],
       },
     ],
@@ -718,22 +1192,51 @@ const courseDrafts: CourseDraft[] = [
             107,
             1,
             "ABRAKADABRAREALM",
-            "https://youtu.be/m6TG-K6NoJw?si=k5tFFIgNo_MlyEwF"
+            "https://youtu.be/m6TG-K6NoJw?si=k5tFFIgNo_MlyEwF",
           ),
-          createReferencedPendingEpisode(130, 2, "80. DESBLOQUEA EL SIGUIENTE NIVEL - MACADAMIA (Bienvenida y Reglas)"),
-          createReferencedPendingEpisode(131, 3, "81. HERRAMIENTAS PARA EL SUBCONSCIENTE - MACADAMIA"),
-          createReferencedPendingEpisode(133, 4, "03. EL PODER DEL SUBCOSCIENTE - MACADAMIA"),
-          createReferencedPendingEpisode(134, 5, "82. REPROGRAMA TU MENTE - MACADAMIA"),
+          createReferencedPendingEpisode(
+            130,
+            2,
+            "80. DESBLOQUEA EL SIGUIENTE NIVEL - MACADAMIA (Bienvenida y Reglas)",
+          ),
+          createReferencedPendingEpisode(
+            131,
+            3,
+            "81. HERRAMIENTAS PARA EL SUBCONSCIENTE - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            133,
+            4,
+            "03. EL PODER DEL SUBCOSCIENTE - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            134,
+            5,
+            "82. REPROGRAMA TU MENTE - MACADAMIA",
+          ),
         ],
       },
       {
         title: "Seccion 2: Poder mental y creencias",
-        description: "Trabajo con hipnosis, poder mental y creencias limitantes.",
+        description:
+          "Trabajo con hipnosis, poder mental y creencias limitantes.",
         order: 2,
         episodes: [
-          createReferencedPendingEpisode(139, 1, "84. HIPNOSIS Y PODER MENTAL - MACADAMIA"),
-          createReferencedPendingEpisode(141, 2, "86. CREENCIAS LIMITANTES - MACADAMIA"),
-          createReferencedPendingEpisode(144, 3, "88. MEDITACION PARA MODIFICAR CREENCIAS LIMITANTES - MACADAMIA"),
+          createReferencedPendingEpisode(
+            139,
+            1,
+            "84. HIPNOSIS Y PODER MENTAL - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            141,
+            2,
+            "86. CREENCIAS LIMITANTES - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            144,
+            3,
+            "88. MEDITACION PARA MODIFICAR CREENCIAS LIMITANTES - MACADAMIA",
+          ),
         ],
       },
       {
@@ -741,8 +1244,16 @@ const courseDrafts: CourseDraft[] = [
         description: "Bloque vivencial y reto del curso.",
         order: 3,
         episodes: [
-          createReferencedPendingEpisode(140, 1, "85. TERAPIA DE WIN HOF - MACADAMIA"),
-          createReferencedPendingEpisode(142, 2, "87. VIDEO EXPERIENCIAL - MACADAMIA"),
+          createReferencedPendingEpisode(
+            140,
+            1,
+            "85. TERAPIA DE WIN HOF - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            142,
+            2,
+            "87. VIDEO EXPERIENCIAL - MACADAMIA",
+          ),
           createReferencedPendingEpisode(146, 3, "90. RETO MACADAMIA"),
         ],
       },
@@ -751,9 +1262,21 @@ const courseDrafts: CourseDraft[] = [
         description: "Formulas para el exito, impulso y preguntas poderosas.",
         order: 4,
         episodes: [
-          createReferencedPendingEpisode(147, 1, "91. FORMULAS PARA EL EXITO - MACADAMIA"),
-          createReferencedPendingEpisode(148, 2, "92. VUELVETE IMPARABLE - MACADAMIA"),
-          createReferencedPendingEpisode(149, 3, "93. PREGUNTAS PODEROSAS - MACADAMIA"),
+          createReferencedPendingEpisode(
+            147,
+            1,
+            "91. FORMULAS PARA EL EXITO - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            148,
+            2,
+            "92. VUELVETE IMPARABLE - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            149,
+            3,
+            "93. PREGUNTAS PODEROSAS - MACADAMIA",
+          ),
         ],
       },
       {
@@ -761,10 +1284,26 @@ const courseDrafts: CourseDraft[] = [
         description: "Cierre del curso con gratitud y ejecucion.",
         order: 5,
         episodes: [
-          createReferencedPendingEpisode(150, 1, "94. MEDITACION DE AGRADECIMIENTO - MACADAMIA"),
-          createReferencedPendingEpisode(152, 2, "96. QUE ES UN PLAN DE ACCION? - MACADAMIA"),
-          createReferencedPendingEpisode(153, 3, "97. COMO HACER UN PLAN DE ACCION? - MACADAMIA"),
-          createReferencedPendingEpisode(154, 4, "98. PODCAST PLAN DE ACCION - MACADAMIA"),
+          createReferencedPendingEpisode(
+            150,
+            1,
+            "94. MEDITACION DE AGRADECIMIENTO - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            152,
+            2,
+            "96. QUE ES UN PLAN DE ACCION? - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            153,
+            3,
+            "97. COMO HACER UN PLAN DE ACCION? - MACADAMIA",
+          ),
+          createReferencedPendingEpisode(
+            154,
+            4,
+            "98. PODCAST PLAN DE ACCION - MACADAMIA",
+          ),
         ],
       },
     ],
@@ -786,17 +1325,23 @@ const courseDrafts: CourseDraft[] = [
         description: "Herramientas practicas de landing pages y edicion.",
         order: 1,
         episodes: [
-          createReferencedPendingEpisode(127, 1, "46. COMO CREAR UNA LANDING PAGE DESDE CERO - NATAN NANDEZ"),
-          createReferencedPendingEpisode(128, 2, "45. COMO EDITAR UN VIDEO EN ADOBE PREMIERE POR MIGUEL TRUMAN"),
+          createReferencedPendingEpisode(
+            127,
+            1,
+            "46. COMO CREAR UNA LANDING PAGE DESDE CERO - NATAN NANDEZ",
+          ),
+          createReferencedPendingEpisode(
+            128,
+            2,
+            "45. COMO EDITAR UN VIDEO EN ADOBE PREMIERE POR MIGUEL TRUMAN",
+          ),
         ],
       },
       {
         title: "Seccion 2: Otros contenidos puntuales",
         description: "Material adicional complementario.",
         order: 2,
-        episodes: [
-          createReferencedPendingEpisode(192, 1, "HIPNOSIS"),
-        ],
+        episodes: [createReferencedPendingEpisode(192, 1, "HIPNOSIS")],
       },
     ],
   },
@@ -851,9 +1396,21 @@ const courseDrafts: CourseDraft[] = [
         description: "Rutinas y audios puntuales de Andres Henao.",
         order: 3,
         episodes: [
-          createReferencedPendingEpisode(42, 1, "31 RUTINA DE LECTURA ANDRES HENAO"),
-          createReferencedPendingEpisode(119, 2, "63 RUTINA DE LECTURA ANDRES HENAO"),
-          createReferencedPendingEpisode(125, 3, "48 RUTINA DE LECTURA ANDRES HENAO"),
+          createReferencedPendingEpisode(
+            42,
+            1,
+            "31 RUTINA DE LECTURA ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            119,
+            2,
+            "63 RUTINA DE LECTURA ANDRES HENAO",
+          ),
+          createReferencedPendingEpisode(
+            125,
+            3,
+            "48 RUTINA DE LECTURA ANDRES HENAO",
+          ),
           createReferencedPendingEpisode(83, 4, "145. RUTINA DE LECTURA FINAL"),
         ],
       },
@@ -864,82 +1421,328 @@ const courseDrafts: CourseDraft[] = [
         episodes: [
           createReferencedPendingEpisode(18, 1, "DIA 2 Formula 4 AMC"),
           createReferencedPendingEpisode(19, 2, "DIA 9 Relaciones"),
-          createReferencedPendingEpisode(34, 3, "2 3 nunca pares de aprender, la vida no deja de ensenar"),
-          createReferencedPendingEpisode(64, 4, "1 6 la practica hace al maestro"),
-          createReferencedPendingEpisode(101, 5, "3 7 La lectura te hara libre, el conocimiento te dara poder"),
-          createReferencedPendingEpisode(105, 6, "2 1 un lector vive mil veces antes de morir"),
-          createReferencedPendingEpisode(129, 7, "2 3 nunca pares de aprender, la vida no deja de ensenar"),
-          createReferencedPendingEpisode(132, 8, "2 2 no hay nada mas atractivo para el sexo opuesto"),
-          createReferencedPendingEpisode(135, 9, "3 8 te gustaria formarte con grandes lectores"),
-          createReferencedPendingEpisode(138, 10, "1 1 introduccion a la lectura"),
+          createReferencedPendingEpisode(
+            34,
+            3,
+            "2 3 nunca pares de aprender, la vida no deja de ensenar",
+          ),
+          createReferencedPendingEpisode(
+            64,
+            4,
+            "1 6 la practica hace al maestro",
+          ),
+          createReferencedPendingEpisode(
+            101,
+            5,
+            "3 7 La lectura te hara libre, el conocimiento te dara poder",
+          ),
+          createReferencedPendingEpisode(
+            105,
+            6,
+            "2 1 un lector vive mil veces antes de morir",
+          ),
+          createReferencedPendingEpisode(
+            129,
+            7,
+            "2 3 nunca pares de aprender, la vida no deja de ensenar",
+          ),
+          createReferencedPendingEpisode(
+            132,
+            8,
+            "2 2 no hay nada mas atractivo para el sexo opuesto",
+          ),
+          createReferencedPendingEpisode(
+            135,
+            9,
+            "3 8 te gustaria formarte con grandes lectores",
+          ),
+          createReferencedPendingEpisode(
+            138,
+            10,
+            "1 1 introduccion a la lectura",
+          ),
         ],
       },
     ],
   },
-]
+];
 
-export const courses: Course[] = courseDrafts.map(createCourse)
+const PDF_BASE_PATH = "/Pdfs-Cursos";
+
+function getPdfUrl(fileName: string) {
+  return `${PDF_BASE_PATH}/${fileName}`
+    .split("/")
+    .map((segment, index) =>
+      index === 0 ? segment : encodeURIComponent(segment),
+    )
+    .join("/");
+}
+
+function createPdfCourse(draft: PdfCourseDraft): Course {
+  return {
+    id: draft.slug,
+    slug: draft.slug,
+    title: draft.title,
+    shortDescription: draft.shortDescription,
+    fullDescription: draft.fullDescription,
+    instructor: draft.instructor,
+    category: draft.category,
+    level: draft.level,
+    thumbnail: draft.coverImage,
+    coverImage: draft.coverImage,
+    duration: `${draft.pages} página${draft.pages === 1 ? "" : "s"}`,
+    totalSections: 0,
+    totalEpisodes: 0,
+    status: "published",
+    contentType: "pdf",
+    pdfUrl: getPdfUrl(draft.pdfFileName),
+    pdfFileName: draft.pdfFileName,
+    pages: draft.pages,
+    sections: [],
+  };
+}
+
+const pdfCourseDrafts: PdfCourseDraft[] = [
+  {
+    slug: "abrakadabra-realm-pdf",
+    title: "Abrakadabra Realm",
+    shortDescription:
+      "El puente entre el arte, la transformación y la expansión consciente.",
+    fullDescription:
+      "Documento institucional sobre la filosofía, los pilares y el ecosistema creativo de Abrakadabra Realm.",
+    instructor: "Abrakadabra Realm",
+    category: "COMUNIDAD",
+    level: "Abierto",
+    coverImage: "/home/abrakadabra-p-home.jpg",
+    pdfFileName: "ABRAKADABRA_REALM.pdf",
+    pages: 12,
+  },
+  {
+    slug: "abrakadabra-realm-analisis-ecosistema-lujo-evolucion",
+    title: "Abrakadabra Realm: Análisis de un Ecosistema de Lujo y Evolución",
+    shortDescription:
+      "Un análisis del ecosistema de lujo, creatividad, pertenencia y evolución de Abrakadabra Realm.",
+    fullDescription:
+      "Documento sobre la filosofía colaborativa, la joyería, el arte, la moda y la expansión del ecosistema Abrakadabra Realm.",
+    instructor: "Abrakadabra Realm",
+    category: "COMUNIDAD",
+    level: "Abierto",
+    coverImage: "/image-Philosophy/Cursos.png",
+    pdfFileName:
+      "Abrakadabra_Realm_Análisis_de_un_Ecosistema_de_Lujo_y_Evolución.pdf",
+    pages: 8,
+  },
+  {
+    slug: "como-ser-un-intermediario-de-negocios-exitoso",
+    title: "Cómo Ser un Intermediario de Negocios Exitoso",
+    shortDescription:
+      "Domina las habilidades, conocimientos legales y estrategias para construir una carrera en intermediación de negocios.",
+    fullDescription:
+      "Curso sobre valoración, negociación, análisis financiero, ética, acuerdos NCND y cierre de transacciones.",
+    instructor: "Abrakadabra Realm",
+    category: "NEGOCIOS",
+    level: "Intermedio",
+    coverImage: "/home/rentcar-home.jpg",
+    pdfFileName: "Cómo_Ser_un_Intermediario_de_Negocios_Exitoso.pdf",
+    pages: 25,
+  },
+  {
+    slug: "control-de-emociones-en-los-negocios",
+    title: "Control de Emociones en los Negocios",
+    shortDescription:
+      "Liderazgo, resiliencia e inteligencia emocional para el éxito sostenible en entornos corporativos.",
+    fullDescription:
+      "Curso sobre autoconocimiento, autorregulación, empatía, gestión del estrés y liderazgo emocional.",
+    instructor: "Abrakadabra Realm",
+    category: "DESARROLLO PERSONAL",
+    level: "Abierto",
+    coverImage: "/home/joinus-home.webp",
+    pdfFileName: "Control_de_Emociones_en_los_Negocios.pdf",
+    pages: 10,
+  },
+  {
+    slug: "curso-basico-de-dj-para-principiantes",
+    title: "Curso Básico de DJ para Principiantes",
+    shortDescription:
+      "Aprende las bases de la selección musical, los BPM, la mezcla y la preparación de un set.",
+    fullDescription:
+      "Curso introductorio para comenzar en el mundo del DJ y comprender las herramientas fundamentales de la mezcla musical.",
+    instructor: "Abrakadabra Realm",
+    category: "MÚSICA",
+    level: "Principiante",
+    coverImage: "/home/ourmusic-home.webp",
+    pdfFileName: "Curso_Básico_de_DJ_para_Principiantes.pdf",
+    pages: 12,
+  },
+  {
+    slug: "curso-basico-de-fotografia",
+    title: "Curso Básico de Fotografía",
+    shortDescription:
+      "Aprende cámara, exposición, enfoque, composición, iluminación y narrativa visual.",
+    fullDescription:
+      "Curso básico para comprender cómo capturar imágenes con intención técnica y creativa.",
+    instructor: "Abrakadabra Realm",
+    category: "AUDIOVISUALES",
+    level: "Principiante",
+    coverImage: "/home/art-home.webp",
+    pdfFileName: "Curso_Básico_de_Fotografía.pdf",
+    pages: 9,
+  },
+  {
+    slug: "curso-como-emprender-desde-cero",
+    title: "Curso Cómo Emprender desde Cero",
+    shortDescription:
+      "Transforma una idea en un negocio sostenible y escalable.",
+    fullDescription:
+      "Guía práctica sobre validación, modelo de negocio, legalidad, finanzas, marketing, ventas y crecimiento.",
+    instructor: "Abrakadabra Realm",
+    category: "NEGOCIOS",
+    level: "Principiante",
+    coverImage: "/home/brand-home.png",
+    pdfFileName: "Curso_Cómo_Emprender_desde_Cero.pdf",
+    pages: 10,
+  },
+  {
+    slug: "curso-como-ser-promotor-de-artistas-y-eventos",
+    title: "Curso Cómo Ser Promotor de Artistas y Eventos",
+    shortDescription:
+      "Aprende a planificar, ejecutar y rentabilizar eventos y experiencias en vivo.",
+    fullDescription:
+      "Curso sobre el rol del promotor, contratación de artistas, presupuesto, marketing, logística y análisis postevento.",
+    instructor: "Abrakadabra Realm",
+    category: "EVENTOS",
+    level: "Principiante",
+    coverImage: "/home/events-home.webp",
+    pdfFileName: "Curso_Cómo_Ser_Promotor_de_Artistas_y_Eventos.pdf",
+    pages: 11,
+  },
+  {
+    slug: "curso-crea-tu-mapa-de-suenos",
+    title: "Curso Crea tu Mapa de Sueños",
+    shortDescription:
+      "Visualiza, organiza y activa tus metas con claridad, enfoque y propósito.",
+    fullDescription:
+      "Curso práctico para convertir aspiraciones en metas visibles y acciones concretas.",
+    instructor: "Abrakadabra Realm",
+    category: "DESARROLLO PERSONAL",
+    level: "Abierto",
+    coverImage: "/image-Philosophy/Cursos.png",
+    pdfFileName: "Curso_Crea_tu_Mapa_de_Sueños.pdf",
+    pages: 11,
+  },
+  {
+    slug: "curso-de-negociacion-estrategica",
+    title: "Curso de Negociación Estratégica",
+    shortDescription:
+      "Domina el arte de llegar a acuerdos exitosos con una visión estratégica.",
+    fullDescription:
+      "Curso sobre el método Harvard, comunicación asertiva, persuasión ética y negociación ganar-ganar.",
+    instructor: "Abrakadabra Realm",
+    category: "NEGOCIOS",
+    level: "Intermedio",
+    coverImage: "/home/brand-home.png",
+    pdfFileName: "Curso_de_Negociación_Estratégica.pdf",
+    pages: 11,
+  },
+];
+
+export const courses: Course[] = [
+  ...videoCourseDrafts.map(createVideoCourse),
+  ...pdfCourseDrafts.map(createPdfCourse),
+];
 
 function validateCourses(courseList: Course[]) {
-  const seenSlugs = new Set<string>()
+  const seenSlugs = new Set<string>();
 
   for (const course of courseList) {
     if (seenSlugs.has(course.slug)) {
-      throw new Error(`Slug duplicado detectado: ${course.slug}`)
+      throw new Error(`Slug duplicado detectado: ${course.slug}`);
     }
-    seenSlugs.add(course.slug)
+    seenSlugs.add(course.slug);
 
     if (course.totalSections !== course.sections.length) {
-      throw new Error(`totalSections invalido en ${course.slug}`)
+      throw new Error(`totalSections invalido en ${course.slug}`);
     }
 
     if (course.totalEpisodes !== countTotalEpisodes(course)) {
-      throw new Error(`totalEpisodes invalido en ${course.slug}`)
+      throw new Error(`totalEpisodes invalido en ${course.slug}`);
     }
 
-    if (course.status === "published" && course.sections.length === 0) {
-      throw new Error(`Curso publicado sin secciones: ${course.slug}`)
+    if (
+      course.status === "published" &&
+      course.contentType === "video" &&
+      course.sections.length === 0
+    ) {
+      throw new Error(`Curso de video publicado sin secciones: ${course.slug}`);
     }
 
-    if (course.status === "coming_soon" && course.sections.length > 0) {
-      throw new Error(`Curso coming_soon no debe tener secciones: ${course.slug}`)
+    if (
+      course.status === "published" &&
+      course.contentType === "pdf" &&
+      !course.pdfUrl
+    ) {
+      throw new Error(`Curso PDF publicado sin pdfUrl: ${course.slug}`);
+    }
+
+    if (
+      course.status === "coming_soon" &&
+      (course.sections.length > 0 || course.pdfUrl)
+    ) {
+      throw new Error(
+        `Curso coming_soon no debe tener contenido: ${course.slug}`,
+      );
     }
 
     for (const section of course.sections) {
-      if (course.status === "published" && section.episodes.length === 0) {
-        throw new Error(`Seccion publicada sin episodios: ${course.slug} / ${section.id}`)
+      if (
+        course.status === "published" &&
+        course.contentType === "video" &&
+        section.episodes.length === 0
+      ) {
+        throw new Error(
+          `Seccion publicada sin episodios: ${course.slug} / ${section.id}`,
+        );
       }
 
       for (const episode of section.episodes) {
-        if (course.status === "published" && !episode.youtubeUrl) {
-          throw new Error(`Episodio publicado sin youtubeUrl: ${episode.id}`)
+        if (
+          course.status === "published" &&
+          course.contentType === "video" &&
+          !episode.youtubeUrl
+        ) {
+          throw new Error(`Episodio publicado sin youtubeUrl: ${episode.id}`);
         }
       }
     }
   }
 }
 
-validateCourses(courses)
+validateCourses(courses);
 
 export const courseCategories = [
   "Todos",
-  ...Array.from(new Set(courses.map((course) => course.category).filter(Boolean))) as string[],
-]
+  ...(Array.from(
+    new Set(courses.map((course) => course.category).filter(Boolean)),
+  ) as string[]),
+];
 
 export function getCourseBySlug(slug: string) {
-  return courses.find((course) => course.slug === slug || course.id === slug)
+  return courses.find((course) => course.slug === slug || course.id === slug);
 }
 
 export function getCourseById(id: string) {
-  return getCourseBySlug(id)
+  return getCourseBySlug(id);
 }
 
 export function getRecommendedCourses(currentCourseSlug: string, limit = 4) {
   return courses
-    .filter((course) => course.slug !== currentCourseSlug && course.id !== currentCourseSlug)
+    .filter(
+      (course) =>
+        course.slug !== currentCourseSlug && course.id !== currentCourseSlug,
+    )
     .sort((left, right) => {
-      if (left.status === right.status) return 0
-      return left.status === "published" ? -1 : 1
+      if (left.status === right.status) return 0;
+      return left.status === "published" ? -1 : 1;
     })
-    .slice(0, limit)
+    .slice(0, limit);
 }
