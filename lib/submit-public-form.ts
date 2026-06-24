@@ -1,4 +1,12 @@
-const API_URL = "https://api.abrakadabrarealm.com/api"
+const DEFAULT_API_URL = "https://api.abrakadabrarealm.com/api"
+
+export const API_URL = trimTrailingSlash(
+  process.env.NEXT_PUBLIC_API_URL || DEFAULT_API_URL
+)
+
+function trimTrailingSlash(value: string) {
+  return value.replace(/\/+$/, "")
+}
 
 export type PublicFormType =
   | "art"
@@ -34,6 +42,18 @@ export type PublicFormPayload = {
   referral_source?: string
 }
 
+export type CourseLeadPayload = {
+  email: string
+  source_page: "courses"
+}
+
+export type CourseLeadResponse = {
+  id: string
+  email: string
+  already_registered: boolean
+  message: string
+}
+
 export async function submitPublicForm(formData: PublicFormPayload) {
   const response = await fetch(`${API_URL}/public/forms`, {
     method: "POST",
@@ -50,4 +70,30 @@ export async function submitPublicForm(formData: PublicFormPayload) {
   }
 
   return result
+}
+
+export async function submitCourseLead(
+  payload: CourseLeadPayload
+): Promise<CourseLeadResponse> {
+  const response = await fetch(`${API_URL}/public/course-leads`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+
+  const result = (await response.json().catch(() => null)) as
+    | CourseLeadResponse
+    | { message?: string }
+    | null
+
+  if (!response.ok) {
+    throw new Error(
+      result?.message ||
+        "No se pudo registrar el correo para acceder a los cursos"
+    )
+  }
+
+  return result as CourseLeadResponse
 }
