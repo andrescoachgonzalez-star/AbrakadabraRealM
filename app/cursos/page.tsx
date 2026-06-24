@@ -41,6 +41,115 @@ type CourseCardLinkProps = {
   className: string
 }
 
+/*
+ * Portada específica para cada curso PDF.
+ *
+ * Las claves están normalizadas:
+ * - sin tildes;
+ * - sin extensión .pdf;
+ * - en minúsculas;
+ * - con espacios en lugar de guiones.
+ *
+ * Cada ruta o URL es diferente.
+ */
+const PDF_COVER_BY_FILE: Record<string, string> = {
+  "abrakadabra realm":
+    "/home/abrakadabra-p-home.jpg",
+
+  "abrakadabra realm analisis de un ecosistema de lujo y evolucion":
+    "https://images.unsplash.com/photo-1549490349-8643362247b5?w=1200&q=80",
+
+  "como ser un intermediario de negocios exitoso":
+    "/home/rentcar-home.jpg",
+
+  "control de emociones en los negocios":
+    "/home/joinus-home.webp",
+
+  "curso basico de dj para principiantes":
+    "/home/producer-home.webp",
+
+  "curso basico de fotografia":
+    "/home/art-home.webp",
+
+  /*
+   * Esta conserva la imagen de la camiseta negra.
+   */
+  "curso como emprender desde cero":
+    "/home/brand-home.png",
+
+  "curso como ser promotor de artistas y eventos":
+    "/home/events-home.webp",
+
+  /*
+   * Esta conserva la imagen artística actual.
+   */
+  "curso crea tu mapa de suenos":
+    "/image-Philosophy/Cursos.png",
+
+  /*
+   * Se cambió para que no repita la camiseta negra.
+   */
+  "curso de negociacion estrategica":
+    "https://images.unsplash.com/photo-1521791136064-7986c2920216?w=1200&q=80",
+
+  "curso de venta de oro y joyas puntos clave":
+    "/home/gema-home.png",
+
+  "curso practico como vender ropa desde cero":
+    "/home/ropa-home.png",
+
+  "disena tu vida crea un estilo de vida que te motive":
+    "/home/models-home.webp",
+
+  "el arte de las conversaciones interesantes":
+    "/home/adrianah-p-home.jpg",
+
+  "el poder de las conexiones 2":
+    "/home/car-rental-home.webp",
+
+  "fundamentos del marketing digital":
+    "/home/carro-home.webp",
+
+  "guia del artista emergente primeros pasos en la industria del arte":
+    "/home/arte-home.webp",
+
+  "guia esencial compra e identificacion de diamantes":
+    "/home/erings-home.webp",
+
+  "hongos alucinogenos explorando su biologia historia y potencial":
+    "/home/paula-home.webp",
+
+  "howard schultz de emprendedor a empresario global":
+    "/home/paulas-p-home.jpg",
+
+  "informacion y conocimiento la base del progreso":
+    "/home/sandrah-p-home.jpg",
+
+  /*
+   * Se cambió para que no repita la imagen de Mapa de Sueños.
+   */
+  "inteligencia artificial para negocios":
+    "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1200&q=80",
+
+  "la musica como guia espiritual y el poder de las frecuencias":
+    "/home/ourmusic-home.webp",
+
+  "la odisea del emprendedor un viaje de pasion y persistencia":
+    "https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=1200&q=80",
+
+  "los registros akashicos la memoria universal del alma":
+    "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=1200&q=80",
+
+  "manejo del dinero y finanzas personales":
+    "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1200&q=80",
+
+  "multiplica tu dinero invierte no gastes":
+    "https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=1200&q=80",
+
+  "programa oficial de afiliados abrakadabrarealm":
+    "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1200&q=80",
+}
+
 function normalizeText(value: string) {
   return value
     .normalize("NFD")
@@ -49,7 +158,21 @@ function normalizeText(value: string) {
     .trim()
 }
 
-function normalizeStaticCourse(course: Course): CatalogCourse {
+function normalizePdfFileKey(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/\.pdf$/i, "")
+    .replace(/—+/g, " ")
+    .replace(/[^a-z0-9]+/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+}
+
+function normalizeStaticCourse(
+  course: Course
+): CatalogCourse {
   const extendedCourse = course as Course & {
     contentType?: ContentType
     pdfUrl?: string
@@ -64,7 +187,141 @@ function normalizeStaticCourse(course: Course): CatalogCourse {
   }
 }
 
-function getCourseUniqueKey(course: CatalogCourse) {
+function getPdfIdentity(course: CatalogCourse) {
+  const source =
+    course.pdfFileName ||
+    course.pdfUrl ||
+    course.title ||
+    course.slug ||
+    course.id
+
+  return normalizePdfFileKey(source)
+}
+
+function getPreferredPdfCover(
+  course: CatalogCourse
+): string {
+  const possibleValues = [
+    course.pdfFileName,
+    course.title,
+    course.slug,
+  ]
+    .filter((value): value is string => Boolean(value))
+    .map(normalizePdfFileKey)
+
+  /*
+   * Primero busca una coincidencia exacta.
+   */
+  for (const value of possibleValues) {
+    const exactCover = PDF_COVER_BY_FILE[value]
+
+    if (exactCover) {
+      return exactCover
+    }
+  }
+
+  /*
+   * Después busca una coincidencia parcial.
+   * Sirve para títulos que contienen dos puntos, subtítulos
+   * o diferencias pequeñas frente al nombre del archivo.
+   */
+  for (const value of possibleValues) {
+    const matchingEntry = Object.entries(
+      PDF_COVER_BY_FILE
+    ).find(([key]) => {
+      return (
+        value.includes(key) ||
+        key.includes(value)
+      )
+    })
+
+    if (matchingEntry) {
+      return matchingEntry[1]
+    }
+  }
+
+  /*
+   * Un PDF nuevo recibe una imagen diferente basada
+   * en su propio nombre.
+   */
+  const fallbackSeed =
+    possibleValues[0] ||
+    normalizePdfFileKey(course.id)
+
+  return (
+    "https://picsum.photos/seed/" +
+    encodeURIComponent(fallbackSeed) +
+    "/1200/800"
+  )
+}
+
+function createUniqueFallbackCover(
+  course: CatalogCourse,
+  index: number
+) {
+  const seed =
+    getPdfIdentity(course) +
+    "-unique-cover-" +
+    String(index)
+
+  return (
+    "https://picsum.photos/seed/" +
+    encodeURIComponent(seed) +
+    "/1200/800"
+  )
+}
+
+function assignUniquePdfCoverImages(
+  pdfCourseList: CatalogCourse[]
+): CatalogCourse[] {
+  const usedCoverImages = new Set<string>()
+
+  return pdfCourseList.map((course, index) => {
+    let coverImage =
+      getPreferredPdfCover(course)
+
+    /*
+     * Si accidentalmente dos cursos tienen la misma URL,
+     * el segundo recibe una imagen única automáticamente.
+     */
+    if (usedCoverImages.has(coverImage)) {
+      coverImage = createUniqueFallbackCover(
+        course,
+        index
+      )
+    }
+
+    usedCoverImages.add(coverImage)
+
+    return {
+      ...course,
+      contentType: "pdf",
+      thumbnail: coverImage,
+      coverImage,
+    }
+  })
+}
+
+function removeDuplicatedPdfCourses(
+  pdfCourseList: CatalogCourse[]
+): CatalogCourse[] {
+  const seenPdfCourses = new Set<string>()
+
+  return pdfCourseList.filter((course) => {
+    const identity = getPdfIdentity(course)
+
+    if (seenPdfCourses.has(identity)) {
+      return false
+    }
+
+    seenPdfCourses.add(identity)
+    return true
+  })
+}
+
+function getCourseUniqueKey(
+  course: CatalogCourse
+) {
   if (course.contentType === "pdf") {
     const pdfIdentifier =
       course.pdfUrl ||
@@ -87,7 +344,10 @@ function CourseCardLink({
     if (!course.pdfUrl) {
       return (
         <div
-          className={`${className} cursor-not-allowed opacity-60`}
+          className={
+            className +
+            " cursor-not-allowed opacity-60"
+          }
         >
           {children}
         </div>
@@ -100,7 +360,11 @@ function CourseCardLink({
         target="_blank"
         rel="noopener noreferrer"
         className={className}
-        aria-label={`Abrir ${course.title} en una pestaña nueva`}
+        aria-label={
+          "Abrir " +
+          course.title +
+          " en una pestaña nueva"
+        }
       >
         {children}
       </a>
@@ -109,7 +373,7 @@ function CourseCardLink({
 
   return (
     <Link
-      href={`/cursos/${course.slug}`}
+      href={"/cursos/" + course.slug}
       className={className}
     >
       {children}
@@ -119,17 +383,22 @@ function CourseCardLink({
 
 export default function CoursesPage() {
   const [search, setSearch] = useState("")
-  const [selectedCategory, setSelectedCategory] =
-    useState("Todos")
 
-  const [pdfCourses, setPdfCourses] = useState<
-    CatalogCourse[]
-  >([])
+  const [
+    selectedCategory,
+    setSelectedCategory,
+  ] = useState("Todos")
 
-  const [isLoadingPdfs, setIsLoadingPdfs] =
-    useState(true)
+  const [pdfCourses, setPdfCourses] =
+    useState<CatalogCourse[]>([])
 
-  const [pdfError, setPdfError] = useState("")
+  const [
+    isLoadingPdfs,
+    setIsLoadingPdfs,
+  ] = useState(true)
+
+  const [pdfError, setPdfError] =
+    useState("")
 
   useEffect(() => {
     let isMounted = true
@@ -139,10 +408,13 @@ export default function CoursesPage() {
         setIsLoadingPdfs(true)
         setPdfError("")
 
-        const response = await fetch("/api/pdf-courses", {
-          method: "GET",
-          cache: "no-store",
-        })
+        const response = await fetch(
+          "/api/pdf-courses",
+          {
+            method: "GET",
+            cache: "no-store",
+          }
+        )
 
         const result =
           (await response.json()) as PdfCoursesResponse
@@ -169,8 +441,11 @@ export default function CoursesPage() {
 
         if (isMounted) {
           setPdfCourses([])
+
           setPdfError(
-            "No se pudieron cargar los cursos PDF. Revisa la carpeta public/Pdfs-Cursos."
+            error instanceof Error
+              ? error.message
+              : "No se pudieron cargar los cursos PDF."
           )
         }
       } finally {
@@ -187,28 +462,54 @@ export default function CoursesPage() {
     }
   }, [])
 
-  const allCourses = useMemo<CatalogCourse[]>(() => {
-    const staticCourses =
-      courses.map(normalizeStaticCourse)
+  const allCourses =
+    useMemo<CatalogCourse[]>(() => {
+      const staticCourses =
+        courses.map(normalizeStaticCourse)
 
-    const mergedCourses = [
-      ...staticCourses,
-      ...pdfCourses,
-    ]
+      /*
+       * Conserva todos los cursos normales de video.
+       */
+      const videoCourses =
+        staticCourses.filter(
+          (course) =>
+            course.contentType !== "pdf"
+        )
 
-    const seenCourses = new Set<string>()
+      /*
+       * Algunos PDF pueden estar todavía escritos dentro
+       * de courses.ts. También se incluyen para no perderlos.
+       */
+      const staticPdfCourses =
+        staticCourses.filter(
+          (course) =>
+            course.contentType === "pdf"
+        )
 
-    return mergedCourses.filter((course) => {
-      const uniqueKey = getCourseUniqueKey(course)
+      /*
+       * Los PDF provenientes de la API tienen prioridad,
+       * porque contienen el nombre real del archivo.
+       */
+      const mergedPdfCourses = [
+        ...pdfCourses,
+        ...staticPdfCourses,
+      ]
 
-      if (seenCourses.has(uniqueKey)) {
-        return false
-      }
+      const deduplicatedPdfCourses =
+        removeDuplicatedPdfCourses(
+          mergedPdfCourses
+        )
 
-      seenCourses.add(uniqueKey)
-      return true
-    })
-  }, [pdfCourses])
+      const pdfCoursesWithUniqueCovers =
+        assignUniquePdfCoverImages(
+          deduplicatedPdfCourses
+        )
+
+      return [
+        ...videoCourses,
+        ...pdfCoursesWithUniqueCovers,
+      ]
+    }, [pdfCourses])
 
   const categories = useMemo(() => {
     const uniqueCategories = Array.from(
@@ -225,38 +526,45 @@ export default function CoursesPage() {
     return ["Todos", ...uniqueCategories]
   }, [allCourses])
 
-  const filteredCourses = useMemo(() => {
-    const query = normalizeText(search)
+  const filteredCourses =
+    useMemo(() => {
+      const query = normalizeText(search)
 
-    return allCourses.filter((course) => {
-      const matchesCategory =
-        selectedCategory === "Todos" ||
-        course.category === selectedCategory
+      return allCourses.filter((course) => {
+        const matchesCategory =
+          selectedCategory === "Todos" ||
+          course.category ===
+            selectedCategory
 
-      const searchableText = normalizeText(
-        [
-          course.title,
-          course.shortDescription,
-          course.fullDescription,
-          course.instructor,
-          course.category,
-          course.level,
-          course.pdfFileName,
-        ]
-          .filter(Boolean)
-          .join(" ")
-      )
+        const searchableText =
+          normalizeText(
+            [
+              course.title,
+              course.shortDescription,
+              course.fullDescription,
+              course.instructor,
+              course.category,
+              course.level,
+              course.pdfFileName,
+            ]
+              .filter(Boolean)
+              .join(" ")
+          )
 
-      const matchesSearch =
-        !query || searchableText.includes(query)
+        const matchesSearch =
+          !query ||
+          searchableText.includes(query)
 
-      return matchesCategory && matchesSearch
-    })
-  }, [
-    allCourses,
-    search,
-    selectedCategory,
-  ])
+        return (
+          matchesCategory &&
+          matchesSearch
+        )
+      })
+    }, [
+      allCourses,
+      search,
+      selectedCategory,
+    ])
 
   return (
     <main
@@ -281,8 +589,8 @@ export default function CoursesPage() {
             </h1>
 
             <p className="mx-auto mt-6 max-w-3xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Explora nuestra biblioteca de formación y entra
-              directo al curso que quieras abrir.
+              Explora nuestra biblioteca de formación y
+              entra directo al curso que quieras abrir.
             </p>
           </div>
 
@@ -311,13 +619,16 @@ export default function CoursesPage() {
                     key={category}
                     type="button"
                     onClick={() =>
-                      setSelectedCategory(category)
+                      setSelectedCategory(
+                        category
+                      )
                     }
-                    className={`min-h-11 rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-wide transition-all duration-300 ${
-                      active
+                    className={
+                      "min-h-11 rounded-full px-6 py-2.5 text-xs font-semibold uppercase tracking-wide transition-all duration-300 " +
+                      (active
                         ? "border border-primary bg-primary text-primary-foreground shadow-lg shadow-primary/20"
-                        : "border border-border bg-background text-foreground hover:border-primary/50 hover:text-primary"
-                    }`}
+                        : "border border-border bg-background text-foreground hover:border-primary/50 hover:text-primary")
+                    }
                   >
                     {category}
                   </button>
@@ -330,7 +641,11 @@ export default function CoursesPage() {
             <p className="text-sm text-muted-foreground">
               {isLoadingPdfs
                 ? "Cargando documentos PDF..."
-                : `Mostrando ${filteredCourses.length} de ${allCourses.length} cursos`}
+                : "Mostrando " +
+                  filteredCourses.length +
+                  " de " +
+                  allCourses.length +
+                  " cursos"}
             </p>
           </div>
 
@@ -357,10 +672,10 @@ export default function CoursesPage() {
                   </h2>
 
                   <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground md:text-base">
-                    Todos los cursos son gratis. Agradecemos
-                    donaciones para seguir innovando, crear
-                    nuevos programas y construir la filosofía de
-                    Abrakadabra.
+                    Todos los cursos son gratis.
+                    Agradecemos donaciones para seguir
+                    innovando, crear nuevos programas y
+                    construir la filosofía de Abrakadabra.
                   </p>
                 </div>
               </div>
@@ -381,84 +696,102 @@ export default function CoursesPage() {
         <div className="mx-auto max-w-7xl">
           {filteredCourses.length > 0 ? (
             <div className="grid gap-7 md:grid-cols-2 xl:grid-cols-3">
-              {filteredCourses.map((course) => {
-                const isPdf =
-                  course.contentType === "pdf"
+              {filteredCourses.map(
+                (course, courseIndex) => {
+                  const isPdf =
+                    course.contentType === "pdf"
 
-                return (
-                  <CourseCardLink
-                    key={getCourseUniqueKey(course)}
-                    course={course}
-                    className="group block overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10"
-                  >
-                    <div className="relative h-60 overflow-hidden bg-muted">
-                      <img
-                        src={
-                          course.thumbnail ||
-                          course.coverImage ||
-                          "/placeholder.svg"
-                        }
-                        alt={course.title}
-                        className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
-                      />
+                  return (
+                    <CourseCardLink
+                      key={getCourseUniqueKey(
+                        course
+                      )}
+                      course={course}
+                      className="group block overflow-hidden rounded-3xl border border-border bg-background shadow-sm transition-all duration-500 hover:-translate-y-2 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/10"
+                    >
+                      <div className="relative h-60 overflow-hidden bg-muted">
+                        <img
+                          src={
+                            course.thumbnail ||
+                            course.coverImage ||
+                            "/placeholder.svg"
+                          }
+                          alt={course.title}
+                          loading="lazy"
+                          onError={(event) => {
+                            event.currentTarget.onerror =
+                              null
 
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
+                            event.currentTarget.src =
+                              createUniqueFallbackCover(
+                                course,
+                                courseIndex
+                              )
+                          }}
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        />
 
-                      <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-black/70 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md">
-                        {isPdf ? (
-                          <FileText className="h-4 w-4" />
-                        ) : (
-                          <PlayCircle className="h-4 w-4" />
-                        )}
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/25 to-transparent" />
 
-                        {isPdf ? "PDF" : "VIDEO"}
-                      </div>
+                        <div className="absolute left-5 top-5 flex items-center gap-2 rounded-full bg-black/70 px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-white backdrop-blur-md">
+                          {isPdf ? (
+                            <FileText className="h-4 w-4" />
+                          ) : (
+                            <PlayCircle className="h-4 w-4" />
+                          )}
 
-                      <div className="absolute bottom-5 left-5 right-5">
-                        <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
-                          {course.category || "CURSO"}
-                        </p>
-
-                        <h2 className="mt-2 font-serif text-2xl font-bold leading-tight text-white">
-                          {course.title}
-                        </h2>
-                      </div>
-                    </div>
-
-                    <div className="p-6">
-                      <p className="min-h-[72px] text-sm leading-relaxed text-muted-foreground">
-                        {course.shortDescription ||
-                          "Explora el contenido completo de este curso."}
-                      </p>
-
-                      <div className="mt-6 flex items-center justify-between gap-4 border-t border-border pt-5">
-                        <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
-                          <BookOpen className="h-4 w-4 text-primary" />
-
-                          <span>
-                            {course.duration ||
-                              course.level ||
-                              (isPdf
-                                ? "PDF completo"
-                                : "Curso")}
-                          </span>
+                          {isPdf
+                            ? "PDF"
+                            : "VIDEO"}
                         </div>
 
-                        <span className="inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-primary transition-transform duration-300 group-hover:translate-x-1">
-                          {isPdf ? (
-                            <>
-                              Abrir PDF
-                              <ExternalLink className="h-4 w-4" />
-                            </>
-                          ) : (
-                            "Ver curso →"
-                          )}
-                        </span>
+                        <div className="absolute bottom-5 left-5 right-5">
+                          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-primary">
+                            {course.category ||
+                              "CURSO"}
+                          </p>
+
+                          <h2 className="mt-2 font-serif text-2xl font-bold leading-tight text-white">
+                            {course.title}
+                          </h2>
+                        </div>
                       </div>
-                    </div>
-                  </CourseCardLink>
-                )
-              })}
+
+                      <div className="p-6">
+                        <p className="min-h-[72px] text-sm leading-relaxed text-muted-foreground">
+                          {course.shortDescription ||
+                            "Explora el contenido completo de este curso."}
+                        </p>
+
+                        <div className="mt-6 flex items-center justify-between gap-4 border-t border-border pt-5">
+                          <div className="flex items-center gap-2 text-xs uppercase tracking-wider text-muted-foreground">
+                            <BookOpen className="h-4 w-4 text-primary" />
+
+                            <span>
+                              {course.duration ||
+                                course.level ||
+                                (isPdf
+                                  ? "PDF completo"
+                                  : "Curso")}
+                            </span>
+                          </div>
+
+                          <span className="inline-flex items-center gap-1.5 text-sm font-bold uppercase tracking-wider text-primary transition-transform duration-300 group-hover:translate-x-1">
+                            {isPdf ? (
+                              <>
+                                Abrir PDF
+                                <ExternalLink className="h-4 w-4" />
+                              </>
+                            ) : (
+                              "Ver curso →"
+                            )}
+                          </span>
+                        </div>
+                      </div>
+                    </CourseCardLink>
+                  )
+                }
+              )}
             </div>
           ) : (
             <div className="rounded-3xl border border-dashed border-border bg-background px-6 py-20 text-center">
@@ -481,3 +814,4 @@ export default function CoursesPage() {
     </main>
   )
 }
+
