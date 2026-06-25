@@ -810,6 +810,160 @@ export default function CoursesPage() {
         </div>
       </section>
 
+
+      <section className="relative overflow-hidden border-t border-border bg-foreground px-4 py-24 text-background md:py-32">
+        <div
+          className="absolute inset-0 opacity-[0.06]"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)",
+            backgroundSize: "24px 24px",
+          }}
+        />
+
+        <div className="relative mx-auto max-w-7xl">
+          <div className="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-20">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-primary">
+                NUESTRA MISIÓN
+              </p>
+
+              <h2 className="mt-5 font-serif text-4xl font-bold leading-tight text-background sm:text-5xl md:text-6xl">
+                Academia Abrakadabra Realm
+              </h2>
+
+              <div className="mt-8 space-y-5 text-base leading-relaxed text-background/75 md:text-lg">
+                <p>
+                  Creemos que el conocimiento no debería ser un privilegio
+                  reservado para unos pocos.
+                </p>
+
+                <p>
+                  Nuestra misión es conectar a personas de todo el mundo con
+                  empresarios, inversionistas, programadores, artistas,
+                  productores musicales, expertos en ventas y creadores que ya
+                  recorrieron el camino y están dispuestos a compartirlo.
+                </p>
+
+                <p>
+                  No enseñamos teoría para acumular certificados.
+                </p>
+
+                <p>
+                  Enseñamos habilidades que pueden transformar tu estilo de
+                  vida.
+                </p>
+              </div>
+
+              <div className="mt-10 rounded-3xl border border-background/15 bg-background/[0.06] p-6 backdrop-blur-sm md:p-8">
+                <p className="font-serif text-2xl font-bold leading-snug text-background md:text-3xl">
+                  Aprende. Construye. Monetiza. Evoluciona.
+                </p>
+
+                <p className="mt-4 leading-relaxed text-background/70">
+                  Abrakadabra Realm no es solo una academia.
+                </p>
+
+                <p className="mt-2 leading-relaxed text-background/70">
+                  Es un ecosistema donde el conocimiento se convierte en
+                  oportunidades. ✨
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div className="rounded-[30px] border border-background/15 bg-background/[0.06] p-6 backdrop-blur-sm md:p-9">
+                <div className="flex items-center gap-3">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-primary-foreground">
+                    <BookOpen className="h-6 w-6" />
+                  </div>
+
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
+                      HABILIDADES REALES
+                    </p>
+
+                    <h3 className="mt-1 font-serif text-2xl font-bold text-background">
+                      Lo que puedes aprender
+                    </h3>
+                  </div>
+                </div>
+
+                <ul className="mt-8 grid gap-3 sm:grid-cols-2">
+                  {[
+                    "Ventas y negociación",
+                    "Emprendimiento y negocios",
+                    "Programación e inteligencia artificial",
+                    "Producción musical y DJ",
+                    "Trading e inversiones",
+                    "Bienes raíces",
+                    "Desarrollo personal",
+                    "Creación de marcas",
+                    "Joyería y diseño",
+                    "Marketing digital",
+                    "Monetización del conocimiento",
+                  ].map((skill) => (
+                    <li
+                      key={skill}
+                      className="flex items-start gap-3 rounded-2xl border border-background/10 bg-black/10 px-4 py-3 text-sm leading-relaxed text-background/80"
+                    >
+                      <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-primary" />
+                      <span>{skill}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              <div className="mt-8 rounded-[30px] border border-primary/30 bg-primary/10 p-6 md:p-9">
+                <p className="text-xs font-semibold uppercase tracking-[0.3em] text-primary">
+                  NUESTRO PROPÓSITO
+                </p>
+
+                <p className="mt-5 leading-relaxed text-background/80">
+                  Nuestro objetivo es construir una comunidad donde cualquier
+                  persona, sin importar su origen, pueda acceder a herramientas
+                  reales para generar ingresos, crear libertad financiera y
+                  desarrollar una vida con más propósito.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-16 border-t border-background/15 pt-12 md:mt-20 md:pt-16">
+            <div className="mx-auto max-w-4xl text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-primary">
+                EL PORQUÉ
+              </p>
+
+              <h3 className="mt-5 font-serif text-3xl font-bold leading-tight text-background sm:text-4xl md:text-5xl">
+                ¿Por qué existe Abrakadabra Academy?
+              </h3>
+
+              <div className="mt-8 grid gap-5 text-left md:grid-cols-3">
+                {[
+                  "Porque millones de personas tienen talento, pero no acceso.",
+                  "Porque la educación tradicional muchas veces enseña a buscar empleo, mientras que nosotros buscamos enseñar a crear oportunidades.",
+                  "Porque creemos que una sola habilidad puede cambiar el destino de una persona, una familia y una comunidad.",
+                ].map((reason, index) => (
+                  <article
+                    key={reason}
+                    className="rounded-3xl border border-background/15 bg-background/[0.05] p-6"
+                  >
+                    <span className="font-serif text-4xl font-bold text-primary">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+
+                    <p className="mt-4 text-sm leading-relaxed text-background/75 md:text-base">
+                      {reason}
+                    </p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <LuxuryFooter />
     </main>
   )
