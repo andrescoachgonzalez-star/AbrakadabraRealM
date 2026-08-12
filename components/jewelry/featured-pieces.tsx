@@ -244,6 +244,11 @@ export function FeaturedPieces() {
                     <span>{piece.stone ?? "—"}</span>
                   </div>
 
+                  <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+                    Made under request. We confirm materials, sizing, timeline,
+                    and final quote before production.
+                  </p>
+
                   <div className="flex items-center justify-between mt-6 pt-4 border-t border-border">
                     <div className="flex items-baseline gap-3">
                       <span className="font-serif text-xl font-bold text-foreground">

@@ -67,7 +67,6 @@ const materials: Material[] = [
     accentColor: "from-amber-500/20 to-yellow-500/10",
     textAccent: "text-amber-600",
     bgAccent: "bg-amber-500",
-    comingSoon: true,
   },
 
   // ⏳ 4) Rubies (Coming Soon)
@@ -85,7 +84,6 @@ const materials: Material[] = [
     accentColor: "from-red-500/20 to-rose-500/10",
     textAccent: "text-red-600",
     bgAccent: "bg-red-500",
-    comingSoon: true,
   },
 ]
 

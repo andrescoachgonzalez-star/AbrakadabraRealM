@@ -1323,7 +1323,6 @@ function TeamSection() {
 function CTASection() {
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { threshold: 0.1 })
-  const [email, setEmail] = useState("")
 
   return (
     <section ref={sectionRef} id="cta" className="relative py-32 px-6">
@@ -1353,18 +1352,14 @@ function CTASection() {
               No spam. No sales. Just value.
             </p>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 max-w-md mx-auto mb-12">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="your@email.com"
-                className="w-full sm:flex-1 px-6 py-4 rounded-full bg-background/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm font-mono"
-              />
-              <button className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-sm tracking-wider uppercase hover:bg-primary/90 transition-colors duration-300 group">
-                Subscribe
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-md mx-auto mb-12">
+              <a
+                href="/comunidad"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground px-8 py-4 rounded-full font-semibold text-sm tracking-wider uppercase hover:bg-primary/90 transition-colors duration-300 group"
+              >
+                Join the Community
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </button>
+              </a>
             </div>
 
             <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-muted-foreground">

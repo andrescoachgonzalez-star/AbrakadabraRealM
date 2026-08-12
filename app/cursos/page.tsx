@@ -925,6 +925,13 @@ export default function CoursesPage() {
                   reales para generar ingresos, crear libertad financiera y
                   desarrollar una vida con más propósito.
                 </p>
+
+                <a
+                  href="/comunidad"
+                  className="mt-7 inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground transition-colors hover:bg-primary/90"
+                >
+                  Unirse a la comunidad
+                </a>
               </div>
             </div>
           </div>

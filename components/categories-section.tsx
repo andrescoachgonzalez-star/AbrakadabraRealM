@@ -39,7 +39,7 @@ const bentoItems = [
     image: "/image-Philosophy/Cursos.png"
   },
   { title: "RENTAL MIAMI", span: "col-span-1 row-span-1", href: "/car-rental", image:"/home/car-rental-home.webp"},
-  { title: "JOIN US", span: "col-span-1 row-span-1", href: "/join-us", image:"/home/joinus-home.webp"},
+  { title: "JOIN US", span: "col-span-1 row-span-1", href: "/comunidad", image:"/home/joinus-home.webp"},
   { title: "NEWS", span: "col-span-1 row-span-1", href: "/news", image:"/home/news-home.webp" },
   { title: "OUR MUSIC", span: "col-span-1 row-span-1", href: "/our-music", image:"/home/ourmusic-home.webp" },
   { title: "EVENTS", span: "col-span-2 md:col-span-1 row-span-1", href: "/events", image:"/home/events-home.webp"},

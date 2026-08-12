@@ -13,6 +13,7 @@ const slides = [
     description: "Digital and physical masterpieces",
     cta: "SHOP NOW",
     image: "/home/arte-home2.png",
+    href: "/art",
   },
   {
     id: 2,
@@ -21,6 +22,7 @@ const slides = [
     description: "Exclusive certified gemstones",
     cta: "DISCOVER",
     image: "/home/gema-home.png",
+    href: "/jewelry",
   },
   {
     id: 3,
@@ -29,6 +31,7 @@ const slides = [
     description: "Oversize t-shirts and designer hats",
     cta: "EXPLORE",
     image: "/home/ropa-home.png",
+    href: "/clothing",
   },
   {
     id: 4,

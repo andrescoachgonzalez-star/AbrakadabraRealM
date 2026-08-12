@@ -47,7 +47,6 @@ const gemstones: Gem[] = [
     accentColor: "bg-amber-500",
     borderColor: "border-amber-500/30 hover:border-amber-500",
     textColor: "text-amber-600",
-    comingSoon: true,
   },
 
   // ⏳ 4) Rubies (Coming Soon)
@@ -59,17 +58,11 @@ const gemstones: Gem[] = [
     accentColor: "bg-red-500",
     borderColor: "border-red-500/30 hover:border-red-500",
     textColor: "text-red-600",
-    comingSoon: true,
   },
 ]
 
 export function GemstoneShowcase() {
   const [activeGem, setActiveGem] = useState<string | null>(null)
-
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) element.scrollIntoView({ behavior: "smooth" })
-  }
 
   return (
     <section className="py-24 bg-background relative overflow-hidden">
@@ -105,50 +98,29 @@ export function GemstoneShowcase() {
         <ScrollReveal delay={100}>
           <div className="flex flex-wrap justify-center gap-4 md:gap-6 max-w-4xl mx-auto">
             {gemstones.map((gem) => {
-              const isComingSoon = !!gem.comingSoon
               const isActive = activeGem === gem.id
 
               return (
-                <button
+                <a
                   key={gem.id}
-                  type="button"
-                  disabled={isComingSoon}
-                  onClick={() => {
-                    if (!isComingSoon) scrollToSection(gem.id)
-                  }}
-                  onMouseEnter={() => {
-                    if (!isComingSoon) setActiveGem(gem.id)
-                  }}
+                  href={`/jewelry/shop?material=${gem.id}`}
+                  onMouseEnter={() => setActiveGem(gem.id)}
                   onMouseLeave={() => setActiveGem(null)}
                   className={cn(
+                    "block",
                     "group relative px-8 py-5 rounded-2xl border-2 transition-all duration-500",
                     "min-w-[180px]",
-                    // Hover/anim solo si NO es coming soon
-                    !isComingSoon && "hover:shadow-xl hover:-translate-y-1",
+                    "hover:shadow-xl hover:-translate-y-1",
                     gem.borderColor,
-
-                    // Activo solo si NO es coming soon
-                    !isComingSoon && isActive && "scale-105",
-
-                    // Coming soon style
-                    isComingSoon && "opacity-60 cursor-not-allowed hover:shadow-none hover:translate-y-0"
+                    isActive && "scale-105"
                   )}
                 >
-                  {/* Badge "Coming Soon" */}
-                  {isComingSoon && (
-                    <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-muted text-muted-foreground border">
-                      Coming Soon
-                    </span>
-                  )}
-
-                  {/* Gradient Background (solo hover si NO comingSoon) */}
+                  {/* Gradient Background */}
                   <div
                     className={cn(
                       "absolute inset-0 rounded-2xl bg-gradient-to-br transition-opacity duration-500",
                       gem.color,
-                      isComingSoon
-                        ? "opacity-0"
-                        : "opacity-0 group-hover:opacity-100"
+                      "opacity-0 group-hover:opacity-100"
                     )}
                   />
 
@@ -159,7 +131,7 @@ export function GemstoneShowcase() {
                       className={cn(
                         "w-3 h-3 rounded-full transition-transform duration-300",
                         gem.accentColor,
-                        !isComingSoon && "group-hover:scale-125"
+                        "group-hover:scale-125"
                       )}
                     />
 
@@ -171,27 +143,24 @@ export function GemstoneShowcase() {
                       {gem.subtitle}
                     </p>
 
-                    {/* Arrow indicator (solo si NO comingSoon) */}
-                    {!isComingSoon && (
-                      <svg
-                        className={cn(
-                          "w-5 h-5 mt-1 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0",
-                          gem.textColor
-                        )}
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 14l-7 7m0 0l-7-7m7 7V3"
-                        />
-                      </svg>
-                    )}
+                    <svg
+                      className={cn(
+                        "w-5 h-5 mt-1 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-1 group-hover:translate-y-0",
+                        gem.textColor
+                      )}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M17 8l4 4m0 0l-4 4m4-4H3"
+                      />
+                    </svg>
                   </div>
-                </button>
+                </a>
               )
             })}
           </div>

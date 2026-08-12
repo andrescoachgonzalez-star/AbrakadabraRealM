@@ -17,6 +17,8 @@ type Product = {
   soldOut?: boolean
 }
 
+const CLOTHING_IS_SOLD_OUT = true
+
 // Product data
 const tshirtsAndCaps: Product[] = [
   {
@@ -131,6 +133,8 @@ function ProductCard({
   product: Product
   index: number
 }) {
+  const isSoldOut = CLOTHING_IS_SOLD_OUT || product.soldOut
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -146,7 +150,7 @@ function ProductCard({
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
 
-          {product.soldOut ? (
+          {isSoldOut ? (
             <div className="absolute top-4 left-0 bg-[#e50046] text-white text-xs font-bold px-3 py-1 tracking-wider uppercase">
               SOLD OUT
             </div>
@@ -158,7 +162,7 @@ function ProductCard({
 
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300 flex items-center justify-center">
             <span className="text-white text-sm tracking-widest border border-white px-4 py-2 opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-300">
-              VIEW PRODUCT
+              VIEW DETAILS
             </span>
           </div>
         </div>
@@ -168,12 +172,20 @@ function ProductCard({
             {product.name}
           </h3>
           <div className="flex items-center gap-2 mt-1">
-            <span className="text-white/50 text-sm line-through">
-              {product.originalPrice} USD
-            </span>
-            <span className="text-white text-sm font-semibold">
-              {product.salePrice} USD
-            </span>
+            {isSoldOut ? (
+              <span className="text-[#e50046] text-sm font-semibold tracking-wider">
+                SOLD OUT
+              </span>
+            ) : (
+              <>
+                <span className="text-white/50 text-sm line-through">
+                  {product.originalPrice} USD
+                </span>
+                <span className="text-white text-sm font-semibold">
+                  {product.salePrice} USD
+                </span>
+              </>
+            )}
           </div>
         </div>
       </Link>

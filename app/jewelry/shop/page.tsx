@@ -224,6 +224,17 @@ function ShopPageContent() {
               </p>
             )}
 
+            <div className="rounded-2xl border border-primary/20 bg-primary/5 px-5 py-4">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+                Made to Order Jewelry
+              </p>
+              <p className="mt-2 max-w-3xl text-sm leading-relaxed text-muted-foreground">
+                Every jewelry piece is produced under request. We confirm the
+                materials, measurements, gemstones, timeline, and final quote
+                with you before starting production.
+              </p>
+            </div>
+
             {activeFiltersCount > 0 && (
               <div className="flex flex-wrap items-center gap-2">
                 {selectedMaterials.map((m) => {
@@ -491,6 +502,11 @@ function ShopPageContent() {
                         )}
                       />
                     </div>
+
+                    <p className="mt-3 text-xs leading-relaxed text-muted-foreground">
+                      Made under request. We confirm materials, sizing, timeline,
+                      and final quote before production.
+                    </p>
                   </div>
                 </a>
               ))}

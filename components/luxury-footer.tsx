@@ -17,7 +17,7 @@ const navLinks = [
 const footerLinks = [
   { name: "News", href: "/news" },
   { name: "Events", href: "/events" },
-  { name: "Join Us", href: "/join-us" },
+  { name: "Community", href: "/comunidad" },
   { name: "Courses", href: "/cursos" },
 ]
 

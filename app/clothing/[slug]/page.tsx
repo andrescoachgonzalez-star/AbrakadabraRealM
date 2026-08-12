@@ -253,6 +253,7 @@ const allProducts: Record<
 const CO_SMS_NUMBER = "+573103920569"
 const US_WA_NUMBER = "19175475787"
 const US_SMS_NUMBER = "+19175475787"
+const CLOTHING_IS_SOLD_OUT = true
 
 export default function ProductDetailPage() {
   const params = useParams()
@@ -261,6 +262,7 @@ export default function ProductDetailPage() {
 
   const [selectedImage, setSelectedImage] = useState(0)
   const [activeTab, setActiveTab] = useState<"description" | "details" | "shipping">("description")
+  const isSoldOut = CLOTHING_IS_SOLD_OUT
 
   if (!product) {
     return (
@@ -311,7 +313,16 @@ export default function ProductDetailPage() {
               transition={{ duration: 0.6 }}
             >
               <div className="relative aspect-[3/4] bg-[#2a2a2a] overflow-hidden mb-4 group">
-                {product.onSale && (
+                {isSoldOut ? (
+                  <motion.div
+                    initial={{ x: -100 }}
+                    animate={{ x: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="absolute top-5 left-0 z-10 bg-[#e50046] text-white text-xs font-bold px-4 py-1.5 tracking-wider"
+                  >
+                    SOLD OUT
+                  </motion.div>
+                ) : product.onSale && (
                   <motion.div
                     initial={{ x: -100 }}
                     animate={{ x: 0 }}
@@ -389,11 +400,31 @@ export default function ProductDetailPage() {
                 transition={{ delay: 0.35 }}
                 className="flex items-baseline gap-3 mb-8"
               >
-                {product.onSale && (
-                  <span className="text-white/40 text-lg line-through">{product.originalPrice} USD</span>
+                {isSoldOut ? (
+                  <span className="text-[#e50046] text-2xl font-bold tracking-wider">
+                    SOLD OUT
+                  </span>
+                ) : (
+                  <>
+                    {product.onSale && (
+                      <span className="text-white/40 text-lg line-through">{product.originalPrice} USD</span>
+                    )}
+                    <span className="text-[#c41e3a] text-2xl font-bold">{product.salePrice} USD</span>
+                  </>
                 )}
-                <span className="text-[#c41e3a] text-2xl font-bold">{product.salePrice} USD</span>
               </motion.div>
+
+              {isSoldOut && (
+                <motion.p
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.38 }}
+                  className="mb-8 rounded-xl border border-[#e50046]/25 bg-[#e50046]/10 px-4 py-3 text-sm leading-relaxed text-white/70"
+                >
+                  This item is currently sold out. You can contact us if you want
+                  to ask about future availability or similar pieces.
+                </motion.p>
+              )}
 
               <div className="w-full h-px bg-white/10 mb-6" />
 
@@ -512,7 +543,7 @@ export default function ProductDetailPage() {
                   whileTap={{ scale: 0.98 }}
                   className="w-full h-11 rounded-md border border-[#c41e3a]/30 bg-[#c41e3a] text-white text-sm font-bold tracking-widest hover:bg-[#a01830] transition-all duration-300 flex items-center justify-center shadow-lg shadow-[#c41e3a]/20"
                 >
-                  BOOK IN WHATSAPP COL
+                  ASK AVAILABILITY COL
                 </motion.a>
 
                 <motion.a
@@ -521,7 +552,7 @@ export default function ProductDetailPage() {
                   whileTap={{ scale: 0.98 }}
                   className="w-full h-11 rounded-md border border-[#c4a882]/30 bg-[#c4a882] text-black text-sm font-bold tracking-widest hover:bg-[#d6bc98] transition-all duration-300 flex items-center justify-center shadow-lg shadow-[#c4a882]/20"
                 >
-                  BOOK IN SMS COL
+                  ASK AVAILABILITY COL
                 </motion.a>
 
                 <motion.a
@@ -532,7 +563,7 @@ export default function ProductDetailPage() {
                   whileTap={{ scale: 0.98 }}
                   className="w-full h-11 rounded-md border border-emerald-500/30 bg-emerald-600 text-white text-sm font-bold tracking-widest hover:bg-emerald-700 transition-all duration-300 flex items-center justify-center shadow-lg shadow-emerald-600/20"
                 >
-                  BOOK IN WHATSAPP USA
+                  ASK AVAILABILITY USA
                 </motion.a>
 
                 <motion.a
@@ -541,7 +572,7 @@ export default function ProductDetailPage() {
                   whileTap={{ scale: 0.98 }}
                   className="w-full h-11 rounded-md border border-sky-500/30 bg-sky-600 text-white text-sm font-bold tracking-widest hover:bg-sky-700 transition-all duration-300 flex items-center justify-center shadow-lg shadow-sky-600/20"
                 >
-                  BOOK IN SMS USA
+                  ASK AVAILABILITY USA
                 </motion.a>
               </motion.div>
 
@@ -623,7 +654,11 @@ export default function ProductDetailPage() {
                         alt={relatedProduct.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                       />
-                      {relatedProduct.onSale && (
+                      {CLOTHING_IS_SOLD_OUT ? (
+                        <div className="absolute top-3 left-0 bg-[#e50046] text-white text-[10px] font-bold px-2.5 py-1 tracking-wider">
+                          SOLD OUT
+                        </div>
+                      ) : relatedProduct.onSale && (
                         <div className="absolute top-3 left-0 bg-[#c41e3a] text-white text-[10px] font-bold px-2.5 py-1 tracking-wider">
                           SALE
                         </div>
@@ -639,12 +674,20 @@ export default function ProductDetailPage() {
                         {relatedProduct.name}
                       </h3>
                       <div className="flex items-center gap-2 mt-1">
-                        {relatedProduct.onSale && (
-                          <span className="text-white/40 text-xs line-through">
-                            {relatedProduct.originalPrice} USD
+                        {CLOTHING_IS_SOLD_OUT ? (
+                          <span className="text-[#e50046] text-xs font-semibold tracking-wider">
+                            SOLD OUT
                           </span>
+                        ) : (
+                          <>
+                            {relatedProduct.onSale && (
+                              <span className="text-white/40 text-xs line-through">
+                                {relatedProduct.originalPrice} USD
+                              </span>
+                            )}
+                            <span className="text-white text-xs font-semibold">{relatedProduct.salePrice} USD</span>
+                          </>
                         )}
-                        <span className="text-white text-xs font-semibold">{relatedProduct.salePrice} USD</span>
                       </div>
                     </div>
                   </motion.div>

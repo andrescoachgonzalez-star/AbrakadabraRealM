@@ -306,6 +306,17 @@ export default function ProductDetailPage() {
                   This piece is currently unavailable. Contact us and we can help you find a similar option.
                 </p>
               )}
+
+              <div className="mt-5 rounded-2xl border border-primary/20 bg-primary/5 px-5 py-4">
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
+                  Made to Order Jewelry
+                </p>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  This piece is produced under request. We confirm materials,
+                  measurements, gemstones, timeline, and final quote with you
+                  before starting production.
+                </p>
+              </div>
             </div>
 
             <div className="h-px bg-gradient-to-r from-border via-primary/20 to-border mb-8" />
@@ -469,8 +480,9 @@ export default function ProductDetailPage() {
                 Interested in this piece?
               </h3>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6">
-                Each piece is crafted exclusively for you. Contact us to place your order
-                or ask any questions.
+                Each piece is crafted exclusively for you under request. Contact
+                us to define materials, measurements, gemstones, timeline, and
+                final quote before production.
               </p>
 
               <div className="mb-6 rounded-2xl border border-primary/25 bg-gradient-to-br from-primary/10 via-primary/5 to-background px-5 py-4 shadow-sm">
