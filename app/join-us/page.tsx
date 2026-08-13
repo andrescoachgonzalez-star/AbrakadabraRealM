@@ -9,6 +9,17 @@ import { JoinUsPublicForm } from "@/components/join-us-public-form"
 
 const roles = [
   {
+    id: "community",
+    title: "JOIN COMMUNITY",
+    description: "ENTER THE PRIVATE REALM OF CONNECTIONS, LEARNING AND OPPORTUNITIES.",
+    longDescription:
+      "Join our private community to connect with creators, entrepreneurs and members building opportunities through Abrakadabra Realm.",
+    cta: "JOIN",
+    image: "/home/joinus-home.webp",
+    accent: "from-red-500/20 to-neutral-950/20",
+    iconColor: "text-red-500",
+  },
+  {
     id: "courses",
     title: "FREE COURSES",
     description: "ALL OUR COURSES AT $0 USD FOREVER",

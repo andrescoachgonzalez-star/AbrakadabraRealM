@@ -39,6 +39,7 @@ const FALLBACK_COUNTRIES: CountryCode[] = [
 ]
 
 const DEFAULT_ROLE_OPTIONS = [
+  "JOIN COMMUNITY",
   "FREE COURSES",
   "AUDIOVISUALS",
   "OFFICIAL SELLERS",
@@ -61,6 +62,10 @@ function normalizeText(value: string) {
 
 function normalizeRoleOption(role: string) {
   const roleMap: Record<string, string> = {
+    comunidad: "JOIN COMMUNITY",
+    community: "JOIN COMMUNITY",
+    "join community": "JOIN COMMUNITY",
+    "unirse a la comunidad": "JOIN COMMUNITY",
     modelo: "MODELS",
     modelos: "MODELS",
     marketing: "MARKETING",
@@ -480,7 +485,7 @@ export function JoinUsPublicForm({
               className="w-full rounded-lg border border-black/20 bg-white px-5 py-3.5 text-sm text-black transition-colors focus:border-[oklch(0.55_0.18_20)] focus:outline-none"
             >
               <option value="" disabled>
-                SELECT YOUR ROLE INTEREST
+                SELECT YOUR INTEREST
               </option>
 
               {cleanedRoleOptions.map((role) => (

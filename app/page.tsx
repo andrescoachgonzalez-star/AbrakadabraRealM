@@ -6,11 +6,13 @@ import { RentalSection } from "@/components/rental-section"
 import { TeamSection } from "@/components/team-section"
 import { FaqSection } from "@/components/faq-section"
 import { LuxuryFooter } from "@/components/luxury-footer"
+import { CommunityPromoCard } from "@/components/community-promo-card"
 
 export default function Home() {
   return (
     <main className="relative min-h-screen overflow-hidden">
       <LuxuryHeader />
+      <CommunityPromoCard />
       <HeroSection />
       <CategoriesSection />
       {/* cambiar cuando ya se tenga back para hacer la suscripcion */}
