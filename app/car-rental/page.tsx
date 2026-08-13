@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
+import { CommunityPromoCard } from "@/components/community-promo-card"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import {
   ArrowRight,
@@ -716,6 +717,7 @@ export default function CarRentalPage() {
   return (
     <main className="min-h-screen bg-background overflow-x-hidden">
       <LuxuryHeader />
+      <CommunityPromoCard />
       <HeroCarousel />
       <TrustedBrandsMarquee />
       <LuxuryFleet />

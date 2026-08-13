@@ -8,6 +8,7 @@ import { PersonalizationSection } from "@/components/jewelry/personalization-sec
 import { TestimonialsSection } from "@/components/jewelry/testimonials-section"
 import { InstagramBenefitsSection } from "@/components/jewelry/instagram-benefits-section"
 import { ExclusiveInvitation } from "@/components/jewelry/exclusive-invitation"
+import { CommunityPromoCard } from "@/components/community-promo-card"
 import { LuxuryFooter } from "@/components/luxury-footer"
 
 export const metadata = {
@@ -19,6 +20,7 @@ export default function JewelryPage() {
   return (
     <main className="bg-background overflow-x-hidden">
       <LuxuryHeader />
+      <CommunityPromoCard />
       <JewelryHero />
       <GemstoneShowcase />
       <MaterialSections />

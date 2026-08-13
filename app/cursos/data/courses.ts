@@ -323,11 +323,6 @@ const videoCourseDrafts: CourseDraft[] = [
             3,
             "25. TESTIMONIO SOBRE DEL MAPA DE SUENOS - WILMARK MUNOZ",
           ),
-          createReferencedPendingEpisode(
-            155,
-            4,
-            "99. JORGE BORBON - LA ENTREVISTA QUE CAMBIARA TU VIDA",
-          ),
         ],
       },
       {
@@ -356,6 +351,33 @@ const videoCourseDrafts: CourseDraft[] = [
             87,
             5,
             "00. BIENVENIDA ANDRES HENAO Y DANIEL RODRIGUEZ",
+          ),
+        ],
+      },
+    ],
+  },
+  {
+    title: "Jorge Borbon: La entrevista que cambiara tu vida",
+    shortDescription:
+      "Entrevista especial sobre mentalidad, decisiones y transformacion personal.",
+    fullDescription:
+      "Una conversacion independiente de Abrakadabra Academy con Jorge Borbon, pensada para abrir perspectiva, cuestionar limites y activar cambios reales en la vida personal y profesional.",
+    instructor: "Jorge Borbon",
+    category: "TESTIMONIOS",
+    level: "Abierto",
+    coverImage: "/home/events-home.webp",
+    status: "published",
+    sections: [
+      {
+        title: "Entrevista completa",
+        description:
+          "La entrevista completa de Jorge Borbon presentada como curso independiente.",
+        order: 1,
+        episodes: [
+          createReferencedPendingEpisode(
+            156,
+            1,
+            "99. JORGE BORBON - LA ENTREVISTA QUE CAMBIARA TU VIDA",
           ),
         ],
       },

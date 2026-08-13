@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import Link from "next/link"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
+import { CommunityPromoCard } from "@/components/community-promo-card"
 import { ChevronRight } from "lucide-react"
 
 type Product = {
@@ -206,6 +207,7 @@ export default function ClothingPage() {
   return (
     <main className="min-h-screen bg-[#1a1a1a]">
       <LuxuryHeader />
+      <CommunityPromoCard />
 
       {/* Hero Section */}
       <section className="relative min-h-[80vh] overflow-hidden">

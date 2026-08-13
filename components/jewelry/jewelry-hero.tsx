@@ -4,6 +4,29 @@ import { useEffect, useState } from "react"
 import { Sparkles } from "lucide-react"
 import { cn } from "@/lib/utils"
 
+const heroParticles = [
+  { left: "8%", top: "58%", duration: "3.8s", delay: "1.1s" },
+  { left: "23%", top: "95%", duration: "4.1s", delay: "1.5s" },
+  { left: "20%", top: "68%", duration: "6.0s", delay: "0.2s" },
+  { left: "81%", top: "79%", duration: "5.8s", delay: "1.1s" },
+  { left: "34%", top: "82%", duration: "5.9s", delay: "0.9s" },
+  { left: "32%", top: "40%", duration: "5.9s", delay: "0.8s" },
+  { left: "81%", top: "49%", duration: "5.0s", delay: "0.2s" },
+  { left: "58%", top: "43%", duration: "5.4s", delay: "1.7s" },
+  { left: "36%", top: "8%", duration: "4.4s", delay: "1.8s" },
+  { left: "81%", top: "49%", duration: "4.2s", delay: "0.4s" },
+  { left: "57%", top: "24%", duration: "4.5s", delay: "1.2s" },
+  { left: "15%", top: "36%", duration: "4.8s", delay: "1.0s" },
+  { left: "62%", top: "72%", duration: "3.7s", delay: "0.2s" },
+  { left: "17%", top: "33%", duration: "5.0s", delay: "1.6s" },
+  { left: "23%", top: "26%", duration: "3.8s", delay: "1.6s" },
+  { left: "72%", top: "17%", duration: "6.1s", delay: "0.7s" },
+  { left: "90%", top: "14%", duration: "5.5s", delay: "1.3s" },
+  { left: "53%", top: "66%", duration: "4.9s", delay: "0.5s" },
+  { left: "12%", top: "91%", duration: "5.7s", delay: "1.4s" },
+  { left: "47%", top: "87%", duration: "4.6s", delay: "0.6s" },
+]
+
 export function JewelryHero() {
   const [isLoaded, setIsLoaded] = useState(false)
 
@@ -18,15 +41,15 @@ export function JewelryHero() {
       
       {/* Floating Particles */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
+        {heroParticles.map((particle, i) => (
           <div
             key={i}
             className="absolute w-1 h-1 rounded-full bg-primary/30"
             style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animation: `float ${3 + Math.random() * 4}s ease-in-out infinite`,
-              animationDelay: `${Math.random() * 2}s`,
+              left: particle.left,
+              top: particle.top,
+              animation: `float ${particle.duration} ease-in-out infinite`,
+              animationDelay: particle.delay,
             }}
           />
         ))}

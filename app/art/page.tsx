@@ -5,6 +5,7 @@ import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
+import { CommunityPromoCard } from "@/components/community-promo-card"
 import { getAllArtProducts } from "./data/art-products"
 import { PublicForm } from "@/components/public-form"
 
@@ -107,6 +108,7 @@ export default function ArtPage() {
   return (
     <main className="bg-background overflow-x-hidden">
       <LuxuryHeader />
+      <CommunityPromoCard />
 
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-24">

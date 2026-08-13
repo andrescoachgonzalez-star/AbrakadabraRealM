@@ -18,6 +18,7 @@ import {
 
 import { LuxuryHeader } from "@/components/luxury-header"
 import { LuxuryFooter } from "@/components/luxury-footer"
+import { CommunityPromoCard } from "@/components/community-promo-card"
 import { courses, type Course } from "./data/courses"
 
 type ContentType = "video" | "pdf"
@@ -576,6 +577,7 @@ export default function CoursesPage() {
       }}
     >
       <LuxuryHeader />
+      <CommunityPromoCard />
 
       <section className="px-4 pb-16 pt-36 md:pb-20 md:pt-40">
         <div className="mx-auto max-w-7xl">
