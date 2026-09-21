@@ -24,7 +24,7 @@ const navLinks = [
 
 const desktopSplitIndex = 3
 
-export function LuxuryHeader() {
+export function LuxuryHeader({ accentColor }: { accentColor?: string }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [isMinimized, setIsMinimized] = useState(false)
@@ -148,9 +148,10 @@ export function LuxuryHeader() {
                     key={i}
                     className={cn(
                       "inline-block transition-colors duration-200",
-                      logoPhase === "highlight" ? "text-primary" : "text-background"
+                      logoPhase === "highlight" && !accentColor ? "text-primary" : "text-background"
                     )}
                     style={{
+                      color: logoPhase === "highlight" ? accentColor : undefined,
                       transitionDelay: logoPhase === "highlight" ? `${i * 80}ms` : "0ms",
                     }}
                   >
@@ -328,9 +329,12 @@ export function LuxuryHeader() {
                   key={i}
                   className={cn(
                     "inline-block transition-colors duration-200",
-                    logoPhase === "highlight" ? "text-primary" : "text-background"
+                    logoPhase === "highlight" && !accentColor ? "text-primary" : "text-background"
                   )}
-                  style={{ transitionDelay: logoPhase === "highlight" ? `${i * 80}ms` : "0ms" }}
+                  style={{
+                    color: logoPhase === "highlight" ? accentColor : undefined,
+                    transitionDelay: logoPhase === "highlight" ? `${i * 80}ms` : "0ms",
+                  }}
                 >
                   {letter}
                 </span>

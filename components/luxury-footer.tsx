@@ -21,9 +21,10 @@ const footerLinks = [
   { name: "Courses", href: "/cursos" },
 ]
 
-export function LuxuryFooter() {
+export function LuxuryFooter({ variant = "default" }: { variant?: "default" | "noir" }) {
   const footerRef = useRef<HTMLElement>(null)
   const [isVisible, setIsVisible] = useState(false)
+  const isNoir = variant === "noir"
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -43,7 +44,7 @@ export function LuxuryFooter() {
   }, [])
 
   return (
-    <footer ref={footerRef} className="relative overflow-hidden bg-foreground text-background">
+    <footer ref={footerRef} className={cn("relative overflow-hidden", isNoir ? "bg-[#070707] text-[#f3f0ec]" : "bg-foreground text-background")}>
       <div className="container mx-auto px-5 py-14 sm:px-6 lg:py-16">
         <div className={cn(
           "relative z-10 grid gap-10 transition-all duration-1000 md:grid-cols-[1.1fr_1.4fr] lg:grid-cols-[1.1fr_1.7fr_1fr]",
@@ -52,11 +53,11 @@ export function LuxuryFooter() {
           <div className="text-center md:text-left">
             <a
               href="/"
-              className="inline-flex rounded-full border border-background/15 px-5 py-2.5 text-xs font-semibold tracking-[0.28em] text-background transition-colors duration-300 hover:border-primary hover:text-primary"
+              className={cn("inline-flex rounded-full px-5 py-2.5 text-xs font-semibold tracking-[0.28em] transition-colors duration-300", isNoir ? "border border-white/[0.14] text-[#f3f0ec] hover:border-[#c20d12] hover:text-[#e1282e]" : "border border-background/15 text-background hover:border-primary hover:text-primary")}
             >
               HOME
             </a>
-            <p className="mt-5 max-w-sm text-sm leading-relaxed text-background/55 md:max-w-xs">
+            <p className={cn("mt-5 max-w-sm text-sm leading-relaxed md:max-w-xs", isNoir ? "text-white/45" : "text-background/55")}>
               More than a brand, we are a philosophy of life.
             </p>
           </div>
@@ -67,8 +68,9 @@ export function LuxuryFooter() {
                 key={link.name}
                 href={link.href}
                 className={cn(
-                  "rounded-full border border-background/10 px-4 py-3 text-center text-[11px] font-medium tracking-widest text-background/65 transition-all duration-300 hover:border-primary/70 hover:text-background",
-                  index === 0 && "border-primary/50 text-primary"
+                  "rounded-full px-4 py-3 text-center text-[11px] font-medium tracking-widest transition-all duration-300",
+                  isNoir ? "border border-white/[0.1] text-white/55 hover:border-[#c20d12]/70 hover:text-white" : "border border-background/10 text-background/65 hover:border-primary/70 hover:text-background",
+                  index === 0 && (isNoir ? "border-[#c20d12]/50 text-[#e1282e]" : "border-primary/50 text-primary")
                 )}
               >
                 {link.name}
@@ -82,9 +84,9 @@ export function LuxuryFooter() {
                 <li key={link.name}>
                   <a
                     href={link.href}
-                    className="inline-flex items-center gap-2 text-xs tracking-widest text-background/55 transition-colors duration-300 hover:text-background"
+                    className={cn("inline-flex items-center gap-2 text-xs tracking-widest transition-colors duration-300", isNoir ? "text-white/45 hover:text-white" : "text-background/55 hover:text-background")}
                   >
-                    <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                    <span className={cn("h-1.5 w-1.5 rounded-full", isNoir ? "bg-[#c20d12]" : "bg-primary")} />
                     {link.name}
                   </a>
                 </li>
@@ -105,14 +107,14 @@ export function LuxuryFooter() {
           "relative z-10 mt-10 border-t border-background/10 pt-7 text-center transition-all duration-1000 delay-200 md:text-left",
           isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
         )}>
-          <p className="text-xs text-background/50">
-            Abrakadabra Realm 2025 | All rights reserved
+          <p className={cn("text-xs", isNoir ? "text-white/35" : "text-background/50")}>
+            Abrakadabra Realm 2026 | All rights reserved
           </p>
         </div>
       </div>
 
       <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 opacity-5">
-        <span className="font-serif text-[32vw] font-bold tracking-tight sm:text-[20vw]">
+        <span className={cn("font-serif text-[32vw] font-bold tracking-tight sm:text-[20vw]", isNoir ? "text-[#c20d12]" : "text-background")}>
           AR
         </span>
       </div>

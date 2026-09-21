@@ -76,14 +76,30 @@ const galleryImages = [
   "https://images.unsplash.com/photo-1540039155733-5bb30b53aa14?w=600&q=80",
 ]
 
-const featuredEventExperience = {
-  title: "Arkana",
-  subtitle: "Abrakadabrarealm x Coffee Club",
-  description:
-    "Un nuevo concepto destacado inspirado directamente en la estetica del press kit: energia editorial oscura, rojos refinados, referencias de lujo y una narrativa mucho mas inmersiva.",
-  image: "/events/arkana/lounge.jpg",
-  href: "/events/arkana",
-}
+const featuredEventExperiences = [
+  {
+    title: "AKASHA",
+    subtitle: "Próximamente · Abrakadabra Realm",
+    description:
+      "Coctelería a la venta en Baren y mini burgers durante la fiesta. Girls First: primera ronda gratis para grupos de ellas.",
+    image: "/events/akasha/agenda-cover.png",
+    href: "/events/akasha",
+    cta: "Descubrir AKASHA",
+    date: "Sábado 17 de octubre",
+    status: "Próximamente",
+  },
+  {
+    title: "ARKANA",
+    subtitle: "Evento pasado · Archivo Abrakadabra",
+    description:
+      "Camzz, 8batzz, Mausa y Esteban Arenas orbitando una noche de música electrónica, visuales naranjas y código rojo en El Poblado.",
+    image: "/events/arkana/main.png",
+    href: "/events/arkana",
+    cta: "Ver el archivo",
+    date: "22 de agosto · 9PM — 4AM",
+    status: "En el archivo",
+  },
+]
 
 function AnimatedCounter({ target, suffix = "" }: { target: string; suffix?: string }) {
   const numericPart = target.replace(/[^0-9]/g, "")
@@ -173,10 +189,10 @@ export default function EventsPage() {
               key={i}
               className="absolute w-1 h-1 bg-primary/40 rounded-full animate-float"
               style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-                animationDelay: `${Math.random() * 5}s`,
-                animationDuration: `${3 + Math.random() * 4}s`,
+                left: `${(i * 37) % 100}%`,
+                top: `${(i * 53 + 17) % 100}%`,
+                animationDelay: `${(i * 0.37).toFixed(2)}s`,
+                animationDuration: `${(3 + (i % 4) * 0.75).toFixed(2)}s`,
               }}
             />
           ))}
@@ -438,46 +454,76 @@ export default function EventsPage() {
           <ScrollReveal>
             <div className="text-center">
               <span className="text-primary text-xs font-semibold tracking-[0.3em] uppercase">
-                Experiencia Destacada
+                Agenda Abrakadabra
               </span>
               <h2 className="mt-4 font-serif text-4xl font-bold text-white md:text-6xl">
-                Un Nuevo Punto Dentro De
-                <span className="ml-3 italic text-primary">Events</span>
+                Próximamente y en el
+                <span className="ml-3 italic text-primary">archivo</span>
               </h2>
+              <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/60">
+                Descubre la próxima frecuencia y vuelve a entrar en las noches que ya dejaron huella.
+              </p>
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={120}>
-            <div className="mt-14 grid items-center gap-10 overflow-hidden rounded-[2rem] border border-white/10 bg-black/40 p-6 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-sm lg:grid-cols-[1.05fr_0.95fr] lg:p-8">
-              <div className="relative overflow-hidden rounded-[1.5rem]">
-                <img
-                  src={featuredEventExperience.image}
-                  alt={featuredEventExperience.title}
-                  className="aspect-[4/3] w-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-              </div>
+          <div className="mt-14 grid gap-6 lg:grid-cols-2">
+            {featuredEventExperiences.map((event, index) => (
+              <ScrollReveal key={event.title} delay={120 + index * 100}>
+                <article className="group h-full overflow-hidden rounded-[2rem] border border-white/10 bg-black/40 p-5 shadow-[0_40px_120px_rgba(0,0,0,0.45)] backdrop-blur-sm sm:p-6">
+                  <div className="relative overflow-hidden rounded-[1.5rem]">
+                    <img
+                      src={event.image}
+                      alt={event.title}
+                      className="aspect-[1325/1187] w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent" />
+                    <div className="absolute bottom-5 left-5 right-5 flex flex-wrap items-center gap-2">
+                      <span className="rounded-full border border-primary/50 bg-black/55 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white backdrop-blur-sm">
+                        {event.status}
+                      </span>
+                      <span className="rounded-full border border-white/20 bg-black/40 px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/80 backdrop-blur-sm">
+                        {event.date}
+                      </span>
+                    </div>
+                  </div>
 
-              <div>
-                <span className="text-primary text-xs font-semibold tracking-[0.3em] uppercase">
-                  {featuredEventExperience.subtitle}
-                </span>
-                <h3 className="mt-4 font-serif text-4xl font-bold text-white md:text-5xl">
-                  {featuredEventExperience.title}
-                </h3>
-                <div className="mt-6 h-px w-20 bg-primary" />
-                <p className="mt-6 max-w-xl text-lg leading-relaxed text-white/68">
-                  {featuredEventExperience.description}
-                </p>
+                  <div className="px-1 pb-1 pt-7">
+                    <span className="text-primary text-xs font-semibold tracking-[0.3em] uppercase">
+                      {event.subtitle}
+                    </span>
+                    <h3 className="mt-4 font-serif text-4xl font-bold text-white md:text-5xl">
+                      {event.title}
+                    </h3>
+                    <div className="mt-6 h-px w-20 bg-primary" />
+                    <p className="mt-6 max-w-xl text-base leading-relaxed text-white/68">
+                      {event.description}
+                    </p>
 
-                <a
-                  href={featuredEventExperience.href}
-                  className="group mt-10 inline-flex items-center gap-3 rounded-full bg-primary px-8 py-4 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:shadow-xl hover:shadow-primary/20"
-                >
-                  Entrar A Arkana
-                  <ArrowRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
+                    <a
+                      href={event.href}
+                      className="group/link mt-8 inline-flex min-h-11 items-center gap-3 rounded-full bg-primary px-7 py-3.5 text-sm font-semibold tracking-wider text-primary-foreground transition-all duration-300 hover:shadow-xl hover:shadow-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#090909]"
+                    >
+                      {event.cta}
+                      <ArrowRight className="h-4 w-4 transition-transform group-hover/link:translate-x-1" aria-hidden="true" />
+                    </a>
+                  </div>
+                </article>
+              </ScrollReveal>
+            ))}
+          </div>
+
+          <ScrollReveal delay={260}>
+            <div className="mt-10 flex flex-col items-center justify-between gap-5 border-t border-white/[0.1] pt-7 sm:flex-row">
+              <p className="max-w-md text-center text-sm leading-relaxed text-white/45 sm:text-left">
+                Una agenda viva: nuevas frecuencias por venir y noches que ya hacen parte de nuestra historia.
+              </p>
+              <a
+                href="/events/agenda"
+                className="group inline-flex min-h-11 items-center gap-3 rounded-full border border-white/20 px-6 py-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/75 transition-[border-color,color] duration-300 hover:border-primary/60 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#090909]"
+              >
+                Explorar toda la agenda
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" />
+              </a>
             </div>
           </ScrollReveal>
         </div>

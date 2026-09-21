@@ -18,8 +18,19 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [isVisible, setIsVisible] = useState(false)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
 
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const updateMotionPreference = () => setPrefersReducedMotion(mediaQuery.matches)
+
+    updateMotionPreference()
+    mediaQuery.addEventListener?.("change", updateMotionPreference)
+
+    if (mediaQuery.matches) {
+      setIsVisible(true)
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -33,23 +44,28 @@ export function ScrollReveal({
       observer.observe(ref.current)
     }
 
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      mediaQuery.removeEventListener?.("change", updateMotionPreference)
+    }
   }, [])
 
   const getDirectionClasses = () => {
+    const visible = isVisible || prefersReducedMotion
+
     switch (direction) {
       case "up":
-        return isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+        return visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
       case "down":
-        return isVisible ? "translate-y-0 opacity-100" : "-translate-y-8 opacity-0"
+        return visible ? "translate-y-0 opacity-100" : "-translate-y-6 opacity-0"
       case "left":
-        return isVisible ? "translate-x-0 opacity-100" : "translate-x-8 opacity-0"
+        return visible ? "translate-x-0 opacity-100" : "translate-x-6 opacity-0"
       case "right":
-        return isVisible ? "translate-x-0 opacity-100" : "-translate-x-8 opacity-0"
+        return visible ? "translate-x-0 opacity-100" : "-translate-x-6 opacity-0"
       case "none":
-        return isVisible ? "opacity-100" : "opacity-0"
+        return visible ? "opacity-100" : "opacity-0"
       default:
-        return isVisible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+        return visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"
     }
   }
 
@@ -57,11 +73,11 @@ export function ScrollReveal({
     <div
       ref={ref}
       className={cn(
-        "transition-all duration-700 ease-out",
+        "will-change-[transform,opacity] transition-[transform,opacity] duration-700 ease-[cubic-bezier(.22,1,.36,1)]",
         getDirectionClasses(),
         className
       )}
-      style={{ transitionDelay: `${delay}ms` }}
+      style={prefersReducedMotion ? undefined : { transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>
