@@ -55,7 +55,7 @@ export function AkashaHero() {
         <div className="grid flex-1 items-center gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_minmax(340px,0.52fr)] lg:gap-12 lg:py-8">
           <div className="relative z-10 max-w-none">
             <p className="akasha-hero-fade font-mono text-[10px] uppercase tracking-[0.28em] text-white/45">Abrakadabra Realm / Electronic music</p>
-            <h1 className="akasha-display akasha-title-reveal mt-5 origin-left text-[clamp(4.6rem,19vw,9rem)] font-black uppercase leading-[0.78] tracking-[-0.08em] text-[#e9e5d8] lg:whitespace-nowrap lg:text-[clamp(5rem,11.5vw,13rem)]">
+            <h1 className="akasha-display akasha-title-reveal mt-5 origin-left text-[clamp(3.8rem,19vw,9rem)] font-black uppercase leading-[0.78] tracking-[-0.08em] text-[#e9e5d8] lg:whitespace-nowrap lg:text-[clamp(5rem,11.5vw,13rem)]">
               AKASHA
             </h1>
             <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:gap-9">

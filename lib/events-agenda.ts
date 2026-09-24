@@ -14,7 +14,7 @@ export type AgendaEvent = {
   genre: string
   artists: string[]
   description: string
-  accent: "lime" | "orange"
+  accent: "lime" | "orange" | "copper"
 }
 
 export const agendaEvents: AgendaEvent[] = [
@@ -49,6 +49,22 @@ export const agendaEvents: AgendaEvent[] = [
     artists: ["Camzz", "8batzz", "Mausa", "Esteban Arenas"],
     description: "Una noche orbital de música electrónica, visuales naranjas y código propio.",
     accent: "orange",
+  },
+  {
+    slug: "exquisite-night",
+    title: "EXQUISITE NIGHT",
+    status: "archive",
+    statusLabel: "Para la historia",
+    date: "Jueves 9 de marzo",
+    dateShort: "09 MAR",
+    image: "/events/exquisite-night/poster-clean.png",
+    venue: "Russian Samovar",
+    location: "256 W 52nd St · New York",
+    time: "—",
+    genre: "Techno · House",
+    artists: ["Pablo Lorenzo", "Romero Slider", "Joseph Ren", "Andrea Kingtero Perez"],
+    description: "Una noche de pintura, house y techno que cruzó la energía de Nueva York con la curaduría de Archivio Records y Under Effect.",
+    accent: "copper",
   },
 ]
 

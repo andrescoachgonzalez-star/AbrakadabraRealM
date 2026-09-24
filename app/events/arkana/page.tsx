@@ -1,4 +1,5 @@
 import Image from "next/image"
+import type { ReactNode } from "react"
 import {
   ArrowDownRight,
   ArrowRight,
@@ -14,7 +15,7 @@ import {
 } from "lucide-react"
 import { AkashaArtistCard, type AkashaArtist } from "@/components/akasha/akasha-artist-card"
 import { AkashaScrollProgress } from "@/components/akasha/akasha-scroll-progress"
-import { AkashaSectionLabel } from "@/components/akasha/akasha-section-label"
+import { AkashaSectionLabel as SharedAkashaSectionLabel } from "@/components/akasha/akasha-section-label"
 import { LuxuryFooter } from "@/components/luxury-footer"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { ScrollReveal } from "@/components/scroll-reveal"
@@ -96,11 +97,15 @@ const executionPillars = [
   },
 ]
 
+function AkashaSectionLabel({ children, className }: { children: ReactNode; className?: string }) {
+  return <SharedAkashaSectionLabel accentColor="#e1282e" className={className}>{children}</SharedAkashaSectionLabel>
+}
+
 export default function ArkanaPage() {
   return (
     <main className="akasha-page min-h-screen overflow-x-hidden bg-[#050505] text-[#f3f0ec]">
-      <AkashaScrollProgress />
-      <LuxuryHeader />
+      <AkashaScrollProgress accentColor="#e1282e" />
+      <LuxuryHeader accentColor="#e1282e" />
 
       <section className="relative isolate overflow-hidden border-b border-white/[0.08]">
         <div className="pointer-events-none absolute -right-40 top-28 -z-10 h-[680px] w-[680px] rounded-full bg-[#8c2608]/10 blur-3xl" />

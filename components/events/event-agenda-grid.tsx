@@ -16,6 +16,15 @@ const filters: Array<{ value: Filter; label: string }> = [
 ]
 
 function accentClasses(event: AgendaEvent) {
+  if (event.accent === "copper") {
+    return {
+      line: "bg-[#d99548]",
+      text: "text-[#d99548]",
+      border: "border-[#d99548]/35 hover:border-[#d99548]/70",
+      glow: "bg-[#d99548]/10",
+    }
+  }
+
   return event.accent === "lime"
     ? {
         line: "bg-[#d9ff20]",
@@ -36,8 +45,8 @@ function EventCard({ event, index }: { event: AgendaEvent; index: number }) {
 
   return (
     <ScrollReveal delay={index * 70} className="h-full">
-      <article className={cn("group flex h-full flex-col border bg-[#0b0b0b] transition-[border-color,transform] duration-500 ease-[cubic-bezier(.22,1,.36,1)] hover:-translate-y-1", accent.border)}>
-        <a href={`/events/${event.slug}`} className="block" aria-label={`Abrir evento ${event.title}`}>
+      <a href={`/events/${event.slug}`} className="group block h-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#c20d12] focus-visible:ring-offset-4 focus-visible:ring-offset-[#050505]" aria-label={`Abrir evento ${event.title}`}>
+        <article className={cn("flex h-full flex-col border bg-[#0b0b0b] transition-[border-color,transform] duration-500 ease-[cubic-bezier(.22,1,.36,1)] group-hover:-translate-y-1", accent.border)}>
           <div className="relative aspect-[1325/1187] overflow-hidden bg-[#141414]">
             <Image
               src={event.image}
@@ -60,13 +69,11 @@ function EventCard({ event, index }: { event: AgendaEvent; index: number }) {
               </span>
             </div>
           </div>
-        </a>
-
-        <div className="flex flex-1 flex-col p-5 sm:p-6">
+          <div className="flex flex-1 flex-col p-5 sm:p-6">
           <div className="flex items-start justify-between gap-4">
-            <div>
+            <div className="min-w-0 flex-1">
               <p className={cn("text-[10px] font-semibold uppercase tracking-[0.24em]", accent.text)}>{event.genre}</p>
-              <h2 className="mt-3 font-sans text-4xl font-black uppercase leading-[0.88] tracking-[-0.06em] text-[#f1eee7] sm:text-5xl">{event.title}</h2>
+              <h2 className="mt-3 break-words font-sans text-4xl font-black uppercase leading-[0.88] tracking-[-0.06em] text-[#f1eee7] sm:text-5xl">{event.title}</h2>
             </div>
             <span className={cn("mt-1 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border", accent.border)} aria-hidden="true">
               <ArrowUpRight className={cn("h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5", accent.text)} />
@@ -84,12 +91,13 @@ function EventCard({ event, index }: { event: AgendaEvent; index: number }) {
 
           <div className="mt-auto pt-6">
             <p className="flex items-start gap-3 text-xs leading-relaxed text-white/45"><Music2 className={cn("mt-0.5 h-4 w-4 shrink-0", accent.text)} aria-hidden="true" /><span>{event.artists.join(" · ")}</span></p>
-            <a href={`/events/${event.slug}`} className={cn("mt-6 inline-flex min-h-11 items-center gap-3 border-b pb-2 text-[10px] font-semibold uppercase tracking-[0.24em] transition-colors duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-offset-[#0b0b0b]", accent.text, accent.border)}>
+            <span className={cn("mt-6 inline-flex min-h-11 items-center gap-3 border-b pb-2 text-[10px] font-semibold uppercase tracking-[0.24em] transition-colors duration-300", accent.text, accent.border)}>
               Ver evento <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-            </a>
+            </span>
           </div>
-        </div>
-      </article>
+          </div>
+        </article>
+      </a>
     </ScrollReveal>
   )
 }

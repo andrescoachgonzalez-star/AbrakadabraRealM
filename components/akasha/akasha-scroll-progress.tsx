@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react"
 
-export function AkashaScrollProgress() {
+export function AkashaScrollProgress({ accentColor = "#d9ff20" }: { accentColor?: string }) {
   const [progress, setProgress] = useState(0)
 
   useEffect(() => {
@@ -33,8 +33,8 @@ export function AkashaScrollProgress() {
       className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-px bg-white/[0.06]"
     >
       <div
-        className="h-full origin-left bg-[#d9ff20] transition-transform duration-150 ease-linear"
-        style={{ transform: `scaleX(${progress})` }}
+        className="h-full origin-left transition-transform duration-150 ease-linear"
+        style={{ backgroundColor: accentColor, transform: `scaleX(${progress})` }}
       />
     </div>
   )
