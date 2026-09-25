@@ -32,16 +32,16 @@ export function AkashaFoodFeature() {
         <ScrollReveal delay={120} direction="left">
           <div className="grid grid-cols-[1.15fr_0.78fr] items-end gap-3 sm:gap-5">
             <figure className="group min-w-0">
-              <div className="relative aspect-[800/533] overflow-hidden border border-white/[0.12] bg-[#171717] transition-colors duration-500 group-hover:border-[#d9ff20]/50">
+              <div className="relative aspect-[1122/1402] overflow-hidden border border-white/[0.12] bg-[#171717] transition-colors duration-500 group-hover:border-[#d9ff20]/50">
                 <Image
-                  src="/events/akasha/miniburgers-main.png"
-                  alt="Mini hamburguesa de Mini Burgers Lan sobre fondo oscuro"
+                  src="/events/akasha/food-promo.png"
+                  alt="Pieza oficial de Mini Burgers Lan y cócteles para AKASHA"
                   fill
                   sizes="(min-width: 1024px) 42vw, 70vw"
                   className="object-cover transition-transform duration-700 ease-[cubic-bezier(.16,1,.3,1)] group-hover:scale-[1.025]"
                 />
               </div>
-              <figcaption className="mt-3 font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">A la venta durante la fiesta</figcaption>
+              <figcaption className="mt-3 font-mono text-[9px] uppercase tracking-[0.18em] text-white/35">Mini hamburguesas · cócteles · buena música</figcaption>
             </figure>
             <figure className="group min-w-0">
               <div className="relative aspect-[27/40] overflow-hidden border border-white/[0.12] bg-[#171717] transition-colors duration-500 group-hover:border-[#d9ff20]/50">

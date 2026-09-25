@@ -9,6 +9,7 @@ import { LuxuryFooter } from "@/components/luxury-footer"
 import { LuxuryHeader } from "@/components/luxury-header"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { EventsPublicForm } from "@/components/events-public-form"
+import { EventsSubscriptionModal } from "@/components/events-subscription-modal"
 
 const CO_WA_NUMBER = "573103920569"
 const CO_SMS_NUMBER = "+573103920569"
@@ -98,6 +99,7 @@ export default function EventsPage() {
     <main className="events-page min-h-screen overflow-x-hidden bg-[#050505] text-[#f3f0ec]">
       <AkashaScrollProgress accentColor="#c20d12" />
       <LuxuryHeader />
+      <EventsSubscriptionModal />
 
       <section className="relative flex min-h-[min(900px,100svh)] items-end overflow-hidden border-b border-white/[0.08]">
         <div className="absolute inset-0">

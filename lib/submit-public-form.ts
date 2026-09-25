@@ -54,6 +54,21 @@ export type CourseLeadResponse = {
   message: string
 }
 
+export type EventSubscriberPayload = {
+  full_name: string
+  email: string
+  phone_country_code: string
+  phone_number: string
+  source_page?: string
+}
+
+export type EventSubscriberResponse = {
+  id: string
+  email: string
+  already_registered: boolean
+  message: string
+}
+
 export async function submitPublicForm(formData: PublicFormPayload) {
   const response = await fetch(`${API_URL}/public/forms`, {
     method: "POST",
@@ -96,4 +111,27 @@ export async function submitCourseLead(
   }
 
   return result as CourseLeadResponse
+}
+
+export async function submitEventSubscriber(
+  payload: EventSubscriberPayload
+): Promise<EventSubscriberResponse> {
+  const response = await fetch(`${API_URL}/public/event-subscribers`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  })
+
+  const result = (await response.json().catch(() => null)) as
+    | EventSubscriberResponse
+    | { message?: string }
+    | null
+
+  if (!response.ok) {
+    throw new Error(result?.message || "No se pudo registrar la suscripción")
+  }
+
+  return result as EventSubscriberResponse
 }

@@ -30,7 +30,7 @@ export const agendaEvents: AgendaEvent[] = [
     location: "CRR 38 N 10-13",
     time: "7PM — 4AM",
     genre: "Música electrónica",
-    artists: ["Esteban Arenas", "8batzz", "Camzz", "Reed Beard", "Axelh"],
+    artists: ["Esteban Arenas", "8batzz", "Camzz", "Reed Beard", "Terry Golden"],
     description: "Coctelería a la venta en Baren y mini burgers durante la fiesta. Girls First: primera ronda gratis para grupos de ellas.",
     accent: "lime",
   },

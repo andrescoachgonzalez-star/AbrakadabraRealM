@@ -10,11 +10,11 @@ export type AkashaLineupArtist = {
 }
 
 export const akashaLineup: AkashaLineupArtist[] = [
-  { name: "ESTEBAN ARENAS", role: "DJ / SELECTOR", instagram: "https://www.instagram.com/estebanarenas_dj?stkn=NXBrZ2d6aWlpcWxj", image: "/Image-DJs/esteban-arenas.png" },
-  { name: "8BATZZ", role: "AFRO HOUSE / TECH HOUSE", instagram: "https://www.instagram.com/estebanarenas_dj?stkn=NXBrZ2d6aWlpcWxj", image: "/Image-DJs/8batzz.png" },
-  { name: "CAMZZ", role: "DJ / PRODUCER", instagram: "https://www.instagram.com/camzz.prod?stkn=YWZ5c2IyZ2VtNmhr", image: "/Image-DJs/camzz.png" },
-  { name: "REED BEARD", role: "DJ / PRODUCER", instagram: "https://www.instagram.com/redbeard.col?stkn=MXQweG9oa25sZWIzYw==" },
-  { name: "AXELH", role: "DJ / SELECTOR", instagram: "https://www.instagram.com/_axelh__?stkn=NXprcTR6MHhneWVw" },
+  { name: "ESTEBAN ARENAS", role: "DJ / SELECTOR", instagram: "https://www.instagram.com/estebanarenas_dj?stkn=MXB6Z2gzZXY3cmFyOQ==", image: "/events/akasha/esteban-arenas-new.png" },
+  { name: "8BATZZ", role: "AFRO HOUSE / TECH HOUSE", instagram: "https://www.instagram.com/8batzz?stkn=MTJ1YWo4dDdoNTlycQ==", image: "/events/akasha/8batzz-new.png" },
+  { name: "CAMZZ", role: "DJ / PRODUCER", instagram: "https://www.instagram.com/camzz.prod?stkn=eTA4cnBndWM3d2cw", image: "/events/akasha/camzz-new.png" },
+  { name: "REED BEARD", role: "DJ / PRODUCER", instagram: "https://www.instagram.com/redbeard.col?stkn=MXRrYXFsZzh3dWI5cw==", image: "/events/akasha/reed-beard.png" },
+  { name: "TERRY GOLDEN", role: "INVITADO ESPECIAL", instagram: "https://www.instagram.com/terrygoldenmusic?stkn=eWpjZmtxNWFyd245", image: "/events/akasha/terry-golden.png" },
 ]
 
 export function AkashaLineup() {
@@ -49,7 +49,7 @@ export function AkashaLineup() {
                   {artist.image ? <Instagram className="h-4 w-4" aria-hidden="true" /> : <ArrowUpRight className="h-4 w-4" aria-hidden="true" />}
                 </span>
                 {artist.image && (
-                  <span className="pointer-events-none absolute right-[8%] top-1/2 hidden h-40 w-28 -translate-y-1/2 -rotate-6 overflow-hidden border border-[#d9ff20]/60 opacity-0 transition-[opacity,transform] duration-500 group-hover:rotate-0 group-hover:opacity-100 lg:block">
+                  <span className="relative h-20 w-14 shrink-0 overflow-hidden border border-[#d9ff20]/60 sm:h-24 sm:w-16 lg:pointer-events-none lg:absolute lg:right-[8%] lg:top-1/2 lg:h-40 lg:w-28 lg:-translate-y-1/2 lg:-rotate-6 lg:opacity-0 lg:transition-[opacity,transform] lg:duration-500 lg:group-hover:rotate-0 lg:group-hover:opacity-100">
                     <Image src={artist.image} alt="" fill sizes="112px" className="object-cover grayscale contrast-125" />
                   </span>
                 )}
