@@ -31,7 +31,7 @@ export const agendaEvents: AgendaEvent[] = [
     time: "7PM — 4AM",
     genre: "Música electrónica",
     artists: ["Esteban Arenas", "8batzz", "Camzz", "Reed Beard", "Terry Golden"],
-    description: "Coctelería a la venta en Baren y mini burgers durante la fiesta. Girls First: primera ronda gratis para grupos de ellas.",
+    description: "Música electrónica, coctelería en Baren y una noche para encontrarnos alrededor de la frecuencia AKASHA.",
     accent: "lime",
   },
   {

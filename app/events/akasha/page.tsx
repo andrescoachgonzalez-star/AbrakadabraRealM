@@ -1,7 +1,6 @@
 import Image from "next/image"
 import { ArrowRight, Clock3, MapPin, Music2, Ticket } from "lucide-react"
 import { AkashaFrequencyMarquee } from "@/components/akasha/akasha-frequency-marquee"
-import { AkashaFoodFeature } from "@/components/akasha/akasha-food-feature"
 import { AkashaHero } from "@/components/akasha/akasha-hero"
 import { AkashaLineup } from "@/components/akasha/akasha-lineup"
 import { AkashaScrollProgress } from "@/components/akasha/akasha-scroll-progress"
@@ -109,13 +108,12 @@ export default function AkashaPage() {
 
       <AkashaFrequencyMarquee reverse />
       <AkashaLineup />
-      <AkashaFoodFeature />
 
       <section className="border-b border-white/[0.1] bg-[#171717]/50 py-24 sm:py-32 lg:py-40">
         <div className="mx-auto max-w-[1600px] px-5 sm:px-8 lg:px-[5vw]">
           <ScrollReveal>
             <div className="flex flex-col justify-between gap-7 lg:flex-row lg:items-end">
-              <div><p className="akasha-kicker text-[#d9ff20]">06 / Archivo</p><h2 className="akasha-display mt-6 text-[clamp(3.5rem,8vw,8rem)] font-black uppercase leading-[0.78] tracking-[-0.08em] text-[#e9e5d8]">Noches que<br /><span className="text-white/30">dejaron huella.</span></h2></div>
+              <div><p className="akasha-kicker text-[#d9ff20]">05 / Archivo</p><h2 className="akasha-display mt-6 text-[clamp(3.5rem,8vw,8rem)] font-black uppercase leading-[0.78] tracking-[-0.08em] text-[#e9e5d8]">Noches que<br /><span className="text-white/30">dejaron huella.</span></h2></div>
               <p className="max-w-sm text-sm leading-relaxed text-white/45 lg:text-right">AKASHA abre la próxima frecuencia. ARKANA permanece en el archivo.</p>
             </div>
           </ScrollReveal>
@@ -135,7 +133,7 @@ export default function AkashaPage() {
         <div className="relative mx-auto max-w-4xl px-5 text-center sm:px-8">
           <ScrollReveal>
             <Music2 className="mx-auto h-7 w-7 text-[#d9ff20]" aria-hidden="true" />
-            <p className="akasha-kicker mt-8 text-[#d9ff20]">07 / Join the frequency</p>
+            <p className="akasha-kicker mt-8 text-[#d9ff20]">06 / Join the frequency</p>
             <h2 className="akasha-display mt-8 text-[clamp(4rem,10vw,10rem)] font-black uppercase leading-[0.75] tracking-[-0.09em] text-[#e9e5d8]">Nos vemos<br /><span className="text-[#d9ff20]">en AKASHA.</span></h2>
             <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-white/55 sm:text-lg">Registra tus datos y recibe la información de acceso para la próxima frecuencia en Baren.</p>
             <a href="#contacto" className="group mt-10 inline-flex min-h-12 items-center gap-3 rounded-full border border-[#d9ff20] px-8 py-4 text-[10px] font-semibold uppercase tracking-[0.24em] text-[#d9ff20] transition-[background-color,color] duration-300 hover:bg-[#d9ff20] hover:text-[#050505] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d9ff20]">Unirme a la fiesta <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true" /></a>

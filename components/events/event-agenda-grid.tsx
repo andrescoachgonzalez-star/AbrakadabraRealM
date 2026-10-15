@@ -50,7 +50,7 @@ function EventCard({ event, index }: { event: AgendaEvent; index: number }) {
           <div className="relative aspect-[1325/1187] overflow-hidden bg-[#141414]">
             <Image
               src={event.image}
-              alt={event.slug === "akasha" ? "Afiche oficial de AKASHA con la fecha, lineup, mini burgers y cócteles" : `Portada oficial del evento ${event.title}`}
+              alt={event.slug === "akasha" ? "Afiche oficial de AKASHA con la fecha, lineup y cócteles" : `Portada oficial del evento ${event.title}`}
               fill
               sizes="(min-width: 1280px) 25vw, (min-width: 768px) 50vw, 100vw"
               className="object-cover transition-transform duration-700 ease-[cubic-bezier(.22,1,.36,1)] group-hover:scale-[1.025]"

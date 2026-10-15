@@ -21,7 +21,7 @@ const featuredEvents = [
     title: "AKASHA",
     eyebrow: "Próximamente · Abrakadabra Realm",
     description:
-      "Música electrónica, coctelería en Baren y mini burgers durante la fiesta. Girls First: primera ronda gratis para grupos de ellas.",
+      "Música electrónica, coctelería en Baren y una noche para encontrarnos alrededor de la frecuencia AKASHA.",
     image: "/events/akasha/agenda-cover.png",
     href: "/events/akasha",
     date: "Sábado 17 de octubre",
