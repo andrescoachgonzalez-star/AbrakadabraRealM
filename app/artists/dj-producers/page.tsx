@@ -206,15 +206,15 @@ function DJCard({ dj, index }: { dj: DJProducer; index: number }) {
             <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.6 }}
-              className="absolute inset-0 flex flex-col bg-[#111] lg:block"
+              className="absolute inset-0 bg-[#111]"
             >
               <img
                 src={dj.image || "/placeholder.svg"}
                 alt={dj.name}
-                className={`relative w-full object-cover transition-opacity duration-500 lg:absolute lg:inset-0 lg:h-full lg:w-full ${
+                className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
                   dj.hoverImage
-                    ? "order-2 h-1/2 lg:order-none lg:opacity-100 lg:group-hover:opacity-0"
-                    : "order-none h-full"
+                    ? "opacity-100 lg:group-hover:opacity-0"
+                    : "opacity-100"
                 }`}
               />
 
@@ -222,7 +222,7 @@ function DJCard({ dj, index }: { dj: DJProducer; index: number }) {
                 <img
                   src={dj.hoverImage}
                   alt={`${dj.name} alternate`}
-                  className="relative order-1 h-1/2 w-full border-b border-black/20 object-cover transition-opacity duration-500 lg:absolute lg:inset-0 lg:order-none lg:h-full lg:border-b-0 lg:opacity-0 lg:group-hover:opacity-100"
+                  className="absolute inset-0 z-10 h-full w-full object-cover opacity-100 transition-opacity duration-500 lg:opacity-0 lg:group-hover:opacity-100"
                 />
               )}
             </motion.div>
