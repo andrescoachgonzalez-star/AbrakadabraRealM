@@ -208,13 +208,15 @@ function DJCard({ dj, index }: { dj: DJProducer; index: number }) {
             <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.6 }}
-              className="absolute inset-0"
+              className="absolute inset-0 flex bg-[#111] lg:block"
             >
               <img
                 src={dj.image || "/placeholder.svg"}
                 alt={dj.name}
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
-                  dj.hoverImage ? "opacity-100 group-hover:opacity-0" : "opacity-100"
+                className={`relative h-full object-cover transition-opacity duration-500 lg:absolute lg:inset-0 lg:w-full ${
+                  dj.hoverImage
+                    ? "w-1/2 lg:opacity-100 lg:group-hover:opacity-0"
+                    : "w-full"
                 }`}
               />
 
@@ -222,7 +224,7 @@ function DJCard({ dj, index }: { dj: DJProducer; index: number }) {
                 <img
                   src={dj.hoverImage}
                   alt={`${dj.name} alternate`}
-                  className="absolute inset-0 w-full h-full object-cover opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                  className="relative h-full w-1/2 border-l border-black/20 object-cover transition-opacity duration-500 lg:absolute lg:inset-0 lg:w-full lg:border-l-0 lg:opacity-0 lg:group-hover:opacity-100"
                 />
               )}
             </motion.div>
@@ -731,4 +733,3 @@ export default function DJProducersPage() {
     </main>
   )
 }
-
