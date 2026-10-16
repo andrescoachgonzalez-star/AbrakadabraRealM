@@ -73,7 +73,6 @@ const djProducers: DJProducer[] = [
     name: "Rizzo",
     slug: "rizzo",
     image: "/Image-DJs/Rizzo.png",
-    hoverImage: "/Image-DJs/Rizzo.png",
     modalImage: "/Image-DJs/Rizzo.png",
     description:
       "Rizzo (Col) is a DJ and producer from Pereira, Colombia specializing in House and Tech House with a unique sound that blends organic percussion and deep grooves...",
@@ -85,7 +84,6 @@ const djProducers: DJProducer[] = [
     name: "8batzz",
     slug: "8batzz",
     image: "/Image-DJs/8batzz.png",
-    hoverImage: "/Image-DJs/8batzz.png",
     modalImage: "/Image-DJs/8batzz.png",
     description:
       "8batzz is a DJ and electronic music producer from Pereira, Colombia. Since 2021 he has developed a solid proposal within Afro House and Tech House...",
@@ -208,15 +206,15 @@ function DJCard({ dj, index }: { dj: DJProducer; index: number }) {
             <motion.div
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.6 }}
-              className="absolute inset-0 flex bg-[#111] lg:block"
+              className="absolute inset-0 flex flex-col bg-[#111] lg:block"
             >
               <img
                 src={dj.image || "/placeholder.svg"}
                 alt={dj.name}
-                className={`relative h-full object-cover transition-opacity duration-500 lg:absolute lg:inset-0 lg:w-full ${
+                className={`relative w-full object-cover transition-opacity duration-500 lg:absolute lg:inset-0 lg:h-full lg:w-full ${
                   dj.hoverImage
-                    ? "w-1/2 lg:opacity-100 lg:group-hover:opacity-0"
-                    : "w-full"
+                    ? "order-2 h-1/2 lg:order-none lg:opacity-100 lg:group-hover:opacity-0"
+                    : "order-none h-full"
                 }`}
               />
 
@@ -224,7 +222,7 @@ function DJCard({ dj, index }: { dj: DJProducer; index: number }) {
                 <img
                   src={dj.hoverImage}
                   alt={`${dj.name} alternate`}
-                  className="relative h-full w-1/2 border-l border-black/20 object-cover transition-opacity duration-500 lg:absolute lg:inset-0 lg:w-full lg:border-l-0 lg:opacity-0 lg:group-hover:opacity-100"
+                  className="relative order-1 h-1/2 w-full border-b border-black/20 object-cover transition-opacity duration-500 lg:absolute lg:inset-0 lg:order-none lg:h-full lg:border-b-0 lg:opacity-0 lg:group-hover:opacity-100"
                 />
               )}
             </motion.div>
