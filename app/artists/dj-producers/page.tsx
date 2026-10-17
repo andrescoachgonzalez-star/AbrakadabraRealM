@@ -96,9 +96,9 @@ const djProducers: DJProducer[] = [
     image: "/Image-DJs/8batzz.png",
     modalImage: "/Image-DJs/8batzz.png",
     description:
-      "8batzz is a DJ and electronic music producer from Pereira, Colombia. Since 2021 he has developed a solid proposal within Afro House and Tech House...",
+      "8batzz is a Colombian DJ, producer, and entrepreneur from Pereira. His sound blends Afro House, Tech House, and Afro Melodic, connecting rhythm, melody, and energy.",
     type: "pdf",
-    pdfUrl: "/artists/pdfs/8batzz-presskit.pdf",
+    pdfUrl: "/artists-pdfs/8BATZZ-Presskit.pdf",
     fullBio: "",
   },
 ]

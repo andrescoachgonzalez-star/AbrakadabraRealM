@@ -113,13 +113,13 @@ const djData: Record<string, DJProfile> = {
     name: "8batzz",
     image: "/Image-DJs/8batzz.png",
     location: "Pereira, Colombia",
-    contracts: "8+ Contracts",
+    contracts: "Afro House - Tech House - Afro Melodic",
     instagramHandle: "@8batzz",
     instagramUrl:
       "https://www.instagram.com/accounts/login/?next=%2F8batzz&source=omni_redirect",
     fullBio:
-      "8batzz is a DJ and electronic music producer born in Pereira, Risaralda (Colombia). Since 2021 he has developed a solid proposal within Afro House and Tech House, focused on deep grooves, organic percussion and atmospheres that connect directly with the dance floor. As a DJ, he has taken his sound to stages in Miami, performing at Mita Nightclub, and to the New York scene, consolidating his international presence from an early stage of his career. His facet as a producer began 1 year ago, currently in a process of exploration and evolution within House, Tech House and Afro House, building a style of his own that balances rhythm, energy and musical depth.",
-    pdfUrl: "/artists-pdfs/8batzzPRESSKIT .pdf",
+      "Andrés Henao, known artistically as 8BATZZ, is a 24-year-old Colombian DJ, producer, and entrepreneur from Pereira, Risaralda. Connected to the stage since the age of 14, his sound blends Afro House, Tech House, and Afro Melodic, shaped by deep grooves, organic percussion, rhythm, melody, and energy. Since 2021 he has developed an artistic identity focused on creating experiences that connect people through music. He has performed at Russian Samovar in New York, Mita Nightclub in Miami, Fortuny Home Club in Madrid, Spain, and venues across Colombia including Baren, No11z, Buenos Amigos, and Hooka. He is also the founder of Abrakadabra and Abrakadabra Realm, a platform focused on supporting young talent and creating spaces for connection, collaboration, and artistic expression. His work as a motivational coach and hypnotist informs his interest in emotions, human connection, and personal development.",
+    pdfUrl: "/artists-pdfs/8BATZZ-Presskit.pdf",
     pdfLabel: "Download PDF Brochure",
     spotifyUrl:
       "https://open.spotify.com/intl-es/artist/1KizmyBOzA5y6P7r8A6GQb?si=HVc7SdGiQf6dyRw5NDG07g&nd=1&dlsi=6a394a4bb3cc4b1d",
