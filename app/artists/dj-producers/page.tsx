@@ -70,6 +70,16 @@ const djProducers: DJProducer[] = [
     fullBio: "",
   },
   {
+    name: "Esteban Arenas",
+    slug: "esteban-arenas",
+    image: "/Image-DJs/esteban-arenas.png",
+    description:
+      "Esteban Arenas is a Colombian DJ and producer from Medellín whose sound moves through Afro House, Tech House, and Groove House.",
+    type: "pdf",
+    pdfUrl: "/artists-pdfs/Esteban-Arenas-Presskit.pdf",
+    fullBio: "",
+  },
+  {
     name: "Rizzo",
     slug: "rizzo",
     image: "/Image-DJs/Rizzo.png",

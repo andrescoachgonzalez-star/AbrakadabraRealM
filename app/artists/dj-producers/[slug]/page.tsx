@@ -78,6 +78,20 @@ const djData: Record<string, DJProfile> = {
     email: "infojosephren@gmail.com",
   },
 
+  "esteban-arenas": {
+    name: "Esteban Arenas",
+    image: "/Image-DJs/esteban-arenas.png",
+    location: "Medellín, Colombia",
+    contracts: "Afro House - Tech House - Groove House",
+    instagramHandle: "@estebanarenas_dj",
+    instagramUrl: "https://www.instagram.com/estebanarenas_dj/",
+    fullBio:
+      "Esteban Daniel Arenas Cardona was born on February 23, 2001, in Armenia, Quindío. He began his career as a self-taught DJ in 2017, earning second place in the DJ Contest Quindío at just 16 years old. He trained at Escuela EP Circasia and began performing at the first electronic parties in Armenia. In 2018 he moved to Medellín to study music production at DJ Station, graduating in 2020. In 2021 he was nominated at the CDA Awards for Best Academy DJ. His influences include Carl Cox, Marco Carola, The Martinez Brothers, and Black Coffee. With a perfectionist approach to production, he has signed tracks with national and international labels; his track \"Ponce\" was signed to Rituals.",
+    pdfUrl: "/artists-pdfs/Esteban-Arenas-Presskit.pdf",
+    pdfLabel: "Download PDF Brochure",
+    spotifyUrl: "https://open.spotify.com/artist/57vspb52lfKANXBv2ulBxx",
+  },
+
   rizzo: {
     name: "Rizzo",
     image: "/Image-DJs/Rizzo.png",
