@@ -80,6 +80,16 @@ const djProducers: DJProducer[] = [
     fullBio: "",
   },
   {
+    name: "Redbeard",
+    slug: "redbeard",
+    image: "/Image-DJs/redbeard.png",
+    description:
+      "Víctor Duque, known artistically as Redbeard, is a Medellín DJ and producer focused on Tech House and Minimal Deep Tech, with releases on Kubo Records, SexAppeal Music, Kore Music, and Samba.",
+    type: "pdf",
+    pdfUrl: "/artists-pdfs/Redbeard-Presskit.pdf",
+    fullBio: "",
+  },
+  {
     name: "Rizzo",
     slug: "rizzo",
     image: "/Image-DJs/Rizzo.png",

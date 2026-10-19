@@ -92,6 +92,19 @@ const djData: Record<string, DJProfile> = {
     spotifyUrl: "https://open.spotify.com/artist/57vspb52lfKANXBv2ulBxx",
   },
 
+  redbeard: {
+    name: "Redbeard",
+    image: "/Image-DJs/redbeard.png",
+    location: "Medellín, Colombia",
+    contracts: "Tech House - Minimal Deep Tech",
+    instagramHandle: "@redbearddj",
+    instagramUrl: "https://www.instagram.com/redbearddj/",
+    fullBio:
+      "Víctor Duque, known artistically as Redbeard, is a DJ and electronic music producer from Medellín who began his DJ career in 2020 before moving into music production. His sound is rooted in Tech House and Minimal Deep Tech, combining percussion, fresh melodic textures, energetic atmospheres, powerful basslines, and underground sounds that define his groove-driven style. His productions have been released on labels including Kubo Records, SexAppeal Music, Kore Music, and Samba, with tracks such as Taste, Sleet, Montana, Sonoma, Bisonte, Marbella, KTOMA, and High Frequency.",
+    pdfUrl: "/artists-pdfs/Redbeard-Presskit.pdf",
+    pdfLabel: "Download PDF Brochure",
+  },
+
   rizzo: {
     name: "Rizzo",
     image: "/Image-DJs/Rizzo.png",
